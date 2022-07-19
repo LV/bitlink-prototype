@@ -37,7 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # 3rd party
+    'rest_framework',
+    # Local
     'payments.apps.PaymentsConfig',
+    'apis.apps.ApisConfig',
 ]
 
 MIDDLEWARE = [
