@@ -1,4 +1,4 @@
-import logo from "./logo.svg";
+import logo from "./images/logo.png";
 import "./App.css";
 import Button from '@mui/material/Button'
 import Switch from '@mui/material/Switch'
@@ -11,14 +11,13 @@ function App() {
         <img src={logo} className="App-logo" alt="logo" />
         <p>
           Bitlink
-          <Button
+        </p>
+        <Button
             color="primary"
-            variant="contained"
           > HELLO </Button>
           <Switch
-            color="error"
+            color="primary"
           />
-        </p>
       </header>
     </div>
   );
