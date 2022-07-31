@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { Button } from "@mui/material";
+import React from "react";
+import TopBar from "./TopBar";
 
-export default class CustomerDashboard extends Component {
-  render() {
-    return <Button
-      color="secondary"
-      variant="contained"
-    > Customer Dashboard </Button>
-  }
+function CustomerDashboard() {
+
+    return (
+      <TopBar/>
+  );
 }
+
+export default CustomerDashboard;
