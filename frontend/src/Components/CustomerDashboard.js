@@ -6,6 +6,6 @@ export default class CustomerDashboard extends Component {
     return <Button
       color="secondary"
       variant="contained"
-    > Dashboard </Button>
+    > Customer Dashboard </Button>
   }
 }

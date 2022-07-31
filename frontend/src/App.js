@@ -1,48 +1,20 @@
-import logo from "./images/logo.png";
 import "./App.css";
-import Button from '@mui/material/Button'
-import { createTheme, ThemeProvider } from '@mui/material/styles';
-
-const theme = createTheme({
-  palette: {
-    primary: {
-      main: '#3DFC4B',
-    },
-    secondary: {
-      main: '#EEEEEE',
-    },
-  },
-})
+import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import CustomerDashboard from "./Components/CustomerDashboard";
+import Dashboard from "./Components/Dashboard";
+import Main from "./Main";
 
 function App() {
-
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo}  className="App-logo" alt="logo"/>
-        <p>
-          Bitlink
-        </p>
-        <div>
-        <ThemeProvider theme={theme}>
-          <Button
-              color="secondary"
-              variant="contained"
-              style={{marginRight: '30px'}}
-            > Customer Dashboard </Button>
-          <Button
-              color="secondary"
-              variant="contained"
-          > Merchant Dashboard </Button>
-          <Button
-              color="secondary"
-              variant="contained"
-              style={{marginLeft: '30px'}}
-          > Company Dashboard </Button>
-          </ThemeProvider>
-        </div>
-      </header>
-    </div>
+    <Router>
+      <Routes>
+        <Route path='/' element={<Main/>}/>
+        <Route path='/customer-dashboard' element={<CustomerDashboard/>}/>
+        <Route path='/merchant-dashboard' element={<Dashboard/>}/>
+        <Route path='/company-dashboard' element={<Dashboard/>}/>
+        <Route path='/checkout' element={<Dashboard/>}/>
+      </Routes>
+    </Router>
   );
 }
 
