@@ -7,9 +7,6 @@ import {useNavigate} from 'react-router-dom';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#3DFC4B',
-    },
-    secondary: {
       main: '#EEEEEE',
     },
   },
@@ -29,18 +26,18 @@ const Main = () => {
        <div>
         <ThemeProvider theme={theme}>
           <Button
-              color="secondary"
+              color="primary"
               variant="contained"
               style={{marginRight: '30px'}}
               onClick={() => navigate("/customer-dashboard")}
             > Customer Dashboard </Button>
           <Button
-              color="secondary"
+              color="primary"
               variant="contained"
               onClick={() => navigate("/merchant-dashboard")}
           > Merchant Dashboard </Button>
           <Button
-              color="secondary"
+              color="primary"
               variant="contained"
               style={{marginLeft: '30px'}}
               onClick={() => navigate("/company-dashboard")}

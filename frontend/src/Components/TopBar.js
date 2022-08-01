@@ -7,9 +7,6 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 const theme = createTheme({
     palette: {
       primary: {
-        main: '#3DFC4B',
-      },
-      secondary: {
         main: '#EEEEEE',
       },
     },
@@ -24,7 +21,7 @@ function TopBar() {
             <img src={logo} style={{marginLeft: 10, height: 60}} className="App-logo" alt="logo"/>
             <ThemeProvider theme={theme}>
                 <Button
-                    color="secondary"
+                    color="primary"
                     variant="contained"
                     onClick={() => navigate(-1)}
                     style={{marginRight: 20}}
