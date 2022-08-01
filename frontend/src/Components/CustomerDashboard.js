@@ -28,14 +28,12 @@ function CustomerDashboard() {
             color="primary"
             variant="contained"
             onClick={() => navigate("/deposit")}
-            // style={{padding: 50}}
             > Deposit 
           </Button>
           <Button
             color="primary"
             variant="contained"
             onClick={() => navigate("/withdrawal")}
-            // style={{padding: 50}}
             > Withdrawal 
           </Button>
         </ThemeProvider>
