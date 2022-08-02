@@ -27,7 +27,7 @@ export default function WithdrawalDeposit(props) {
 
     return (
       <FormControl style={{display: 'flex'}}>
-      <h3>Enter in amount to {type.toLowerCase()}:</h3>
+      <h3>Enter amount to {type.toLowerCase()}:</h3>
       <TextField 
         id="outlined-basic" 
         label="Amount" 
@@ -36,19 +36,17 @@ export default function WithdrawalDeposit(props) {
         onChange={e => setValue(e.target.value)}
         autoComplete='off'
         />
-      <div style={{display: 'flex'}}>
+      <div style={{display: 'flex', height: 80, alignItems: 'center', justifyContent: 'space-between'}}>
         <ThemeProvider theme={theme}>
             <Button
                 color="primary"
                 variant="contained"
-                style={{margin: 20}}
                 onClick={handleClear}
                 > Clear
             </Button>
             <Button
                 color="primary"
                 variant="contained"
-                style={{margin: 20}}
                 onClick={handleWithdrawlDeposit}
                 > Submit 
             </Button>
