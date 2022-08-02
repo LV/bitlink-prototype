@@ -32,7 +32,6 @@ export default function MerchantDashboard() {
             <AgGridReact
               rowData={rowData}
               columnDefs={columnDefs}
-              animateRows={false}
             />
         </div>
       </>
