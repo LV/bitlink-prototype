@@ -45,9 +45,9 @@ export default function CustomerDashboard() {
     <>
     <TopBar/>
     <FormControl
-      style={{height: 600, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+      style={{paddingTop: 50, height: 200, display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}>
       <h3>BTC Balance: {balance}</h3>
-      <div style={{height: 200, width: 400, display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
+      <div style={{height: 100, width: 400, display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
         <ThemeProvider theme={theme}>
           <Button
             color="primary"
@@ -63,9 +63,11 @@ export default function CustomerDashboard() {
           </Button>
         </ThemeProvider>
       </div>
+    </FormControl>
+    <div style={{height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
       {showDeposit && <WithdrawalDeposit isDeposit={true} sendDeposit={sendDeposit}/>}
       {showWithdrawal && <WithdrawalDeposit isDeposit={false} sendWithdrawal={sendWithdrawal}/>}
-    </FormControl>
+    </div>
   </>
   );
 }
