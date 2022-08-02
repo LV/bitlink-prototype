@@ -42,6 +42,12 @@ const Main = () => {
               style={{marginLeft: '30px'}}
               onClick={() => navigate("/company-dashboard")}
           > Company Dashboard </Button>
+          <Button
+              color="primary"
+              variant="contained"
+              style={{marginLeft: '30px'}}
+              onClick={() => navigate("/checkout")}
+          > Customer Checkout</Button>
           </ThemeProvider>
         </div>
       </header>
