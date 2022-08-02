@@ -32,6 +32,9 @@ export default function MerchantDashboard() {
             <AgGridReact
               rowData={rowData}
               columnDefs={columnDefs}
+              // onRowClicked we should retrieve the relevant order from the backend and display the OrderDetails on a new page and provide an option to cancel it?
+              // or just add a column with cancel buttons
+              onRowClicked={(e) => console.log("row clicked", e.data)}
             />
         </div>
       </>
