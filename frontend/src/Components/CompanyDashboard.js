@@ -1,11 +1,11 @@
 import React from "react";
 import TopBar from "./TopBar";
 
-function Dashboard() {
+function CompanyDashboard() {
 
     return (
       <TopBar/>
   );
 }
 
-export default Dashboard;
+export default CompanyDashboard;
