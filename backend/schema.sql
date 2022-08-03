@@ -98,3 +98,21 @@ CREATE TABLE LineItem(
     FOREIGN KEY (order_id) REFERENCES OrderDetails(order_id) ON DELETE CASCADE ON UPDATE CASCADE,
     FOREIGN KEY (item_name) REFERENCES LineItemType(item_name)
 );
+
+-- DATA AGGREGATION
+INSERT INTO Wallet(wallet_id, btc_amount) VALUES (1, 1204.98151203);
+INSERT INTO Wallet(wallet_id, btc_amount) VALUES (2, 0.426039413);
+INSERT INTO Wallet(wallet_id, btc_amount) VALUES (3, 53.18008000);
+INSERT INTO Wallet(wallet_id, btc_amount) VALUES (4, 3.14159265);
+INSERT INTO Wallet(wallet_id, btc_amount) VALUES (5, 0.02127135);
+INSERT INTO Wallet(wallet_id, btc_amount) VALUES (6, 0.71973031);
+INSERT INTO Wallet(wallet_id, btc_amount) VALUES (7, 1.61803576);
+INSERT INTO Wallet(wallet_id, btc_amount) VALUES (8, 1.00595284);
+INSERT INTO Wallet(wallet_id, btc_amount) VALUES (9, 69.42000000);
+INSERT INTO Wallet(wallet_id, btc_amount) VALUES (10, 1.01495492);
+
+INSERT INTO CompanyAccount(account_number, usd_balance, btc_balance) VALUES (1000000001, 84719124.33, 0.031044);
+INSERT INTO CompanyAccount(account_number, usd_balance, btc_balance) VALUES (1000000002, 34781.52, 3904.40129532);
+INSERT INTO CompanyAccount(account_number, usd_balance, btc_balance) VALUES (1000000003, 349135.31, 41.04951);
+INSERT INTO CompanyAccount(account_number, usd_balance, btc_balance) VALUES (1000000004, 48998405.51, 59.30908305);
+INSERT INTO CompanyAccount(account_number, usd_balance, btc_balance) VALUES (1000000005, 95810.19, 595910.03);
