@@ -10,8 +10,8 @@ const pool = new Pool({
 /*
 GET Requests
 */
-const getInternalEWallet = (request, response) => {
-    pool.query('SELECT * FROM InternalEWallet ORDER BY wallet_id ASC;', (error, results) => {
+const getWallets = (request, response) => {
+    pool.query('SELECT * FROM Wallet ORDER BY wallet_id ASC;', (error, results) => {
         if (error) {
             throw error
         }
@@ -32,10 +32,10 @@ const getCustomers = (request, response) => {
 POST Requests
 */
 
-const createInternalEWallet = (request, response) => {
-    const { btc_amount } = request.body
+const createWallet = (request, response) => {
+    const { btcAmount } = request.body
 
-    pool.query('INSERT INTO InternalEWallet(btc_amount) VALUES ($1) RETURNING *;', [btc_amount], (error, results) => {
+    pool.query('INSERT INTO Wallet(btc_amount) VALUES ($1) RETURNING *;', [btcAmount], (error, results) => {
         if (error) {
             throw error
         }
@@ -68,7 +68,7 @@ const createOrder = (request, response) => {
 }
 
 module.exports = {
-    getInternalEWallet,
-    createInternalEWallet,
+    getWallets,
+    createWallet,
     createCustomer
 }
