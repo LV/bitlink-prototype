@@ -17,6 +17,7 @@ app.get('/', (request, response) => {
 
 app.get('/internalewallet', db.getInternalEWallet)
 app.post('/internalewallet', db.createInternalEWallet)
+app.post('/customer', db.createCustomer)
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
