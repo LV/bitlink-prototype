@@ -47,35 +47,35 @@ export default function CustomerDashboard() {
 
   return (
     <>
-    <Navbar cusPage={true} merPage={false} coPage={false} chkPage={false} />
-    <FormControl
+      <Navbar cusPage={true} merPage={false} coPage={false} chkPage={false} />
+      <FormControl
       style={{paddingTop: 50, height: 200, display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}>
-      <h1>Welcome Bob Bobson!</h1>
-      <h3>BTC Balance: {balance.toFixed(8)}</h3>
-      <div style={{height: 100, width: 400, display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
-        <ThemeProvider theme={theme}>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={handleDeposit}
-            > Deposit 
-          </Button>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={handleWithdrawal}
-            > Withdrawal 
-          </Button>
-        </ThemeProvider>
+        <h1>Welcome Bob Bobson!</h1>
+        <h3>BTC Balance: {balance.toFixed(8)}</h3>
+        <div style={{height: 100, width: 400, display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
+          <ThemeProvider theme={theme}>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleDeposit}
+              > Deposit 
+            </Button>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleWithdrawal}
+              > Withdrawal 
+            </Button>
+          </ThemeProvider>
+        </div>
+      </FormControl>
+      <div style={{height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        {(showDeposit || showWithdrawal) && <BitcoinAddress />}
       </div>
-    </FormControl>
-    <div style={{height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-      {(showDeposit || showWithdrawal) && <BitcoinAddress />}
-    </div>
-    <div style={{height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-      {showDeposit && <WithdrawalDeposit isDeposit={true} sendDeposit={sendDeposit} />}
-      {showWithdrawal && <WithdrawalDeposit isDeposit={false} sendWithdrawal={sendWithdrawal} />}
-    </div>
-  </>
+      <div style={{height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+        {showDeposit && <WithdrawalDeposit isDeposit={true} sendDeposit={sendDeposit} />}
+        {showWithdrawal && <WithdrawalDeposit isDeposit={false} sendWithdrawal={sendWithdrawal} />}
+      </div>
+    </>
   );
 }
