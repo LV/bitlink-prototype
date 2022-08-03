@@ -67,7 +67,8 @@ export default function OrderDetails() {
           </ThemeProvider>
         </div>
       </div>
-      <h4 style={{marginLeft: 22}}>Order Total: $10,000</h4>
+      <h4 style={{marginLeft: 22}}>Order Total (USD): $300</h4>
+      <h4 style={{marginLeft: 22}}>Order Total (BTC): ₿0.000043</h4> 
     </>
   );
 }
