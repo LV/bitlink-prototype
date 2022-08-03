@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Button, FormControl, InputLabel, Input } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import axios from "axios";
 
 const theme = createTheme({
   palette: {
@@ -16,6 +17,17 @@ export default function SignUp() {
     email: "",
   });
 
+  const addCustomer = () => {
+    const name = signUp.name;
+    const email = signUp.email;
+    if (name && email) {
+      axios.post("http://localhost:8080/", {
+        name,
+        email,
+      });
+    }
+  };
+
   function handleChange(value, name) {
     setSignUp((prevState) => ({
       ...prevState,
@@ -27,7 +39,7 @@ export default function SignUp() {
     if (!signUp.fullName || !signUp.email) {
       alert("Please fill out all fields.");
     } else {
-      console.log(signUp);
+      addCustomer();
     }
   }
 
