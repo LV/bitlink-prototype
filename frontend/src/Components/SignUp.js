@@ -12,8 +12,7 @@ const theme = createTheme({
 
 export default function SignUp() {
   const [signUp, setSignUp] = useState({
-    firstName: "",
-    lastName: "",
+    fullName: "",
     email: "",
   });
 
@@ -25,11 +24,15 @@ export default function SignUp() {
   }
 
   function handleSignUp() {
-    console.log(signUp);
+    if (!signUp.fullName || !signUp.email) {
+      alert("Please fill out all fields.");
+    } else {
+      console.log(signUp);
+    }
   }
 
   function handleClear() {
-    setSignUp({ firstName: "", lastName: "", email: "" });
+    setSignUp({ fullName: "", email: "" });
   }
 
   return (
@@ -44,21 +47,12 @@ export default function SignUp() {
         }}
       >
         <FormControl variant="standard" style={{ margin: 20, width: 200 }}>
-          <InputLabel>First Name</InputLabel>
+          <InputLabel>Full Name</InputLabel>
           <Input
             autoComplete="off"
-            value={signUp.firstName}
+            value={signUp.fullName}
             type="text"
-            onChange={(e) => handleChange(e.target.value, "firstName")}
-          />
-        </FormControl>
-        <FormControl variant="standard" style={{ margin: 20, width: 200 }}>
-          <InputLabel>Last Name</InputLabel>
-          <Input
-            autoComplete="off"
-            value={signUp.lastName}
-            type="text"
-            onChange={(e) => handleChange(e.target.value, "lastName")}
+            onChange={(e) => handleChange(e.target.value, "fullName")}
           />
         </FormControl>
         <FormControl variant="standard" style={{ margin: 20, width: 250 }}>
