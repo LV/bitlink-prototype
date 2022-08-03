@@ -7,6 +7,9 @@ const pool = new Pool({
     port: 5432,
 })
 
+/*
+GET Requests
+*/
 const getInternalEWallet = (request, response) => {
     pool.query('SELECT * FROM InternalEWallet ORDER BY wallet_id ASC;', (error, results) => {
         if (error) {
@@ -16,18 +19,34 @@ const getInternalEWallet = (request, response) => {
     })
 }
 
+/*
+POST Requests
+*/
 
-const createUser = (request, response) => {
-    const { name, email } = request.body
+const createInternalEWallet = (request, response) => {
+    const { btcAmount } = request.body
 
-    pool.query('INSERT INTO users (name, email) VALUES ($1, $2) RETURNING *', [name, email], (error, results) => {
+    pool.query('INSERT INTO InternalEWallet(btc_amount) VALUES ($1) RETURNING *;', [btcAmount], (error, results) => {
         if (error) {
             throw error
         }
-        response.status(201).send(`User added with ID: ${results.rows[0].id}`)
+        console.log(results)
+        response.status(201).send(`Wallet added with amount: ${results.rows[0].btc_amount}`)
+    })
+}
+
+const createOrder = (request, response) => {
+    const { customerId, companyAccountNumber, merchantId, walletId, datetime, feePercentage } = request.body
+
+    pool.query('INSERT INTO OrderDetails (customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [customerId, companyAccountNumber, merchantId, walletId, datetime, feePercentage], (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(201).send(`User added with ID: ${results.rows[0].customerId}`)
     })
 }
 
 module.exports = {
-    getInternalEWallet
+    getInternalEWallet,
+    createInternalEWallet
 }
