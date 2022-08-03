@@ -19,11 +19,13 @@ export default function CustomerDashboard() {
   const [balance, setBalance] = useState(10)
 
   function handleDeposit() {
-    setShowDeposit(prev => !prev);
+    setShowDeposit(true);
+    setShowWithdrawal(false);
   }
 
   function handleWithdrawal() {
-    setShowWithdrawal(prev => !prev);
+    setShowWithdrawal(true);
+    setShowDeposit(false);
   }
 
   function sendDeposit(updatedBalance) {
