@@ -1,6 +1,8 @@
 import { Button, FormControl } from "@mui/material";
 import React, { useState } from "react";
-import TopBar from "./TopBar";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "../index.css";
+import Navbar from "./Navbar"
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import WithdrawalDeposit, { BitcoinAddress } from "./WithdrawalDeposit";
 
@@ -45,7 +47,7 @@ export default function CustomerDashboard() {
 
   return (
     <>
-    <TopBar/>
+    <Navbar/>
     <FormControl
       style={{paddingTop: 50, height: 200, display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}>
       <h1>Welcome Bob Bobson!</h1>

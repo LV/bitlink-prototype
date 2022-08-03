@@ -1,5 +1,5 @@
 import React from "react";
-import TopBar from "./TopBar";
+import Navbar from "./Navbar";
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
@@ -26,7 +26,7 @@ export default function MerchantDashboard() {
 
     return (
       <>
-        <TopBar/>
+        <Navbar />
           <h3 style={{marginLeft: 22}}>Sales</h3>
           <div className='ag-theme-alpine' style={{ width: 1005, height: 500, marginLeft: 20 }}>
             <AgGridReact

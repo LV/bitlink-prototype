@@ -1,12 +1,12 @@
 import React from "react";
-import TopBar from "./TopBar";
+import Navbar from "./Navbar";
 import OrderDetails from "./OrderDetails";
 
 function Checkout() {
 
     return (
       <>
-      <TopBar/>
+      <Navbar />
       <OrderDetails/>
       </>
       
