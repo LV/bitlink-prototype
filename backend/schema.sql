@@ -57,7 +57,7 @@ CREATE TABLE OrderDetails(
     company_account_number INTEGER NOT NULL,
     merchant_id INTEGER NOT NULL,
     wallet_id INTEGER NOT NULL,
-    datetime TEXT NOT NULL,
+    datetime DATE NOT NULL DEFAULT CURRENT_DATE,
     fee_percentage DECIMAL NOT NULL,
     FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
     FOREIGN KEY (company_account_number) REFERENCES CompanyAccount(account_number),
