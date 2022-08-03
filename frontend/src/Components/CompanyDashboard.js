@@ -28,7 +28,7 @@ export default function CompanyDashboard() {
 
     return (
       <>
-        <Navbar />
+        <Navbar cusPage={false} merPage={false} coPage={true} chkPage={false} />
           <h3 style={{marginLeft: 22}}>Transactions</h3>
           <div className='ag-theme-alpine' style={{ width: 1405, height: 500, marginLeft: 20 }}>
             <AgGridReact

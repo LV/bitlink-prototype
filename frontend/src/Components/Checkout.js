@@ -6,7 +6,7 @@ function Checkout() {
 
     return (
       <>
-      <Navbar />
+      <Navbar cusPage={false} merPage={false} coPage={false} chkPage={true} />
       <OrderDetails/>
       </>
       

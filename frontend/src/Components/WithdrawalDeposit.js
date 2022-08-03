@@ -1,5 +1,4 @@
-import React, {useEffect, useState, Component} from "react";
-import ReactDOM from "react-dom";
+import React, {useEffect, useState} from "react";
 import Clipboard from 'react-clipboard.js';
 import QRCode from "react-qr-code";
 import HashLoader from "react-spinners/HashLoader";

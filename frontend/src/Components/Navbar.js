@@ -3,18 +3,20 @@ import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import logo from './navbar-logo.png'
 
-const navigation = [
-  { name: "Customer Dashboard", href: "customer-dashboard", current: true },
-  { name: "Merchant Dashboard", href: "merchant-dashboard", current: false },
-  { name: "Company Dashboard", href: "company-dashboard", current: false },
-  { name: "Customer Checkout", href: "checkout", current: false },
-];
-
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
 }
 
-export default function Navbar() {
+export default function Navbar(props) {
+  const { cusPage, merPage, coPage, chkPage } = props;
+
+  const navigation = [
+    { name: "Customer Dashboard", href: "customer-dashboard", current: cusPage },
+    { name: "Merchant Dashboard", href: "merchant-dashboard", current: merPage },
+    { name: "Company Dashboard", href: "company-dashboard", current: coPage },
+    { name: "Customer Checkout", href: "checkout", current: chkPage },
+  ];
+
   return (
     <Disclosure as="nav" className="bg-gray-800">
       {({ open }) => (
@@ -34,7 +36,7 @@ export default function Navbar() {
               </div>
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
-                  <img
+                  <a href="."><img
                     className="block lg:hidden h-8 w-auto"
                     src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
                     alt="Workflow"
@@ -44,7 +46,7 @@ export default function Navbar() {
                     // src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
 					src={logo}
                     alt="Workflow"
-                  />
+                  /></a>
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">

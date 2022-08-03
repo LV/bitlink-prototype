@@ -47,7 +47,7 @@ export default function CustomerDashboard() {
 
   return (
     <>
-    <Navbar/>
+    <Navbar cusPage={true} merPage={false} coPage={false} chkPage={false} />
     <FormControl
       style={{paddingTop: 50, height: 200, display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}>
       <h1>Welcome Bob Bobson!</h1>

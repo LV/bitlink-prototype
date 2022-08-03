@@ -26,7 +26,7 @@ export default function MerchantDashboard() {
 
     return (
       <>
-        <Navbar />
+        <Navbar cusPage={false} merPage={true} coPage={false} chkPage={false} />
           <h3 style={{marginLeft: 22}}>Sales</h3>
           <div className='ag-theme-alpine' style={{ width: 1005, height: 500, marginLeft: 20 }}>
             <AgGridReact
