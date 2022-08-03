@@ -33,9 +33,9 @@ POST Requests
 */
 
 const createWallet = (request, response) => {
-    const { btcAmount } = request.body
+    const { btc_amount } = request.body
 
-    pool.query('INSERT INTO Wallet(btc_amount) VALUES ($1) RETURNING *;', [btcAmount], (error, results) => {
+    pool.query('INSERT INTO Wallet(btc_amount) VALUES ($1) RETURNING *;', [btc_amount], (error, results) => {
         if (error) {
             throw error
         }
@@ -47,7 +47,7 @@ const createWallet = (request, response) => {
 const createCustomer = (request, response) => {
     const { wallet_id, name, email } = request.body
 
-    pool.query('INSERT INTO Customer(wallet_id, name, email) VALUES ($1, $2, $3) RETURNING *;', [wallet_id, name, email], (error, results) => {
+    pool.query('INSERT INTO Customer(wallet_id, name, email) VALUES (DEFAULT, $1, $2) RETURNING *;', [name, email], (error, results) => {
         if (error) {
             throw error
         }
@@ -57,13 +57,13 @@ const createCustomer = (request, response) => {
 }
 
 const createOrder = (request, response) => {
-    const { customerId, companyAccountNumber, merchantId, wallet_id, datetime, feePercentage } = request.body
+    const { customer_id, companyAccountNumber, merchantId, wallet_id, datetime, feePercentage } = request.body
 
-    pool.query('INSERT INTO OrderDetails (customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [customerId, companyAccountNumber, merchantId, wallet_id, datetime, feePercentage], (error, results) => {
+    pool.query('INSERT INTO OrderDetails (customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [customer_id, companyAccountNumber, merchantId, wallet_id, datetime, feePercentage], (error, results) => {
         if (error) {
             throw error
         }
-        response.status(201).send(`User added with ID: ${results.rows[0].customerId}`)
+        response.status(201).send(`User added with ID: ${results.rows[0].customer_id}`)
     })
 }
 
