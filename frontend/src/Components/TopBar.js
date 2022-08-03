@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "@mui/material";
 import {useNavigate} from 'react-router-dom';
-import logo from './logocropped.png';
+import logo from './logo.png';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 const theme = createTheme({
