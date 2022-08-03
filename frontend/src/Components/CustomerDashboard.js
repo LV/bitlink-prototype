@@ -2,7 +2,7 @@ import { Button, FormControl } from "@mui/material";
 import React, { useState } from "react";
 import TopBar from "./TopBar";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import WithdrawalDeposit from "./WithdrawalDeposit";
+import WithdrawalDeposit, { BitcoinAddress } from "./WithdrawalDeposit";
 
 const theme = createTheme({
   palette: {
@@ -68,8 +68,11 @@ export default function CustomerDashboard() {
       </div>
     </FormControl>
     <div style={{height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-      {showDeposit && <WithdrawalDeposit isDeposit={true} sendDeposit={sendDeposit}/>}
-      {showWithdrawal && <WithdrawalDeposit isDeposit={false} sendWithdrawal={sendWithdrawal}/>}
+      {(showDeposit || showWithdrawal) && <BitcoinAddress />}
+    </div>
+    <div style={{height: 200, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+      {showDeposit && <WithdrawalDeposit isDeposit={true} sendDeposit={sendDeposit} />}
+      {showWithdrawal && <WithdrawalDeposit isDeposit={false} sendWithdrawal={sendWithdrawal} />}
     </div>
   </>
   );
