@@ -15,8 +15,8 @@ app.get('/', (request, response) => {
     response.json({ info: 'Node.js, Express, and Postgres API' })
 })
 
-app.get('/internalewallet', db.getInternalEWallet)
-app.post('/internalewallet', db.createInternalEWallet)
+app.get('/wallet', db.getWallets)
+app.post('/wallet', db.createWallet)
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

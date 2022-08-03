@@ -1,4 +1,4 @@
-CREATE TABLE InternalEWallet(
+CREATE TABLE Wallet(
     wallet_id SERIAL PRIMARY KEY,
     btc_amount DECIMAL DEFAULT 0
 );
@@ -17,7 +17,7 @@ CREATE TABLE Deposit(
 CREATE TABLE Transaction(
     transaction_id SERIAL PRIMARY KEY,
     wallet_id INTEGER NOT NULL,
-    FOREIGN KEY (wallet_id) REFERENCES InternalEWallet(wallet_id)
+    FOREIGN KEY (wallet_id) REFERENCES Wallet(wallet_id)
 );
 
 CREATE TABLE Customer(
@@ -25,7 +25,7 @@ CREATE TABLE Customer(
     wallet_id INTEGER NOT NULL,
     name TEXT NOT NULL,
     email TEXT NOT NULL,
-    FOREIGN KEY (wallet_id) REFERENCES InternalEWallet(wallet_id),
+    FOREIGN KEY (wallet_id) REFERENCES Wallet(wallet_id),
     UNIQUE (wallet_id)
 );
 
@@ -62,7 +62,7 @@ CREATE TABLE OrderDetails(
     FOREIGN KEY (customer_id) REFERENCES Customer(customer_id),
     FOREIGN KEY (company_account_number) REFERENCES CompanyAccount(account_number),
     FOREIGN KEY (merchant_id) REFERENCES Merchant(merchant_id),
-    FOREIGN KEY (wallet_id) REFERENCES InternalEWallet(wallet_id)
+    FOREIGN KEY (wallet_id) REFERENCES Wallet(wallet_id)
 );
 
 CREATE TABLE Subscription(
