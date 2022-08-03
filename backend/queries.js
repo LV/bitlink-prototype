@@ -70,5 +70,6 @@ const createOrder = (request, response) => {
 module.exports = {
     getWallets,
     createWallet,
+    getCustomers,
     createCustomer
 }
