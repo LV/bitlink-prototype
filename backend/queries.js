@@ -19,6 +19,15 @@ const getWallets = (request, response) => {
     })
 }
 
+const getCustomers = (request, response) => {
+    pool.query('SELECT * FROM Customer ORDER BY customer_id ASC;', (error, results) => {
+        if (error) {
+            throw error
+        }
+        response.status(200).json(results.rows)
+    })
+}
+
 /*
 POST Requests
 */
@@ -35,10 +44,22 @@ const createWallet = (request, response) => {
     })
 }
 
-const createOrder = (request, response) => {
-    const { customerId, companyAccountNumber, merchantId, walletId, datetime, feePercentage } = request.body
+const createCustomer = (request, response) => {
+    const { wallet_id, name, email } = request.body
 
-    pool.query('INSERT INTO OrderDetails (customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [customerId, companyAccountNumber, merchantId, walletId, datetime, feePercentage], (error, results) => {
+    pool.query('INSERT INTO Customer(wallet_id, name, email) VALUES ($1, $2, $3) RETURNING *;', [wallet_id, name, email], (error, results) => {
+        if (error) {
+            throw error
+        }
+        console.log(results)
+        response.status(201).send(`Customer created with name: ${results.rows[0].name} and ${results.rows[0].email} assigned to ${results.rows[0].wallet_id}`)
+    })
+}
+
+const createOrder = (request, response) => {
+    const { customerId, companyAccountNumber, merchantId, wallet_id, datetime, feePercentage } = request.body
+
+    pool.query('INSERT INTO OrderDetails (customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [customerId, companyAccountNumber, merchantId, wallet_id, datetime, feePercentage], (error, results) => {
         if (error) {
             throw error
         }
@@ -48,5 +69,6 @@ const createOrder = (request, response) => {
 
 module.exports = {
     getWallets,
-    createWallet
+    createWallet,
+    createCustomer
 }

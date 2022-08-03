@@ -22,7 +22,7 @@ CREATE TABLE Transaction(
 
 CREATE TABLE Customer(
     customer_id SERIAL PRIMARY KEY,
-    wallet_id INTEGER NOT NULL,
+    wallet_id SERIAL NOT NULL,
     name TEXT NOT NULL,
     email TEXT NOT NULL,
     FOREIGN KEY (wallet_id) REFERENCES Wallet(wallet_id),
