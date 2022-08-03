@@ -5,7 +5,6 @@ import CompanyDashboard from "./Components/CompanyDashboard";
 import CustomerDashboard from "./Components/CustomerDashboard";
 import MerchantDashboard from "./Components/MerchantDashboard";
 import Main from "./Main";
-import WithdrawalDeposit from "./Components/WithdrawalDeposit";
 
 function App() {
   return (
@@ -16,8 +15,6 @@ function App() {
         <Route path='/merchant-dashboard' element={<MerchantDashboard/>}/>
         <Route path='/company-dashboard' element={<CompanyDashboard/>}/>
         <Route path='/checkout' element={<Checkout/>}/>
-        <Route path='/withdrawal' element={<WithdrawalDeposit isDeposit={false}/>}/>
-        <Route path='/deposit' element={<WithdrawalDeposit isDeposit={true}/>}/>
       </Routes>
     </Router>
   );

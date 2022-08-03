@@ -1,5 +1,4 @@
 import React, {useState} from "react";
-import TopBar from "./TopBar";
 import { TextField, Button, FormControl } from "@mui/material";
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
@@ -12,38 +11,47 @@ const theme = createTheme({
   })
 
 export default function WithdrawalDeposit(props) {
-    const { isDeposit } = props;
+    const { isDeposit, sendDeposit, sendWithdrawal } = props;
 
     const [value, setValue] = useState(0)
 
     const type = isDeposit ? "Deposit" : "Withdrawal"
 
-    function handleSubmit() {
-      console.log(value)
-  }
+    function handleClear() {
+      setValue("")
+    }
+
+    function handleWithdrawlDeposit() {
+      isDeposit ? sendDeposit(value) : sendWithdrawal(value)
+    }
 
     return (
-        <>
-            <TopBar/>
-            <FormControl
-                style={{height: 400, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
-            <h3>Enter in amount to {type.toLowerCase()}:</h3>
-            <TextField 
-              id="outlined-basic" 
-              label="Amount" 
-              variant="outlined"
-              onChange={e => setValue(e.target.value)}
-              />
-            <ThemeProvider theme={theme}>
-                <Button
-                    color="primary"
-                    variant="contained"
-                    style={{margin: 20}}
-                    onClick={handleSubmit}
-                    > Submit 
-                </Button>
-            </ThemeProvider>
-            </FormControl>
-        </>
+      <FormControl style={{display: 'flex'}}>
+      <h3>Enter amount to {type.toLowerCase()}:</h3>
+      <TextField 
+        id="outlined-basic" 
+        label="Amount" 
+        variant="outlined"
+        value={value}
+        onChange={e => setValue(e.target.value)}
+        autoComplete='off'
+        />
+      <div style={{display: 'flex', height: 80, alignItems: 'center', justifyContent: 'space-between'}}>
+        <ThemeProvider theme={theme}>
+            <Button
+                color="primary"
+                variant="contained"
+                onClick={handleClear}
+                > Clear
+            </Button>
+            <Button
+                color="primary"
+                variant="contained"
+                onClick={handleWithdrawlDeposit}
+                > Submit 
+            </Button>
+        </ThemeProvider>
+      </div>
+      </FormControl>
   );
 }

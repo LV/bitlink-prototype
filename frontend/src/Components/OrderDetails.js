@@ -38,7 +38,7 @@ export default function OrderDetails() {
         <div
         style = {{display: 'flex', alignItems: 'space-between'}}
         >          
-            <div className='ag-theme-alpine' style={{ width: 500, height: 500, marginLeft: 20}}>
+            <div className='ag-theme-alpine' style={{ width: 610, height: 500, marginLeft: 20}}>
             <AgGridReact
               rowData={rowData}
               columnDefs={columnDefs}
