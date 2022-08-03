@@ -16,7 +16,7 @@ export default function CustomerDashboard() {
 
   const [showDeposit, setShowDeposit] = useState(false)
   const [showWithdrawal, setShowWithdrawal] = useState(false)
-  const [balance, setBalance] = useState(10)
+  const [balance, setBalance] = useState(1.61803398)
 
   function handleDeposit() {
     setShowDeposit(true);
@@ -48,7 +48,8 @@ export default function CustomerDashboard() {
     <TopBar/>
     <FormControl
       style={{paddingTop: 50, height: 200, display: 'flex', alignItems: 'center', justifyContent: 'flex-start'}}>
-      <h3>BTC Balance: {balance}</h3>
+      <h1>Welcome Bob Bobson!</h1>
+      <h3>BTC Balance: {balance.toFixed(8)}</h3>
       <div style={{height: 100, width: 400, display: 'flex', alignItems: 'center', justifyContent: 'space-around'}}>
         <ThemeProvider theme={theme}>
           <Button
