@@ -301,6 +301,69 @@ Subscription body
 }
 
 */
+
+/*
+Update other relations helpers
+*/
+
+// btc_adjustment is a float 
+// where positive values increments the current wallet balance and 
+// negative values decrement the current wallet balance
+const updateWalletDb = (btc_adjustment, wallet_id) => {
+  pool.query('SELECT * FROM Wallet WHERE wallet_id = $1', [wallet_id], (error, results) => {
+    if (error) {
+      throw error
+    }
+
+    pool.query(
+      'UPDATE Wallet SET btc_amount = $1 WHERE wallet_id = $2',
+      [parseFloat(results.rows[0].btc_amount) + btc_adjustment, wallet_id],
+      (error, results) => {
+        if (error) {
+          throw error
+        }
+      }
+    )
+  })
+}
+
+const updateCompanyAccount = (btc_adjustment, account_number) => {
+  pool.query('SELECT * FROM CompanyAccount WHERE account_number = $1', [account_number], (error, results) => {
+    if (error) {
+      throw error
+    }
+
+    pool.query(
+      'UPDATE CompanyAccount SET btc_balance = $1 WHERE account_number = $2',
+      [parseFloat(results.rows[0].btc_balance) + btc_adjustment, account_number],
+      (error, results) => {
+        if (error) {
+          throw error
+        }
+      }
+    )
+  })
+}
+
+const updateMerchant = (usd_adjustment, merchant_id) => {
+  pool.query('SELECT * FROM Merchant WHERE merchant_id = $1', [merchant_id], (error, results) => {
+    if (error) {
+      throw error
+    }
+
+    pool.query(
+      'UPDATE Merchant SET usd_owed = $1 WHERE merchant_id = $2',
+      [parseFloat(results.rows[0].usd_owed) + usd_adjustment, merchant_id],
+      (error, results) => {
+        if (error) {
+          throw error
+        }
+      }
+    )
+  })
+}
+
+
 const createOrder = (request, response) => {
   const {
     customer_id,
@@ -342,7 +405,15 @@ const createOrder = (request, response) => {
         otp.forEach((item) => totalPrice += item.item_usd_price)
         createOTP(results.rows[0].order_id, Math.random(), totalPrice)
 
+        // Update customer wallet balance
+        updateWalletDb(-(convRate * totalPrice), wallet_id)
+        // Update company account with our fee
+        updateCompanyAccount(-(convRate * totalPrice * fee_percentage), company_account_number)
+        // Update Merchant account usd owed balance
+        updateMerchant(totalPrice * (1 - fee_percentage), merchant_id)
       } else {
+        const convRate = Math.random()
+
         createLineItem(results.rows[0].order_id,
           subscription.item_brand,
           subscription.item_name,
@@ -351,11 +422,18 @@ const createOrder = (request, response) => {
         )
 
         createSubscription(results.rows[0].order_id,
-          Math.random(),
+          convRate,
           subscription.item_usd_price,
           subscription.billing_frequency,
           subscription.billing_duration
         )
+
+        // Update customer wallet balance
+        updateWalletDb(-(convRate * subscription.item_usd_price), wallet_id)
+        // Update company account with our fee
+        updateCompanyAccount(-(convRate * subscription.item_usd_price * fee_percentage), company_account_number)
+        // Update Merchant account usd owed balance
+        updateMerchant(subscription.item_usd_price * (1 - fee_percentage), merchant_id)
       }
 
       response
