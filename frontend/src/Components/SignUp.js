@@ -11,6 +11,8 @@ const theme = createTheme({
   },
 });
 
+const btc_amount = 0;
+
 export default function SignUp() {
   const [signUp, setSignUp] = useState({
     fullName: "",
@@ -18,13 +20,15 @@ export default function SignUp() {
   });
 
   const addCustomer = () => {
-    const name = signUp.name;
+    const name = signUp.fullName;
     const email = signUp.email;
+    console.log(name, email);
     if (name && email) {
-      axios.post("http://localhost:8080/", {
-        name,
-        email,
-      });
+      axios.post("http://localhost:8080/wallet", { btc_amount });
+      // axios.post("http://localhost:8080/customer", {
+      //   name,
+      //   email,
+      // });
     }
   };
 
