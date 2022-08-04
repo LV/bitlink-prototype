@@ -59,6 +59,26 @@ const getOrders = (request, response) => {
 };
 
 /*
+PUT Requests
+*/
+
+const updateWallet = (request, response) => {
+  const wallet_id = parseInt(request.params.id)
+  const { btc_amount } = request.body
+
+  pool.query(
+    'UPDATE Wallet SET btc_amount = $1 WHERE wallet_id = $2',
+    [btc_amount, wallet_id],
+    (error, results) => {
+      if (error) {
+        throw error
+      }
+      response.status(200).send(`Wallet balance updated to ${btc_amount} with ID: ${wallet_id}`)
+    }
+  )
+}
+
+/*
 POST Requests
 */
 
@@ -153,6 +173,7 @@ const createOrder = (request, response) => {
 
 module.exports = {
   getWallets,
+  updateWallet,
   createWallet,
   getCustomers,
   createCustomer,

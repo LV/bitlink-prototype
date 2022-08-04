@@ -30,6 +30,7 @@ app.get('/', (request, response) => {
 })
 
 app.get('/wallet', db.getWallets)
+app.put('/wallet/:id', db.updateWallet)
 app.post('/wallet', db.createWallet)
 app.get('/customer', db.getCustomers)
 app.post('/customer', db.createCustomer)
