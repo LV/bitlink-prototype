@@ -199,3 +199,28 @@ INSERT INTO
     MerchantBankAccount(account_number, routing_number)
 VALUES
     (555555555, 555555);
+
+INSERT INTO
+    Merchant (bank_account_number, name, usd_owed)
+VALUES
+    (111111111, 'Tesla', 500);
+
+INSERT INTO
+    Merchant (bank_account_number, name, usd_owed)
+VALUES
+    (111111111, 'Ministry of Supply', 600);
+
+INSERT INTO
+    Merchant (bank_account_number, name, usd_owed)
+VALUES
+    (111111111, 'Zara', 700);
+
+INSERT INTO
+    Merchant (bank_account_number, name, usd_owed)
+VALUES
+    (111111111, 'Apple', 800);
+
+INSERT INTO
+    Merchant (bank_account_number, name, usd_owed)
+VALUES
+    (111111111, 'UBC', 900);
