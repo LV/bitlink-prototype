@@ -66,15 +66,15 @@ CREATE TABLE OrderDetails(
 );
 
 CREATE TABLE Subscription(
-    order_id SERIAL PRIMARY KEY,
+    order_id INTEGER PRIMARY KEY,
     conversion_rate DECIMAL NOT NULL,
     charge_usd_price DECIMAL NOT NULL,
     billing_frequency TEXT NOT NULL,
-    billing_duration TEXT NOT NULL
+    billing_duration INTEGER NOT NULL
 );
 
 CREATE TABLE OnetimePurchase(
-    order_id SERIAL PRIMARY KEY,
+    order_id INTEGER PRIMARY KEY,
     conversion_rate DECIMAL NOT NULL,
     total_usd_price DECIMAL NOT NULL
 );

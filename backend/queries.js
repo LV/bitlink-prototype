@@ -81,6 +81,30 @@ const getLineItems = (request, response) => {
   );
 };
 
+const getOnetimePurchase = (request, response) => {
+  pool.query(
+    "SELECT * FROM OnetimePurchase ORDER BY order_id ASC;",
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+const getSubscription = (request, response) => {
+  pool.query(
+    "SELECT * FROM Subscription ORDER BY order_id ASC;",
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 
 /*
 PUT Requests
@@ -188,8 +212,56 @@ const createLineItem = (
   );
 }
 
+const createOTP = (
+  order_id,
+  conversion_rate,
+  total_usd_price
+) => {
+  pool.query(
+    "INSERT INTO OnetimePurchase (order_id, conversion_rate, total_usd_price) VALUES ($1, $2, $3) RETURNING *",
+    [
+      order_id,
+      conversion_rate,
+      total_usd_price
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+    }
+  );
+}
+
+const createSubscription = (
+  order_id,
+  conversion_rate,
+  charge_usd_price,
+  billing_frequency,
+  billing_duration
+) => {
+  pool.query(
+    "INSERT INTO Subscription (order_id, conversion_rate, charge_usd_price, billing_frequency, billing_duration) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+    [
+      order_id,
+      conversion_rate,
+      charge_usd_price,
+      billing_frequency,
+      billing_duration
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+    }
+  );
+}
+
+
+
 /*
-POST to http://localhost:8080/order with body of
+POST to http://localhost:8080/order 
+
+OTP body
 {
     "customer_id" : 1,
     "company_account_number" : 1000000001,
@@ -197,15 +269,37 @@ POST to http://localhost:8080/order with body of
     "wallet_id" : 1,
     "datetime" : "2022-07-31",
     "fee_percentage" : 0.02,
-    "items" : [
-        {
-            "item_name": "Scarf",
-            "item_brand": "Zara",
-            "item_usd_price": 30,
-            "item_quantity": 2
-        }
-    ]
+    "otp" : 
+        [
+            {
+                "item_name": "Scarf",
+                "item_brand": "Zara",
+                "item_usd_price": 30,
+                "item_quantity": 2
+            }
+        ],
+    "subscription" : {}
 }
+
+Subscription body
+{
+    "customer_id" : 1,
+    "company_account_number" : 1000000001,
+    "merchant_id" : 1,
+    "wallet_id" : 1,
+    "datetime" : "2022-07-31",
+    "fee_percentage" : 0.02,
+    "otp" : [],
+    "subscription" : {
+        "item_name": "Two Month Subscription",
+        "item_brand": "Netflix",
+        "item_usd_price": 15,
+        "item_quantity": 1,
+        "billing_frequency" : "monthly",
+        "billing_duration" : 2
+    }
+}
+
 */
 const createOrder = (request, response) => {
   const {
@@ -215,7 +309,8 @@ const createOrder = (request, response) => {
     wallet_id,
     datetime,
     fee_percentage,
-    items
+    otp,
+    subscription
   } = request.body;
 
   pool.query(
@@ -234,12 +329,34 @@ const createOrder = (request, response) => {
       }
       console.log(results.rows[0])
 
-      items.forEach((item) => createLineItem(results.rows[0].order_id,
-        item.item_brand,
-        item.item_name,
-        item.item_usd_price,
-        item.item_quantity)
-      )
+      if (JSON.stringify(subscription) === '{}') {
+        // Create LineItem entries
+        otp.forEach((item) => createLineItem(results.rows[0].order_id,
+          item.item_brand,
+          item.item_name,
+          item.item_usd_price,
+          item.item_quantity)
+        )
+        // Create single OnetimePurchase entry
+        var totalPrice = 0.00;
+        otp.forEach((item) => totalPrice += item.item_usd_price)
+        createOTP(results.rows[0].order_id, Math.random(), totalPrice)
+
+      } else {
+        createLineItem(results.rows[0].order_id,
+          subscription.item_brand,
+          subscription.item_name,
+          subscription.item_usd_price,
+          subscription.item_quantity
+        )
+
+        createSubscription(results.rows[0].order_id,
+          Math.random(),
+          subscription.item_usd_price,
+          subscription.billing_frequency,
+          subscription.billing_duration
+        )
+      }
 
       response
         .status(201)
@@ -259,6 +376,10 @@ const deleteOrder = (request, response) => {
     if (error) {
       throw error
     }
+
+    pool.query('DELETE FROM OnetimePurchase WHERE order_id = $1', [order_id], (error, results) => { })
+    pool.query('DELETE FROM Subscription WHERE order_id = $1', [order_id], (error, results) => { })
+
     response.status(200).send(`Order deleted with ID: ${order_id}`)
   })
 }
@@ -275,5 +396,7 @@ module.exports = {
   getOrders,
   createOrder,
   deleteOrder,
-  getLineItems
+  getLineItems,
+  getOnetimePurchase,
+  getSubscription
 };
