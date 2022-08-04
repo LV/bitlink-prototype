@@ -69,6 +69,19 @@ const getOrders = (request, response) => {
   );
 };
 
+const getLineItems = (request, response) => {
+  pool.query(
+    "SELECT * FROM LineItem ORDER BY order_id ASC;",
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+
 /*
 PUT Requests
 */
@@ -176,9 +189,7 @@ const createLineItem = (
 }
 
 /*
-
 POST to http://localhost:8080/order with body of
-
 {
     "customer_id" : 1,
     "company_account_number" : 1000000001,
@@ -196,7 +207,6 @@ POST to http://localhost:8080/order with body of
     ]
 }
 */
-
 const createOrder = (request, response) => {
   const {
     customer_id,
@@ -248,5 +258,6 @@ module.exports = {
   getMerchants,
   createMerchant,
   getOrders,
-  createOrder
+  createOrder,
+  getLineItems
 };

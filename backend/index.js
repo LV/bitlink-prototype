@@ -39,6 +39,7 @@ app.get('/merchant', db.getMerchants)
 app.post('/merchant', db.createMerchant)
 app.get('/order', db.getOrders)
 app.post('/order', db.createOrder)
+app.get('/lineitem', db.getLineItems)
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
