@@ -151,6 +151,52 @@ const createMerchant = (request, response) => {
   );
 };
 
+const createLineItem = (
+  order_id,
+  item_brand,
+  item_name,
+  item_usd_price,
+  item_quantity
+) => {
+  pool.query(
+    "INSERT INTO LineItem (order_id, item_brand, item_name, item_usd_price, item_quantity) VALUES ($1, $2, $3, $4, $5) RETURNING *",
+    [
+      order_id,
+      item_brand,
+      item_name,
+      item_usd_price,
+      item_quantity
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+    }
+  );
+}
+
+/*
+
+POST to http://localhost:8080/order with body of
+
+{
+    "customer_id" : 1,
+    "company_account_number" : 1000000001,
+    "merchant_id" : 1,
+    "wallet_id" : 1,
+    "datetime" : "2022-07-31",
+    "fee_percentage" : 0.02,
+    "items" : [
+        {
+            "item_name": "Scarf",
+            "item_brand": "Zara",
+            "item_usd_price": 30,
+            "item_quantity": 2
+        }
+    ]
+}
+*/
+
 const createOrder = (request, response) => {
   const {
     customer_id,
@@ -159,6 +205,7 @@ const createOrder = (request, response) => {
     wallet_id,
     datetime,
     fee_percentage,
+    items
   } = request.body;
 
   pool.query(
@@ -175,6 +222,15 @@ const createOrder = (request, response) => {
       if (error) {
         throw error;
       }
+      console.log(results.rows[0])
+
+      items.forEach((item) => createLineItem(results.rows[0].order_id,
+        item.item_brand,
+        item.item_name,
+        item.item_usd_price,
+        item.item_quantity)
+      )
+
       response
         .status(201)
         .send(`Order created`);
