@@ -46,6 +46,18 @@ const getMerchants = (request, response) => {
   );
 };
 
+const getOrders = (request, response) => {
+  pool.query(
+    "SELECT * FROM OrderDetails ORDER BY order_id ASC;",
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 /*
 POST Requests
 */
@@ -111,22 +123,22 @@ const createMerchant = (request, response) => {
 const createOrder = (request, response) => {
   const {
     customer_id,
-    companyAccountNumber,
-    merchantId,
+    company_account_number,
+    merchant_id,
     wallet_id,
     datetime,
-    feePercentage,
+    fee_percentage,
   } = request.body;
 
   pool.query(
     "INSERT INTO OrderDetails (customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
     [
       customer_id,
-      companyAccountNumber,
-      merchantId,
+      company_account_number,
+      merchant_id,
       wallet_id,
       datetime,
-      feePercentage,
+      fee_percentage,
     ],
     (error, results) => {
       if (error) {
@@ -134,7 +146,7 @@ const createOrder = (request, response) => {
       }
       response
         .status(201)
-        .send(`User added with ID: ${results.rows[0].customer_id}`);
+        .send(`Order created`);
     }
   );
 };
@@ -145,5 +157,7 @@ module.exports = {
   getCustomers,
   createCustomer,
   getMerchants,
-  createMerchant
+  createMerchant,
+  getOrders,
+  createOrder
 };
