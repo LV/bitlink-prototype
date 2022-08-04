@@ -22,6 +22,17 @@ const getWallets = (request, response) => {
   );
 };
 
+const getWallet = (request, response) => {
+  const wallet_id = parseInt(request.params.id)
+
+  pool.query('SELECT * FROM Wallet WHERE wallet_id = $1', [wallet_id], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).json(results.rows)
+  })
+}
+
 const getCustomers = (request, response) => {
   pool.query(
     "SELECT * FROM Customer ORDER BY customer_id ASC;",
@@ -173,6 +184,7 @@ const createOrder = (request, response) => {
 
 module.exports = {
   getWallets,
+  getWallet,
   updateWallet,
   createWallet,
   getCustomers,
