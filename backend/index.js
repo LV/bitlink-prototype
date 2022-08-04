@@ -39,6 +39,7 @@ app.get('/merchant', db.getMerchants)
 app.post('/merchant', db.createMerchant)
 app.get('/order', db.getOrders)
 app.post('/order', db.createOrder)
+app.delete('/order/:id', db.deleteOrder)
 app.get('/lineitem', db.getLineItems)
 
 app.listen(port, () => {

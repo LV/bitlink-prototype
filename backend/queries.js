@@ -248,6 +248,21 @@ const createOrder = (request, response) => {
   );
 };
 
+/*
+DELETE Requests
+*/
+
+const deleteOrder = (request, response) => {
+  const order_id = parseInt(request.params.id)
+
+  pool.query('DELETE FROM OrderDetails WHERE order_id = $1', [order_id], (error, results) => {
+    if (error) {
+      throw error
+    }
+    response.status(200).send(`Order deleted with ID: ${order_id}`)
+  })
+}
+
 module.exports = {
   getWallets,
   getWallet,
@@ -259,5 +274,6 @@ module.exports = {
   createMerchant,
   getOrders,
   createOrder,
+  deleteOrder,
   getLineItems
 };
