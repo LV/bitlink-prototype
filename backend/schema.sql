@@ -100,19 +100,77 @@ CREATE TABLE LineItem(
 );
 
 -- DATA AGGREGATION
-INSERT INTO Wallet(wallet_id, btc_amount) VALUES (1, 1204.98151203);
-INSERT INTO Wallet(wallet_id, btc_amount) VALUES (2, 0.426039413);
-INSERT INTO Wallet(wallet_id, btc_amount) VALUES (3, 53.18008000);
-INSERT INTO Wallet(wallet_id, btc_amount) VALUES (4, 3.14159265);
-INSERT INTO Wallet(wallet_id, btc_amount) VALUES (5, 0.02127135);
-INSERT INTO Wallet(wallet_id, btc_amount) VALUES (6, 0.71973031);
-INSERT INTO Wallet(wallet_id, btc_amount) VALUES (7, 1.61803576);
-INSERT INTO Wallet(wallet_id, btc_amount) VALUES (8, 1.00595284);
-INSERT INTO Wallet(wallet_id, btc_amount) VALUES (9, 69.42000000);
-INSERT INTO Wallet(wallet_id, btc_amount) VALUES (10, 1.01495492);
+INSERT INTO
+    Wallet(btc_amount)
+VALUES
+    (1204.98151203);
 
-INSERT INTO CompanyAccount(account_number, usd_balance, btc_balance) VALUES (1000000001, 84719124.33, 0.031044);
-INSERT INTO CompanyAccount(account_number, usd_balance, btc_balance) VALUES (1000000002, 34781.52, 3904.40129532);
-INSERT INTO CompanyAccount(account_number, usd_balance, btc_balance) VALUES (1000000003, 349135.31, 41.04951);
-INSERT INTO CompanyAccount(account_number, usd_balance, btc_balance) VALUES (1000000004, 48998405.51, 59.30908305);
-INSERT INTO CompanyAccount(account_number, usd_balance, btc_balance) VALUES (1000000005, 95810.19, 595910.03);
+INSERT INTO
+    Wallet(btc_amount)
+VALUES
+    (0.426039413);
+
+INSERT INTO
+    Wallet(btc_amount)
+VALUES
+    (53.18008000);
+
+INSERT INTO
+    Wallet(btc_amount)
+VALUES
+    (3.14159265);
+
+INSERT INTO
+    Wallet(btc_amount)
+VALUES
+    (0.02127135);
+
+INSERT INTO
+    Customer(name, email)
+VALUES
+    ('Zan Yhang', 'zannycats@gmail.com');
+
+INSERT INTO
+    Customer(name, email)
+VALUES
+    ('Cichard Rhen', 'rhen-cichard@gmail.com');
+
+INSERT INTO
+    Customer(name, email)
+VALUES
+    ('Vuis Lictoria', 'vuis@gmail.com');
+
+INSERT INTO
+    Customer(name, email)
+VALUES
+    ('Jordon Johnson', 'jjbeans@gmail.com');
+
+INSERT INTO
+    Customer(name, email)
+VALUES
+    ('Post Gres', 'pgres@gmail.com');
+
+INSERT INTO
+    CompanyAccount(account_number, usd_balance, btc_balance)
+VALUES
+    (1000000001, 84719124.33, 0.031044);
+
+INSERT INTO
+    CompanyAccount(account_number, usd_balance, btc_balance)
+VALUES
+    (1000000002, 34781.52, 3904.40129532);
+
+INSERT INTO
+    CompanyAccount(account_number, usd_balance, btc_balance)
+VALUES
+    (1000000003, 349135.31, 41.04951);
+
+INSERT INTO
+    CompanyAccount(account_number, usd_balance, btc_balance)
+VALUES
+    (1000000004, 48998405.51, 59.30908305);
+
+INSERT INTO
+    CompanyAccount(account_number, usd_balance, btc_balance)
+VALUES
+    (1000000005, 95810.19, 595910.03);
