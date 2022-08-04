@@ -34,6 +34,18 @@ const getCustomers = (request, response) => {
   );
 };
 
+const getMerchants = (request, response) => {
+  pool.query(
+    "SELECT * FROM Merchant ORDER BY merchant_id ASC;",
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 /*
 POST Requests
 */
@@ -76,6 +88,26 @@ const createCustomer = (request, response) => {
   );
 };
 
+const createMerchant = (request, response) => {
+  const { bank_account_number, name, usd_owed } = request.body;
+
+  pool.query(
+    "INSERT INTO Merchant(bank_account_number, name, usd_owed) VALUES ($1, $2, $3) RETURNING *",
+    [bank_account_number, name, usd_owed],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      console.log(results);
+      response
+        .status(201)
+        .send(
+          `Merchant created with name: ${results.rows[0].name} and ${results.rows[0].bank_account_number} with a balance owed of $${results.rows[0].usd_owed}`
+        );
+    }
+  );
+};
+
 const createOrder = (request, response) => {
   const {
     customer_id,
@@ -112,4 +144,6 @@ module.exports = {
   createWallet,
   getCustomers,
   createCustomer,
+  getMerchants,
+  createMerchant
 };

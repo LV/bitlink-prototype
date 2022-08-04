@@ -33,6 +33,8 @@ app.get('/wallet', db.getWallets)
 app.post('/wallet', db.createWallet)
 app.get('/customer', db.getCustomers)
 app.post('/customer', db.createCustomer)
+app.get('/merchant', db.getMerchants)
+app.post('/merchant', db.createMerchant)
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)

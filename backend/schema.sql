@@ -174,3 +174,28 @@ INSERT INTO
     CompanyAccount(account_number, usd_balance, btc_balance)
 VALUES
     (1000000005, 95810.19, 595910.03);
+
+INSERT INTO
+    MerchantBankAccount(account_number, routing_number)
+VALUES
+    (111111111, 111111);
+
+INSERT INTO
+    MerchantBankAccount(account_number, routing_number)
+VALUES
+    (222222222, 222222);
+
+INSERT INTO
+    MerchantBankAccount(account_number, routing_number)
+VALUES
+    (333333333, 333333);
+
+INSERT INTO
+    MerchantBankAccount(account_number, routing_number)
+VALUES
+    (444444444, 444444);
+
+INSERT INTO
+    MerchantBankAccount(account_number, routing_number)
+VALUES
+    (555555555, 555555);
