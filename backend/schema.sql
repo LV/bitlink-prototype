@@ -80,12 +80,8 @@ CREATE TABLE OnetimePurchase(
 );
 
 CREATE TABLE LineItemType(
-    order_id INTEGER,
-    item_name TEXT NOT NULL,
-    item_type TEXT NOT NULL,
-    PRIMARY KEY (order_id, item_name),
-    FOREIGN KEY (order_id) REFERENCES OrderDetails(order_id),
-    UNIQUE(item_name)
+    item_name TEXT NOT NULL PRIMARY KEY,
+    item_type TEXT NOT NULL
 );
 
 CREATE TABLE LineItem(
@@ -223,4 +219,29 @@ VALUES
 INSERT INTO
     Merchant (bank_account_number, name, usd_owed)
 VALUES
-    (111111111, 'UBC', 900);
+    (111111111, 'Netflix', 900);
+
+INSERT INTO
+    LineItemType (item_name, item_type)
+VALUES
+    ('Tesla', 'Car');
+
+INSERT INTO
+    LineItemType (item_name, item_type)
+VALUES
+    ('Dress Shirt', 'Clothes');
+
+INSERT INTO
+    LineItemType (item_name, item_type)
+VALUES
+    ('Scarf', 'Clothes');
+
+INSERT INTO
+    LineItemType (item_name, item_type)
+VALUES
+    ('Macbook', 'Computer');
+
+INSERT INTO
+    LineItemType (item_name, item_type)
+VALUES
+    ('Two Month Subscription', 'Subscription');
