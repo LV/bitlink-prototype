@@ -111,7 +111,7 @@ export default function CustomerDashboard() {
       if (newBalance < 0) {
         alert("Negative balance, please try again.");
       } else {
-        setBalance(newBalance.toFixed(8));
+        setBalance(newBalance);
       }
     }
   }
