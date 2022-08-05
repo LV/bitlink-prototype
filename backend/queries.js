@@ -289,52 +289,6 @@ const createSubscription = (
   );
 }
 
-
-
-/*
-POST to http://localhost:8080/order 
-
-OTP body
-{
-    "customer_id" : 1,
-    "company_account_number" : 1000000001,
-    "merchant_id" : 1,
-    "wallet_id" : 1,
-    "datetime" : "2022-07-31",
-    "fee_percentage" : 0.02,
-    "otp" : 
-        [
-            {
-                "item_name": "Scarf",
-                "item_brand": "Zara",
-                "item_usd_price": 30,
-                "item_quantity": 2
-            }
-        ],
-    "subscription" : {}
-}
-
-Subscription body
-{
-    "customer_id" : 1,
-    "company_account_number" : 1000000001,
-    "merchant_id" : 1,
-    "wallet_id" : 1,
-    "datetime" : "2022-07-31",
-    "fee_percentage" : 0.02,
-    "otp" : [],
-    "subscription" : {
-        "item_name": "Two Month Subscription",
-        "item_brand": "Netflix",
-        "item_usd_price": 15,
-        "item_quantity": 1,
-        "billing_frequency" : "monthly",
-        "billing_duration" : 2
-    }
-}
-
-*/
-
 /*
 Update other relations helpers
 */
@@ -396,7 +350,49 @@ const updateMerchant = (usd_adjustment, merchant_id) => {
   })
 }
 
+/*
+POST to http://localhost:8080/order 
 
+OTP body
+{
+    "customer_id" : 1,
+    "company_account_number" : 1000000001,
+    "merchant_id" : 1,
+    "wallet_id" : 1,
+    "datetime" : "2022-07-31",
+    "fee_percentage" : 0.02,
+    "otp" : 
+        [
+            {
+                "item_name": "Scarf",
+                "item_brand": "Zara",
+                "item_usd_price": 30,
+                "item_quantity": 2
+            }
+        ],
+    "subscription" : {}
+}
+
+Subscription body
+{
+    "customer_id" : 1,
+    "company_account_number" : 1000000001,
+    "merchant_id" : 1,
+    "wallet_id" : 1,
+    "datetime" : "2022-07-31",
+    "fee_percentage" : 0.02,
+    "otp" : [],
+    "subscription" : {
+        "item_name": "Two Month Subscription",
+        "item_brand": "Netflix",
+        "item_usd_price": 15,
+        "item_quantity": 1,
+        "billing_frequency" : "monthly",
+        "billing_duration" : 2
+    }
+}
+
+*/
 const createOrder = (request, response) => {
   const {
     customer_id,
