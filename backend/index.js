@@ -47,6 +47,7 @@ app.delete("/order/:id", db.deleteOrder);
 app.get("/lineitem", db.getLineItems);
 app.get("/otp", db.getOnetimePurchase);
 app.get("/subscription", db.getSubscription);
+app.get("/purchaseSelection", db.getPurchaseSelection);
 app.get("/transaction", db.getTransactions);
 app.get("/deposit", db.getDeposits);
 app.get("/withdrawal", db.getWithdrawals);

@@ -105,6 +105,20 @@ const getOrders = (request, response) => {
   );
 };
 
+/*
+GET
+http://localhost:8080/orderProj/
+{
+    "order_id": true,
+    "customer_id": false,
+    "company_account_number": true,
+    "merchant_id": true,
+    "wallet_id": true,
+    "datetime": true,
+    "fee_percentage": true
+}
+*/
+
 const getOrdersProjection = (request, response) => {
   const {
     order_id,
@@ -141,7 +155,7 @@ const getOrdersProjection = (request, response) => {
   }
 
   const attributesString = attributes.join(', ');
-  const fromTableString = " FROM OrderDetails ORDER BY order_id ASC;"
+  const fromTableString = " FROM OrderDetails;"
   const query = selectString + attributesString + fromTableString
 
   pool.query(query,
@@ -181,6 +195,80 @@ const getOnetimePurchase = (request, response) => {
 const getSubscription = (request, response) => {
   pool.query(
     "SELECT * FROM Subscription ORDER BY order_id ASC;",
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+/*
+GET http://localhost:8080/purchaseSelection/
+{
+    "subscription" : {
+      "order_id" : true,
+      "conversion_rate" : true,
+      "charge_usd_price" : true,
+      "billing_frequency" : true,
+      "billing_duration" : true
+    }
+}
+
+{
+    "otp" : {
+      "order_id" : true,
+      "conversion_rate" : true,
+      "total_usd_price" : true
+    }
+}
+*/
+
+const getPurchaseSelection = (request, response) => {
+  const {
+    otp,
+    subscription
+  } = request.body;
+
+  var selectString = "SELECT "
+  const attributes = []
+  var fromTableString = ""
+  if (otp != null) {
+    if (otp.order_id) {
+      attributes.push("order_id")
+    }
+    if (otp.conversion_rate) {
+      attributes.push("conversion_rate")
+    }
+    if (otp.total_usd_price) {
+      attributes.push("total_usd_price")
+    }
+    fromTableString = " FROM OnetimePurchase"
+  }
+
+  if (subscription != null) {
+    if (subscription.order_id) {
+      attributes.push("order_id")
+    }
+    if (subscription.conversion_rate) {
+      attributes.push("conversion_rate")
+    }
+    if (subscription.charge_usd_price) {
+      attributes.push("charge_usd_price")
+    }
+    if (subscription.billing_frequency) {
+      attributes.push("billing_frequency")
+    }
+    if (subscription.billing_duration) {
+      attributes.push("billing_duration")
+    }
+    fromTableString = " FROM Subscription"
+  }
+  const attributesString = attributes.join(', ');
+  const query = selectString + attributesString + fromTableString
+
+  pool.query(query,
     (error, results) => {
       if (error) {
         throw error;
@@ -746,6 +834,7 @@ module.exports = {
   getLineItems,
   getOnetimePurchase,
   getSubscription,
+  getPurchaseSelection,
   getTransactions,
   getDeposits,
   getWithdrawals,
