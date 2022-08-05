@@ -140,7 +140,6 @@ const createWallet = (request, response) => {
       if (error) {
         throw error;
       }
-      console.log(results);
       response
         .status(201)
         .send(`Wallet added with amount: ${results.rows[0].btc_amount}`);
@@ -158,7 +157,6 @@ const createCustomer = (request, response) => {
       if (error) {
         throw error;
       }
-      console.log(results);
       response
         .status(201)
         .send(
@@ -178,7 +176,6 @@ const createMerchant = (request, response) => {
       if (error) {
         throw error;
       }
-      console.log(results);
       response
         .status(201)
         .send(
@@ -443,6 +440,129 @@ const createOrder = (request, response) => {
   );
 };
 
+const createDeposit = (
+  transaction_id,
+  bitlink_btc_address,
+  btc_to_deposit
+) => {
+  pool.query(
+    "INSERT INTO Deposit (transaction_id, bitlink_btc_address, btc_to_deposit) VALUES ($1, $2, $3) RETURNING *",
+    [
+      transaction_id,
+      bitlink_btc_address,
+      btc_to_deposit
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+    }
+  );
+}
+
+/*
+http://localhost:8080/deposit
+{
+    "wallet_id" : 1,
+    "bitlink_btc_address" : "ASDQWDWQD",
+    "btc_to_deposit" : 30
+}
+*/
+
+const createDepositTransaction = (request, response) => {
+  const {
+    wallet_id,
+    bitlink_btc_address,
+    btc_to_deposit
+  } = request.body;
+
+  pool.query(
+    "INSERT INTO Transaction (wallet_id) VALUES ($1) RETURNING *",
+    [
+      wallet_id
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+
+      createDeposit(results.rows[0].transaction_id,
+        bitlink_btc_address,
+        btc_to_deposit
+      )
+
+      // Update customer wallet balance
+      updateWalletDb(btc_to_deposit, wallet_id)
+
+      response
+        .status(201)
+        .send(`Deposit created`);
+    }
+  );
+};
+
+
+const createWithdrawal = (
+  transaction_id,
+  customer_btc_address,
+  btc_to_withdraw
+) => {
+  pool.query(
+    "INSERT INTO Withdrawal (transaction_id, customer_btc_address, btc_to_withdraw) VALUES ($1, $2, $3) RETURNING *",
+    [
+      transaction_id,
+      customer_btc_address,
+      btc_to_withdraw
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+    }
+  );
+}
+
+/*
+http://localhost:8080/withdrawal
+{
+    "wallet_id" : 1,
+    "customer_btc_address" : "QWDNQWEQWE",
+    "btc_to_withdraw" : 30
+}
+*/
+
+const createWithdrawalTransaction = (request, response) => {
+  const {
+    wallet_id,
+    customer_btc_address,
+    btc_to_withdraw
+  } = request.body;
+
+  pool.query(
+    "INSERT INTO Transaction (wallet_id) VALUES ($1) RETURNING *",
+    [
+      wallet_id
+    ],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+
+      createWithdrawal(results.rows[0].transaction_id,
+        customer_btc_address,
+        btc_to_withdraw
+      )
+
+      // Update customer wallet balance
+      updateWalletDb(-(btc_to_withdraw), wallet_id)
+
+      response
+        .status(201)
+        .send(`Withdrawal created`);
+    }
+  );
+};
+
 /*
 DELETE Requests
 */
@@ -476,5 +596,7 @@ module.exports = {
   deleteOrder,
   getLineItems,
   getOnetimePurchase,
-  getSubscription
+  getSubscription,
+  createDepositTransaction,
+  createWithdrawalTransaction
 };

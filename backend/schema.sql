@@ -4,14 +4,15 @@ CREATE TABLE Wallet(
 );
 
 CREATE TABLE Withdrawal(
-    transaction_id SERIAL PRIMARY KEY,
+    transaction_id INTEGER PRIMARY KEY,
     customer_btc_address TEXT NOT NULL,
     btc_to_withdraw DECIMAL NOT NULL
 );
 
 CREATE TABLE Deposit(
-    transaction_id SERIAL PRIMARY KEY,
-    bitlink_btc_address TEXT NOT NULL
+    transaction_id INTEGER PRIMARY KEY,
+    bitlink_btc_address TEXT NOT NULL,
+    btc_to_deposit DECIMAL NOT NULL
 );
 
 CREATE TABLE Transaction(

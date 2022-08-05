@@ -43,6 +43,8 @@ app.delete('/order/:id', db.deleteOrder)
 app.get('/lineitem', db.getLineItems)
 app.get('/otp', db.getOnetimePurchase)
 app.get('/subscription', db.getSubscription)
+app.post('/deposit', db.createDepositTransaction)
+app.post('/withdrawal', db.createWithdrawalTransaction)
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`)
