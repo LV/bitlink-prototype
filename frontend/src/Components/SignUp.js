@@ -24,10 +24,11 @@ export default function SignUp() {
     const email = signUp.email;
     console.log(name, email);
     if (name && email) {
-      axios.post("http://localhost:8080/wallet", { btc_amount }).then(response => {
-        axios.post("http://localhost:8080/customer", { name, email });
-      }
-      );
+      axios
+        .post("http://localhost:8080/wallet", { btc_amount })
+        .then((response) => {
+          axios.post("http://localhost:8080/customer", { name, email });
+        });
     }
   };
 
