@@ -23,19 +23,38 @@ const getWallets = (request, response) => {
 };
 
 const getWallet = (request, response) => {
-  const wallet_id = parseInt(request.params.id)
+  const wallet_id = parseInt(request.params.id);
 
-  pool.query('SELECT * FROM Wallet WHERE wallet_id = $1', [wallet_id], (error, results) => {
-    if (error) {
-      throw error
+  pool.query(
+    "SELECT * FROM Wallet WHERE wallet_id = $1",
+    [wallet_id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
     }
-    response.status(200).json(results.rows)
-  })
-}
+  );
+};
 
 const getCustomers = (request, response) => {
   pool.query(
     "SELECT * FROM Customer ORDER BY customer_id ASC;",
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+const getCustomerById = (request, response) => {
+  const customer_id = parseInt(request.params.id);
+
+  pool.query(
+    "SELECT * FROM Customer WHERE customer_id = $1",
+    [customer_id],
     (error, results) => {
       if (error) {
         throw error;
@@ -141,26 +160,27 @@ const getWithdrawals = (request, response) => {
   );
 };
 
-
 /*
 PUT Requests
 */
 
 const updateWallet = (request, response) => {
-  const wallet_id = parseInt(request.params.id)
-  const { btc_amount } = request.body
+  const wallet_id = parseInt(request.params.id);
+  const { btc_amount } = request.body;
 
   pool.query(
-    'UPDATE Wallet SET btc_amount = $1 WHERE wallet_id = $2',
+    "UPDATE Wallet SET btc_amount = $1 WHERE wallet_id = $2",
     [btc_amount, wallet_id],
     (error, results) => {
       if (error) {
-        throw error
+        throw error;
       }
-      response.status(200).send(`Wallet balance updated to ${btc_amount} with ID: ${wallet_id}`)
+      response
+        .status(200)
+        .send(`Wallet balance updated to ${btc_amount} with ID: ${wallet_id}`);
     }
-  )
-}
+  );
+};
 
 const updateCustomer = (request, response) => {
   const customer_id = parseInt(request.params.id)
@@ -262,40 +282,26 @@ const createLineItem = (
 ) => {
   pool.query(
     "INSERT INTO LineItem (order_id, item_brand, item_name, item_usd_price, item_quantity) VALUES ($1, $2, $3, $4, $5) RETURNING *",
-    [
-      order_id,
-      item_brand,
-      item_name,
-      item_usd_price,
-      item_quantity
-    ],
+    [order_id, item_brand, item_name, item_usd_price, item_quantity],
     (error, results) => {
       if (error) {
         throw error;
       }
     }
   );
-}
+};
 
-const createOTP = (
-  order_id,
-  conversion_rate,
-  total_usd_price
-) => {
+const createOTP = (order_id, conversion_rate, total_usd_price) => {
   pool.query(
     "INSERT INTO OnetimePurchase (order_id, conversion_rate, total_usd_price) VALUES ($1, $2, $3) RETURNING *",
-    [
-      order_id,
-      conversion_rate,
-      total_usd_price
-    ],
+    [order_id, conversion_rate, total_usd_price],
     (error, results) => {
       if (error) {
         throw error;
       }
     }
   );
-}
+};
 
 const createSubscription = (
   order_id,
@@ -311,7 +317,7 @@ const createSubscription = (
       conversion_rate,
       charge_usd_price,
       billing_frequency,
-      billing_duration
+      billing_duration,
     ],
     (error, results) => {
       if (error) {
@@ -325,62 +331,64 @@ const createSubscription = (
 Update other relations helpers
 */
 
-// btc_adjustment is a float 
-// where positive values increments the current wallet balance and 
+// btc_adjustment is a float
+// where positive values increments the current wallet balance and
 // negative values decrement the current wallet balance
 const updateWalletDb = (btc_adjustment, wallet_id) => {
-  pool.query('SELECT * FROM Wallet WHERE wallet_id = $1', [wallet_id], (error, results) => {
-    if (error) {
-      throw error
-    }
-
-    pool.query(
-      'UPDATE Wallet SET btc_amount = $1 WHERE wallet_id = $2',
-      [parseFloat(results.rows[0].btc_amount) + btc_adjustment, wallet_id],
-      (error, results) => {
-        if (error) {
-          throw error
-        }
+  pool.query(
+    "SELECT * FROM Wallet WHERE wallet_id = $1",
+    [wallet_id],
+    (error, results) => {
+      if (error) {
+        throw error;
       }
-    )
-  })
-}
+
+      pool.query(
+        "UPDATE Wallet SET btc_amount = $1 WHERE wallet_id = $2",
+        [parseFloat(results.rows[0].btc_amount) + btc_adjustment, wallet_id],
+        (error, results) => {
+          if (error) {
+            throw error;
+          }
+        }
+      );
+    }
+  );
+};
 
 const updateCompanyAccount = (btc_adjustment, account_number) => {
-  pool.query('SELECT * FROM CompanyAccount WHERE account_number = $1', [account_number], (error, results) => {
-    if (error) {
-      throw error
-    }
-
-    pool.query(
-      'UPDATE CompanyAccount SET btc_balance = $1 WHERE account_number = $2',
-      [parseFloat(results.rows[0].btc_balance) + btc_adjustment, account_number],
-      (error, results) => {
-        if (error) {
-          throw error
-        }
+  pool.query(
+    "SELECT * FROM CompanyAccount WHERE account_number = $1",
+    [account_number],
+    (error, results) => {
+      if (error) {
+        throw error;
       }
-    )
-  })
-}
+
+      pool.query(
+        "UPDATE CompanyAccount SET btc_balance = $1 WHERE account_number = $2",
+        [
+          parseFloat(results.rows[0].btc_balance) + btc_adjustment,
+          account_number,
+        ],
+        (error, results) => {
+          if (error) {
+            throw error;
+          }
+        }
+      );
+    }
+  );
+};
 
 const updateMerchant = (usd_adjustment, merchant_id) => {
-  pool.query('SELECT * FROM Merchant WHERE merchant_id = $1', [merchant_id], (error, results) => {
-    if (error) {
-      throw error
-    }
-
-    pool.query(
-      'UPDATE Merchant SET usd_owed = $1 WHERE merchant_id = $2',
-      [parseFloat(results.rows[0].usd_owed) + usd_adjustment, merchant_id],
-      (error, results) => {
-        if (error) {
-          throw error
-        }
+  pool.query(
+    "SELECT * FROM Merchant WHERE merchant_id = $1",
+    [merchant_id],
+    (error, results) => {
+      if (error) {
+        throw error;
       }
-    )
-  })
-}
 
 /*
 POST to http://localhost:8080/order 
@@ -434,7 +442,7 @@ const createOrder = (request, response) => {
     datetime,
     fee_percentage,
     otp,
-    subscription
+    subscription,
   } = request.body;
 
   pool.query(
@@ -451,78 +459,82 @@ const createOrder = (request, response) => {
       if (error) {
         throw error;
       }
-      console.log(results.rows[0])
+      console.log(results.rows[0]);
 
-      if (JSON.stringify(subscription) === '{}') {
+      if (JSON.stringify(subscription) === "{}") {
         // Create LineItem entries
-        otp.forEach((item) => createLineItem(results.rows[0].order_id,
-          item.item_brand,
-          item.item_name,
-          item.item_usd_price,
-          item.item_quantity)
-        )
+        otp.forEach((item) =>
+          createLineItem(
+            results.rows[0].order_id,
+            item.item_brand,
+            item.item_name,
+            item.item_usd_price,
+            item.item_quantity
+          )
+        );
         // Create single OnetimePurchase entry
-        var totalPrice = 0.00;
-        otp.forEach((item) => totalPrice += item.item_usd_price)
-        createOTP(results.rows[0].order_id, Math.random(), totalPrice)
+        var totalPrice = 0.0;
+        otp.forEach((item) => (totalPrice += item.item_usd_price));
+        createOTP(results.rows[0].order_id, Math.random(), totalPrice);
 
         // Update customer wallet balance
-        updateWalletDb(-(convRate * totalPrice), wallet_id)
+        updateWalletDb(-(convRate * totalPrice), wallet_id);
         // Update company account with our fee
-        updateCompanyAccount(-(convRate * totalPrice * fee_percentage), company_account_number)
+        updateCompanyAccount(
+          -(convRate * totalPrice * fee_percentage),
+          company_account_number
+        );
         // Update Merchant account usd owed balance
-        updateMerchant(totalPrice * (1 - fee_percentage), merchant_id)
+        updateMerchant(totalPrice * (1 - fee_percentage), merchant_id);
       } else {
-        const convRate = Math.random()
+        const convRate = Math.random();
 
-        createLineItem(results.rows[0].order_id,
+        createLineItem(
+          results.rows[0].order_id,
           subscription.item_brand,
           subscription.item_name,
           subscription.item_usd_price,
           subscription.item_quantity
-        )
+        );
 
-        createSubscription(results.rows[0].order_id,
+        createSubscription(
+          results.rows[0].order_id,
           convRate,
           subscription.item_usd_price,
           subscription.billing_frequency,
           subscription.billing_duration
-        )
+        );
 
         // Update customer wallet balance
-        updateWalletDb(-(convRate * subscription.item_usd_price), wallet_id)
+        updateWalletDb(-(convRate * subscription.item_usd_price), wallet_id);
         // Update company account with our fee
-        updateCompanyAccount(-(convRate * subscription.item_usd_price * fee_percentage), company_account_number)
+        updateCompanyAccount(
+          -(convRate * subscription.item_usd_price * fee_percentage),
+          company_account_number
+        );
         // Update Merchant account usd owed balance
-        updateMerchant(subscription.item_usd_price * (1 - fee_percentage), merchant_id)
+        updateMerchant(
+          subscription.item_usd_price * (1 - fee_percentage),
+          merchant_id
+        );
       }
 
-      response
-        .status(201)
-        .send(`Order created`);
+      response.status(201).send(`Order created`);
     }
   );
 };
 
-const createDeposit = (
-  transaction_id,
-  bitlink_btc_address,
-  btc_to_deposit
-) => {
+const createDeposit = (transaction_id, bitlink_btc_address, btc_to_deposit) => {
   pool.query(
     "INSERT INTO Deposit (transaction_id, bitlink_btc_address, btc_to_deposit) VALUES ($1, $2, $3) RETURNING *",
-    [
-      transaction_id,
-      bitlink_btc_address,
-      btc_to_deposit
-    ],
+    [transaction_id, bitlink_btc_address, btc_to_deposit],
     (error, results) => {
       if (error) {
         throw error;
       }
     }
   );
-}
+};
 
 /*
 http://localhost:8080/deposit
@@ -534,37 +546,29 @@ http://localhost:8080/deposit
 */
 
 const createDepositTransaction = (request, response) => {
-  const {
-    wallet_id,
-    bitlink_btc_address,
-    btc_to_deposit
-  } = request.body;
+  const { wallet_id, bitlink_btc_address, btc_to_deposit } = request.body;
 
   pool.query(
     "INSERT INTO Transaction (wallet_id) VALUES ($1) RETURNING *",
-    [
-      wallet_id
-    ],
+    [wallet_id],
     (error, results) => {
       if (error) {
         throw error;
       }
 
-      createDeposit(results.rows[0].transaction_id,
+      createDeposit(
+        results.rows[0].transaction_id,
         bitlink_btc_address,
         btc_to_deposit
-      )
+      );
 
       // Update customer wallet balance
-      updateWalletDb(btc_to_deposit, wallet_id)
+      updateWalletDb(btc_to_deposit, wallet_id);
 
-      response
-        .status(201)
-        .send(`Deposit created`);
+      response.status(201).send(`Deposit created`);
     }
   );
 };
-
 
 const createWithdrawal = (
   transaction_id,
@@ -573,18 +577,14 @@ const createWithdrawal = (
 ) => {
   pool.query(
     "INSERT INTO Withdrawal (transaction_id, customer_btc_address, btc_to_withdraw) VALUES ($1, $2, $3) RETURNING *",
-    [
-      transaction_id,
-      customer_btc_address,
-      btc_to_withdraw
-    ],
+    [transaction_id, customer_btc_address, btc_to_withdraw],
     (error, results) => {
       if (error) {
         throw error;
       }
     }
   );
-}
+};
 
 /*
 http://localhost:8080/withdrawal
@@ -596,33 +596,26 @@ http://localhost:8080/withdrawal
 */
 
 const createWithdrawalTransaction = (request, response) => {
-  const {
-    wallet_id,
-    customer_btc_address,
-    btc_to_withdraw
-  } = request.body;
+  const { wallet_id, customer_btc_address, btc_to_withdraw } = request.body;
 
   pool.query(
     "INSERT INTO Transaction (wallet_id) VALUES ($1) RETURNING *",
-    [
-      wallet_id
-    ],
+    [wallet_id],
     (error, results) => {
       if (error) {
         throw error;
       }
 
-      createWithdrawal(results.rows[0].transaction_id,
+      createWithdrawal(
+        results.rows[0].transaction_id,
         customer_btc_address,
         btc_to_withdraw
-      )
+      );
 
       // Update customer wallet balance
-      updateWalletDb(-(btc_to_withdraw), wallet_id)
+      updateWalletDb(-btc_to_withdraw, wallet_id);
 
-      response
-        .status(201)
-        .send(`Withdrawal created`);
+      response.status(201).send(`Withdrawal created`);
     }
   );
 };
@@ -632,19 +625,31 @@ DELETE Requests
 */
 
 const deleteOrder = (request, response) => {
-  const order_id = parseInt(request.params.id)
+  const order_id = parseInt(request.params.id);
 
-  pool.query('DELETE FROM OrderDetails WHERE order_id = $1', [order_id], (error, results) => {
-    if (error) {
-      throw error
+  pool.query(
+    "DELETE FROM OrderDetails WHERE order_id = $1",
+    [order_id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+
+      pool.query(
+        "DELETE FROM OnetimePurchase WHERE order_id = $1",
+        [order_id],
+        (error, results) => {}
+      );
+      pool.query(
+        "DELETE FROM Subscription WHERE order_id = $1",
+        [order_id],
+        (error, results) => {}
+      );
+
+      response.status(200).send(`Order deleted with ID: ${order_id}`);
     }
-
-    pool.query('DELETE FROM OnetimePurchase WHERE order_id = $1', [order_id], (error, results) => { })
-    pool.query('DELETE FROM Subscription WHERE order_id = $1', [order_id], (error, results) => { })
-
-    response.status(200).send(`Order deleted with ID: ${order_id}`)
-  })
-}
+  );
+};
 
 module.exports = {
   getWallets,
@@ -653,6 +658,7 @@ module.exports = {
   createWallet,
   getCustomers,
   updateCustomer,
+  getCustomerById,
   createCustomer,
   getMerchants,
   createMerchant,
@@ -666,5 +672,5 @@ module.exports = {
   getDeposits,
   getWithdrawals,
   createDepositTransaction,
-  createWithdrawalTransaction
+  createWithdrawalTransaction,
 };

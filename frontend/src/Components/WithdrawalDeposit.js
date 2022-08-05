@@ -56,7 +56,7 @@ export function BitcoinAddress(props) {
 export default function WithdrawalDeposit(props) {
   const { isDeposit, sendDeposit, sendWithdrawal } = props;
 
-  const [value, setValue] = useState(0);
+  const [value, setValue] = useState("");
 
   const type = isDeposit ? "Deposit" : "Withdrawal";
 
