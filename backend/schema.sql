@@ -249,7 +249,6 @@ VALUES
 
 INSERT INTO
     OrderDetails(
-        order_id,
         customer_id,
         company_account_number,
         merchant_id,
@@ -258,4 +257,4 @@ INSERT INTO
         fee_percentage
     )
 VALUES
-    (1, 4, 1000000001, 3, 4, '2022-07-31', 0.02);
+    (4, 1000000001, 3, 4, '2022-07-31', 0.02);

@@ -1,3 +1,5 @@
+const { query } = require("express");
+
 const Pool = require("pg").Pool;
 const pool = new Pool({
   user: "dbadmin",
@@ -94,6 +96,55 @@ const getMerchantById = (request, response) => {
 const getOrders = (request, response) => {
   pool.query(
     "SELECT * FROM OrderDetails ORDER BY order_id ASC;",
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+const getOrdersProjection = (request, response) => {
+  const {
+    order_id,
+    customer_id,
+    company_account_number,
+    merchant_id,
+    wallet_id,
+    datetime,
+    fee_percentage
+  } = request.body;
+
+  var selectString = "SELECT "
+  const attributes = []
+  if (order_id) {
+    attributes.push("order_id")
+  }
+  if (customer_id) {
+    attributes.push("customer_id")
+  }
+  if (company_account_number) {
+    attributes.push("company_account_number")
+  }
+  if (merchant_id) {
+    attributes.push("merchant_id")
+  }
+  if (wallet_id) {
+    attributes.push("wallet_id")
+  }
+  if (datetime) {
+    attributes.push("datetime")
+  }
+  if (fee_percentage) {
+    attributes.push("fee_percentage")
+  }
+
+  const attributesString = attributes.join(', ');
+  const fromTableString = " FROM OrderDetails ORDER BY order_id ASC;"
+  const query = selectString + attributesString + fromTableString
+
+  pool.query(query,
     (error, results) => {
       if (error) {
         throw error;
@@ -689,6 +740,7 @@ module.exports = {
   getMerchantById,
   createMerchant,
   getOrders,
+  getOrdersProjection,
   createOrder,
   deleteOrder,
   getLineItems,

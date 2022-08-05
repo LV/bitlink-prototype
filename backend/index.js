@@ -7,26 +7,26 @@ const db = require("./queries");
 
 const whitelist = ["http://localhost:3000"];
 const corsOptions = {
-  origin: function (origin, callback) {
-    if (!origin || whitelist.indexOf(origin) !== -1) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-  credentials: true,
+    origin: function (origin, callback) {
+        if (!origin || whitelist.indexOf(origin) !== -1) {
+            callback(null, true);
+        } else {
+            callback(new Error("Not allowed by CORS"));
+        }
+    },
+    credentials: true,
 };
 app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  })
+    bodyParser.urlencoded({
+        extended: true,
+    })
 );
 
 app.get("/", (request, response) => {
-  response.json({ info: "Node.js, Express, and Postgres API" });
+    response.json({ info: "Node.js, Express, and Postgres API" });
 });
 
 app.get("/wallet", db.getWallets);
@@ -41,6 +41,7 @@ app.get("/merchant", db.getMerchants);
 app.get("/merchant/:id", db.getMerchantById);
 app.post("/merchant", db.createMerchant);
 app.get("/order", db.getOrders);
+app.get("/orderProj", db.getOrdersProjection);
 app.post("/order", db.createOrder);
 app.delete("/order/:id", db.deleteOrder);
 app.get("/lineitem", db.getLineItems);
@@ -53,5 +54,5 @@ app.post("/deposit", db.createDepositTransaction);
 app.post("/withdrawal", db.createWithdrawalTransaction);
 
 app.listen(port, () => {
-  console.log(`App running on port ${port}.`);
+    console.log(`App running on port ${port}.`);
 });
