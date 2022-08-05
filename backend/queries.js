@@ -105,6 +105,42 @@ const getSubscription = (request, response) => {
   );
 };
 
+const getTransactions = (request, response) => {
+  pool.query(
+    "SELECT * FROM Transaction ORDER BY transaction_id ASC;",
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+const getDeposits = (request, response) => {
+  pool.query(
+    "SELECT * FROM Deposit ORDER BY transaction_id ASC;",
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+const getWithdrawals = (request, response) => {
+  pool.query(
+    "SELECT * FROM Withdrawal ORDER BY transaction_id ASC;",
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 
 /*
 PUT Requests
@@ -597,6 +633,9 @@ module.exports = {
   getLineItems,
   getOnetimePurchase,
   getSubscription,
+  getTransactions,
+  getDeposits,
+  getWithdrawals,
   createDepositTransaction,
   createWithdrawalTransaction
 };
