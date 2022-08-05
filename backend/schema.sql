@@ -246,3 +246,16 @@ INSERT INTO
     LineItemType (item_name, item_type)
 VALUES
     ('Two Month Subscription', 'Subscription');
+
+INSERT INTO
+    OrderDetails(
+        order_id,
+        customer_id,
+        company_account_number,
+        merchant_id,
+        wallet_id,
+        datetime,
+        fee_percentage
+    )
+VALUES
+    (1, 4, 1000000001, 3, 4, '2022-07-31', 0.02);
