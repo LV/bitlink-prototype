@@ -162,6 +162,38 @@ const updateWallet = (request, response) => {
   )
 }
 
+const updateCustomer = (request, response) => {
+  const customer_id = parseInt(request.params.id)
+  const { name, email } = request.body
+  console.log(name, email)
+
+  if (name != null) {
+    pool.query(
+      'UPDATE Customer SET name = $1 WHERE customer_id = $2',
+      [name, customer_id],
+      (error, results) => {
+        if (error) {
+          throw error
+        }
+      }
+    )
+  }
+
+  if (email != null) {
+    pool.query(
+      'UPDATE Customer SET email = $1 WHERE customer_id = $2',
+      [email, customer_id],
+      (error, results) => {
+        if (error) {
+          throw error
+        }
+      }
+    )
+  }
+
+  response.status(200).send(`Customer details updated`)
+}
+
 /*
 POST Requests
 */
@@ -620,6 +652,7 @@ module.exports = {
   updateWallet,
   createWallet,
   getCustomers,
+  updateCustomer,
   createCustomer,
   getMerchants,
   createMerchant,
