@@ -13,7 +13,7 @@ const theme = createTheme({
   },
 });
 
-export function BitcoinAddress(props) {
+export function BitcoinAddress() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,30 +24,31 @@ export function BitcoinAddress(props) {
   if (loading === true) {
     return (
       <div>
-        <HashLoader color={"#c7c7c7"} loading={loading} size={50} />
+        <HashLoader
+          color={"#c7c7c7"}
+          loading={loading}
+          size={50}
+          style={{ marginTop: 20 }}
+        />
       </div>
     );
   } else {
     return (
-      <div style={{ paddingTop: 25 }}>
+      <div style={{ marginTop: 70 }}>
         <center>
           <QRCode
-            size={150}
+            size={125}
             value="bitcoin:bc1qs9ynug9k0m9llzwg0ljs66xu5hwetc4sy8hyuu?amount=&message=1.24"
           />
         </center>
-        <br></br>
         <input
           type="text"
-          class="form-control2 pull-right"
           name="captcha"
           disabled
           id="bitcoinAddr"
           value="bc1qs9ynug9k0m9llzwg0ljs66xu5hwetc4sy8hyuu"
+          style={{ marginTop: 10 }}
         ></input>
-        <Clipboard data-clipboard-text="bc1qs9ynug9k0m9llzwg0ljs66xu5hwetc4sy8hyuu">
-          <img src="/clippy.svg" alt="📋"></img>
-        </Clipboard>
       </div>
     );
   }
@@ -69,8 +70,8 @@ export default function WithdrawalDeposit(props) {
   }
 
   return (
-    <FormControl style={{ display: "flex", paddingTop: 50 }}>
-      <h4>Enter amount to {type.toLowerCase()}:</h4>
+    <FormControl style={{ display: "flex", paddingTop: 60 }}>
+      <h5>Enter amount to {type.toLowerCase()}:</h5>
       <TextField
         id="outlined-basic"
         label="Amount"
@@ -78,7 +79,7 @@ export default function WithdrawalDeposit(props) {
         value={value}
         onChange={(e) => setValue(e.target.value)}
         autoComplete="off"
-        style={{ marginTop: 20 }}
+        style={{ marginTop: 10 }}
       />
       <div
         style={{

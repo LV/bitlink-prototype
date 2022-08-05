@@ -118,7 +118,7 @@ export default function CustomerDashboard() {
       <Navbar cusPage={true} merPage={false} coPage={false} chkPage={false} />
       <FormControl
         style={{
-          paddingTop: 50,
+          paddingTop: 40,
           height: 200,
           display: "flex",
           alignItems: "center",
@@ -126,7 +126,9 @@ export default function CustomerDashboard() {
         }}
       >
         <h1>Welcome {customerName}!</h1>
-        <h3>BTC Balance: {balance}</h3>
+        <div style={{ marginTop: 20 }}>
+          <h3>BTC Balance: {balance}</h3>
+        </div>
         <div
           style={{
             height: 100,
@@ -134,6 +136,7 @@ export default function CustomerDashboard() {
             display: "flex",
             alignItems: "center",
             justifyContent: "space-around",
+            marginTop: 30,
           }}
         >
           <ThemeProvider theme={theme}>
@@ -180,18 +183,28 @@ export default function CustomerDashboard() {
           />
         )}
       </div>
-      <div style={{ display: "flex", height: 50, justifyContent: "flex-end" }}>
-        <ThemeProvider theme={theme}>
-          <Button
-            color="primary"
-            variant="contained"
-            onClick={handleFinishTransaction}
-          >
-            {" "}
-            Finish transaction
-          </Button>
-        </ThemeProvider>
-      </div>
+      {showDeposit || showWithdrawal ? (
+        <div
+          style={{
+            display: "flex",
+            height: 50,
+            justifyContent: "flex-end",
+            marginRight: 80,
+            marginTop: 10,
+          }}
+        >
+          <ThemeProvider theme={theme}>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleFinishTransaction}
+            >
+              {" "}
+              Finish transaction
+            </Button>
+          </ThemeProvider>
+        </div>
+      ) : null}
     </>
   );
 }
