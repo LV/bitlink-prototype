@@ -32,6 +32,7 @@ export default function OrderDetails() {
     price: "",
     quantity: "",
   });
+  const [rowData, setRowData] = useState([]);
 
   const merchantId = 3; //hardcode
   const customerId = 4; //hardcode
@@ -46,8 +47,6 @@ export default function OrderDetails() {
     { field: "price" },
   ];
 
-  const rowData = [];
-
   const current = new Date();
   const date = current.toLocaleDateString();
   const time = current.toLocaleTimeString();
@@ -56,7 +55,9 @@ export default function OrderDetails() {
     if (!item || !type || !price || !quantity) {
       alert("Please enter in all fields.");
     } else {
-      setAddItem({ item, type, price, quantity });
+      setAddItem({ item, type, price, quantity })
+      setRowData(rowData => [...rowData, { item, type, price, quantity }]);
+      console.log(rowData)
     }
   }
 
