@@ -7,6 +7,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import WithdrawalDeposit, { BitcoinAddress } from "./WithdrawalDeposit";
 import UpdateInformation from "./UpdateInformation";
 import axios from "axios";
+import useGetCustomerDataById from "../Hooks/useGetCustomerDataById";
 
 const theme = createTheme({
   palette: {
@@ -20,21 +21,12 @@ export default function CustomerDashboard() {
   const [showDeposit, setShowDeposit] = useState(false);
   const [showWithdrawal, setShowWithdrawal] = useState(false);
   const [showUpdateInformation, setShowUpdateInformation] = useState(false);
-  const [customerData, setCustomerData] = useState(null);
   const [customerWalletBalance, setCustomerWalletBalance] = useState(null);
   const [balance, setBalance] = useState(0);
   const [customerName, setCustomerName] = useState("");
 
   const customerId = 4; //hardcode
-
-  useEffect(() => {
-    axios
-      .get(`http://localhost:8080/customer/${customerId}`)
-      .then((response) => {
-        const { data } = response;
-        setCustomerData(data[0]);
-      });
-  }, [customerId, customerData]);
+  const customerData = useGetCustomerDataById(customerId);
 
   useEffect(() => {
     if (customerData) {
