@@ -38,6 +38,7 @@ app.get("/customer/:id", db.getCustomerById);
 app.post("/customer", db.createCustomer);
 app.put("/customer/:id", db.updateCustomer);
 app.get("/merchant", db.getMerchants);
+app.get("/merchant/:id", db.getMerchantById);
 app.post("/merchant", db.createMerchant);
 app.get("/order", db.getOrders);
 app.post("/order", db.createOrder);

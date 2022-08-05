@@ -76,6 +76,21 @@ const getMerchants = (request, response) => {
   );
 };
 
+const getMerchantById = (request, response) => {
+  const merchant_id = parseInt(request.params.id);
+
+  pool.query(
+    "SELECT * FROM Merchant WHERE merchant_id = $1",
+    [merchant_id],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 const getOrders = (request, response) => {
   pool.query(
     "SELECT * FROM OrderDetails ORDER BY order_id ASC;",
@@ -674,6 +689,7 @@ module.exports = {
   getCustomerById,
   createCustomer,
   getMerchants,
+  getMerchantById,
   createMerchant,
   getOrders,
   createOrder,
