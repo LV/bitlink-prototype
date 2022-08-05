@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import Clipboard from "react-clipboard.js";
 import QRCode from "react-qr-code";
 import HashLoader from "react-spinners/HashLoader";
 import { TextField, Button, FormControl } from "@mui/material";
@@ -70,7 +69,7 @@ export default function WithdrawalDeposit(props) {
   }
 
   return (
-    <FormControl style={{ display: "flex", paddingTop: 60 }}>
+    <FormControl style={{ paddingTop: 60 }}>
       <h5>Enter amount to {type.toLowerCase()}:</h5>
       <TextField
         id="outlined-basic"
