@@ -5,6 +5,7 @@ import "../index.css";
 import Navbar from "./Navbar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import WithdrawalDeposit, { BitcoinAddress } from "./WithdrawalDeposit";
+import UpdateInformation from "./UpdateInformation";
 import axios from "axios";
 
 const theme = createTheme({
@@ -18,6 +19,7 @@ const theme = createTheme({
 export default function CustomerDashboard() {
   const [showDeposit, setShowDeposit] = useState(false);
   const [showWithdrawal, setShowWithdrawal] = useState(false);
+  const [showUpdateInformation, setShowUpdateInformation] = useState(false);
   const [customerData, setCustomerData] = useState(null);
   const [customerWalletBalance, setCustomerWalletBalance] = useState(null);
   const [balance, setBalance] = useState(0);
@@ -32,7 +34,7 @@ export default function CustomerDashboard() {
         const { data } = response;
         setCustomerData(data[0]);
       });
-  }, [customerId]);
+  }, [customerId, customerData]);
 
   useEffect(() => {
     if (customerData) {
@@ -63,6 +65,9 @@ export default function CustomerDashboard() {
     if (showWithdrawal) {
       setShowWithdrawal(false);
     }
+    if (showUpdateInformation) {
+      setShowUpdateInformation(false);
+    }
   }
 
   function handleWithdrawal() {
@@ -70,6 +75,20 @@ export default function CustomerDashboard() {
 
     if (showDeposit) {
       setShowDeposit(false);
+    }
+    if (showUpdateInformation) {
+      setShowUpdateInformation(false);
+    }
+  }
+
+  function handleUpdateInformation() {
+    setShowUpdateInformation((prev) => !prev);
+
+    if (showDeposit) {
+      setShowDeposit(false);
+    }
+    if (showWithdrawal) {
+      setShowWithdrawal(false);
     }
   }
 
@@ -110,7 +129,6 @@ export default function CustomerDashboard() {
         updatedData
       );
     }
-    console.log(balance);
   }
 
   return (
@@ -132,7 +150,7 @@ export default function CustomerDashboard() {
         <div
           style={{
             height: 100,
-            width: 400,
+            width: 500,
             display: "flex",
             alignItems: "center",
             justifyContent: "space-around",
@@ -152,9 +170,20 @@ export default function CustomerDashboard() {
               {" "}
               Withdrawal
             </Button>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleUpdateInformation}
+            >
+              {" "}
+              Update Information
+            </Button>
           </ThemeProvider>
         </div>
       </FormControl>
+      {showUpdateInformation && (
+        <UpdateInformation customerData={customerData} />
+      )}
       <div
         style={{
           height: 200,

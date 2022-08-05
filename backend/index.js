@@ -36,6 +36,7 @@ app.post("/wallet", db.createWallet);
 app.get("/customer", db.getCustomers);
 app.get("/customer/:id", db.getCustomerById);
 app.post("/customer", db.createCustomer);
+app.put("/customer/:id", db.updateCustomer);
 app.get("/merchant", db.getMerchants);
 app.post("/merchant", db.createMerchant);
 app.get("/order", db.getOrders);

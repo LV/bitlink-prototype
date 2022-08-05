@@ -183,36 +183,36 @@ const updateWallet = (request, response) => {
 };
 
 const updateCustomer = (request, response) => {
-  const customer_id = parseInt(request.params.id)
-  const { name, email } = request.body
-  console.log(name, email)
+  const customer_id = parseInt(request.params.id);
+  const { name, email } = request.body;
+  console.log(name, email);
 
   if (name != null) {
     pool.query(
-      'UPDATE Customer SET name = $1 WHERE customer_id = $2',
+      "UPDATE Customer SET name = $1 WHERE customer_id = $2",
       [name, customer_id],
       (error, results) => {
         if (error) {
-          throw error
+          throw error;
         }
       }
-    )
+    );
   }
 
   if (email != null) {
     pool.query(
-      'UPDATE Customer SET email = $1 WHERE customer_id = $2',
+      "UPDATE Customer SET email = $1 WHERE customer_id = $2",
       [email, customer_id],
       (error, results) => {
         if (error) {
-          throw error
+          throw error;
         }
       }
-    )
+    );
   }
 
-  response.status(200).send(`Customer details updated`)
-}
+  response.status(200).send(`Customer details updated`);
+};
 
 /*
 POST Requests
@@ -325,7 +325,7 @@ const createSubscription = (
       }
     }
   );
-}
+};
 
 /*
 Update other relations helpers
@@ -389,6 +389,19 @@ const updateMerchant = (usd_adjustment, merchant_id) => {
       if (error) {
         throw error;
       }
+
+      pool.query(
+        "UPDATE Merchant SET usd_owed = $1 WHERE merchant_id = $2",
+        [parseFloat(results.rows[0].usd_owed) + usd_adjustment, merchant_id],
+        (error, results) => {
+          if (error) {
+            throw error;
+          }
+        }
+      );
+    }
+  );
+};
 
 /*
 POST to http://localhost:8080/order 
