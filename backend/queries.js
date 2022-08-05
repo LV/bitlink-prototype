@@ -202,31 +202,28 @@ const updateCustomer = (request, response) => {
   const { name, email } = request.body;
   console.log(name, email);
 
+  var query = "UPDATE Customer"
   if (name != null) {
-    pool.query(
-      "UPDATE Customer SET name = $1 WHERE customer_id = $2",
-      [name, customer_id],
-      (error, results) => {
-        if (error) {
-          throw error;
-        }
-      }
-    );
+    query += ` SET name = '${name}'`
   }
 
   if (email != null) {
-    pool.query(
-      "UPDATE Customer SET email = $1 WHERE customer_id = $2",
-      [email, customer_id],
-      (error, results) => {
-        if (error) {
-          throw error;
-        }
-      }
-    );
+    query += `, email = '${email}' `
   }
 
-  response.status(200).send(`Customer details updated`);
+  query += `WHERE customer_id = ${customer_id}`
+
+  console.log(query)
+
+  pool.query(query,
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).send(`Customer details updated`);
+    }
+  );
+
 };
 
 /*
@@ -666,12 +663,12 @@ const deleteOrder = (request, response) => {
       pool.query(
         "DELETE FROM OnetimePurchase WHERE order_id = $1",
         [order_id],
-        (error, results) => {}
+        (error, results) => { }
       );
       pool.query(
         "DELETE FROM Subscription WHERE order_id = $1",
         [order_id],
-        (error, results) => {}
+        (error, results) => { }
       );
 
       response.status(200).send(`Order deleted with ID: ${order_id}`);
