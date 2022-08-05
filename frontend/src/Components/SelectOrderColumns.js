@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { Button, Checkbox, FormControl, FormGroup, FormControlLabel } from "@mui/material";
+import axios from "axios";
 
 const theme = createTheme({
 	palette: {
@@ -11,47 +12,89 @@ const theme = createTheme({
 });
 
 export default function SelectOrderColumns() {
-  const dateChecked = true;
+  const [orderIdChecked, setOrderIdCheckbox] = useState(true);
+  const [customerIdChecked, setCustomerIdCheckbox] = useState(true);
+  const [companyAccountChecked, setCompanyAccountCheckbox] = useState(true);
+  const [merchantIdChecked, setMerchantIdCheckbox] = useState(true);
+  const [walletIdChecked, setWalletIdCheckbox] = useState(true);
+  const [dateTimeChecked, setDateTimeCheckbox] = useState(true);
+  const [feeChecked, setFeeCheckbox] = useState(true);
 
-  const checkBoxes = ["date", "orderNumber", "customerId", "price", "items"]
+  const handleOrderIdChange = (event) => {
+    setOrderIdCheckbox(event.target.checked);
+  };
+
+  const handleCustomerIdChange = (event) => {
+    setCustomerIdCheckbox(event.target.checked);
+  };
+
+  const handleCompanyAccountChange = (event) => {
+    setCompanyAccountCheckbox(event.target.checked);
+  };
+
+  const handleMerchantIdChange = (event) => {
+    setMerchantIdCheckbox(event.target.checked);
+  };
+
+  const handleWalletIdChange = (event) => {
+    setWalletIdCheckbox(event.target.checked);
+  };
+
+  const handleDateTimeChange = (event) => {
+    setDateTimeCheckbox(event.target.checked);
+  };
+
+  const handleFeeChange = (event) => {
+    setFeeCheckbox(event.target.checked);
+  };
 
   function handleOrderColumns() {
-    console.log("SEWI");
-    console.log(dateChecked);
+    console.log([orderIdChecked, customerIdChecked, companyAccountChecked, merchantIdChecked, walletIdChecked, dateTimeChecked, feeChecked]);
   }
 
   return(
     <FormControl component="fieldset">
       <FormGroup aria-label="position" row>
         <FormControlLabel
-          // value={checkBoxes[0]}
-          control={<Checkbox defaultChecked />}
-          label="Date"
-          labelPlacement="top"
-          // checked={dateChecked}
-        />
-        <FormControlLabel
-          value="number"
-          control={<Checkbox defaultChecked />}
+          value="orderId"
+          control={<Checkbox checked={orderIdChecked} onChange={handleOrderIdChange} />}
           label="Order Number"
           labelPlacement="top"
         />
         <FormControlLabel
           value="customerid"
-          control={<Checkbox defaultChecked />}
+          control={<Checkbox checked={customerIdChecked} onChange={handleCustomerIdChange} />}
           label="Customer ID"
           labelPlacement="top"
         />
         <FormControlLabel
-          value="price"
-          control={<Checkbox defaultChecked />}
-          label="Price"
+          value="companyNum"
+          control={<Checkbox checked={companyAccountChecked} onChange={handleCompanyAccountChange} />}
+          label="Company Account Number"
           labelPlacement="top"
         />
         <FormControlLabel
-          value="items"
-          control={<Checkbox defaultChecked />}
-          label="Items"
+          value="merchantId"
+          control={<Checkbox checked={merchantIdChecked} onChange={handleMerchantIdChange} />}
+          label="Merchant ID"
+          labelPlacement="top"
+        />
+        <FormControlLabel
+          value="walletId"
+          control={<Checkbox checked={walletIdChecked} onChange={handleWalletIdChange} />}
+          label="Wallet ID"
+          labelPlacement="top"
+        />
+        <FormControlLabel
+          value="date"
+          control={<Checkbox checked={dateTimeChecked} onChange={handleDateTimeChange} />}
+          label="Date Time"
+          labelPlacement="top"
+        />
+        <FormControlLabel
+          value="fee"
+          control={<Checkbox checked={feeChecked} onChange={handleFeeChange} />}
+          label="Fee Percentage"
           labelPlacement="top"
         />
       </FormGroup>
