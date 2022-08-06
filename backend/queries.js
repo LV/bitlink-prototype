@@ -606,7 +606,6 @@ OTP body
     "company_account_number" : 1000000001,
     "merchant_id" : 1,
     "wallet_id" : 1,
-    "datetime" : "2022-07-31",
     "fee_percentage" : 0.02,
     "otp" : 
         [
@@ -626,7 +625,6 @@ Subscription body
     "company_account_number" : 1000000001,
     "merchant_id" : 1,
     "wallet_id" : 1,
-    "datetime" : "2022-07-31",
     "fee_percentage" : 0.02,
     "otp" : [],
     "subscription" : {
@@ -647,6 +645,7 @@ const createOrder = (request, response) => {
     merchant_id,
     wallet_id,
     fee_percentage,
+    bitcoinRate,
     otp,
     subscription,
   } = request.body;
@@ -666,7 +665,7 @@ const createOrder = (request, response) => {
       }
       console.log(results.rows[0]);
 
-      const convRate = Math.random();
+      const convRate = bitcoinRate;
       if (JSON.stringify(subscription) === "{}") {
         // Create LineItem entries
         otp.forEach((item) =>
@@ -681,7 +680,7 @@ const createOrder = (request, response) => {
         // Create single OnetimePurchase entry
         var totalPrice = 0.0;
         otp.forEach((item) => (totalPrice += parseFloat(item.item_usd_price)));
-        createOTP(results.rows[0].order_id, Math.random(), totalPrice);
+        createOTP(results.rows[0].order_id, convRate, totalPrice);
 
         // Update customer wallet balance
         updateWalletDb(-(convRate * totalPrice), wallet_id);

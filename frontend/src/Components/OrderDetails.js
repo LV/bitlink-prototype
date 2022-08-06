@@ -12,6 +12,7 @@ import LoadingButtonsTransition from "./AnimatedButton";
 import axios from "axios";
 import useGetCustomerDataById from "../Hooks/useGetCustomerDataById";
 import useGetMerchantDataById from "../Hooks/useGetMerchantDataById";
+import useGetBitcoinFxRate from "../Hooks/useGetBitcoinFxRate";
 
 const theme = createTheme({
   palette: {
@@ -34,6 +35,7 @@ export default function OrderDetails() {
 
   const customerData = useGetCustomerDataById(customerId);
   const merchantData = useGetMerchantDataById(merchantId);
+  const bitcoinRate = useGetBitcoinFxRate();
 
   const columnDefs = [
     { field: "item" },
@@ -146,7 +148,7 @@ export default function OrderDetails() {
         </div>
       </div>
       <h4 style={{ marginLeft: 22 }}>Order Total (USD): ${totalPrice}</h4>
-      <h4 style={{ marginLeft: 22 }}>Order Total (BTC): ₿0.000043</h4>
+      <h4 style={{ marginLeft: 22 }}>Order Total (BTC): ₿{totalPrice * 1 / (bitcoinRate)}</h4>
     </>
   );
 }

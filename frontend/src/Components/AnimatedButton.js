@@ -11,19 +11,11 @@ import '@fontsource/roboto/400.css';
 import '@fontsource/roboto/500.css';
 import '@fontsource/roboto/700.css';
 import axios from 'axios';
+import useGetBitcoinFxRate from "../Hooks/useGetBitcoinFxRate";
 
 export default function LoadingButtonsTransition(props) {
   const [loading, setLoading] = React.useState(false);
   const [start, setStart] = React.useState(true);
-  const [bitcoinPrice, setBitcoinPrice] = React.useState(null);
-  const getBitcoinPrice = async () => {
-    axios
-      .get('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_market_cap=false&include_24hr_vol=false&include_24hr_change=false&include_last_updated_at=false')
-      .then(res => {
-        setBitcoinPrice(res.data.bitcoin.usd);
-      })
-      .catch(error => console.log(error));
-  };
 
   const theme = createTheme({
     palette: {
@@ -33,9 +25,7 @@ export default function LoadingButtonsTransition(props) {
     },
   });
 
-  React.useEffect(() => {
-    getBitcoinPrice();
-  }, []);
+  const bitcoinRate = 1 / useGetBitcoinFxRate();
 
   const createItemType = (item_name, item_type) => {
     axios
@@ -69,8 +59,8 @@ export default function LoadingButtonsTransition(props) {
     const subscription = {}
     axios
       .post("http://localhost:8080/order", {
-        customer_id, company_account_number, merchant_id, wallet_id, fee_percentage
-        , otp, subscription
+        customer_id, company_account_number, merchant_id, wallet_id, fee_percentage,
+        bitcoinRate, otp, subscription
       })
       .then((response) => {
       });
@@ -100,7 +90,7 @@ export default function LoadingButtonsTransition(props) {
               timing="ease"
               iteration="1"
               fillMode="none">
-              <small>1 BTC  =  {bitcoinPrice} USD</small>
+              <small>1 BTC  =  {1 / bitcoinRate} USD</small>
             </MovingComponent>
           </center>
         </ThemeProvider>
