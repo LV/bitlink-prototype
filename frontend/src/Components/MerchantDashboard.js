@@ -3,7 +3,8 @@ import Navbar from "./Navbar";
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-
+import SelectOrderColumns from "./SelectOrderColumns"
+import { FormControl } from "@mui/material"
 
 export default function MerchantDashboard() {
 
@@ -27,7 +28,25 @@ export default function MerchantDashboard() {
     return (
       <>
         <Navbar cusPage={false} merPage={true} coPage={false} chkPage={false} />
-          <h3 style={{marginLeft: 22}}>Sales</h3>
+        <FormControl style={{
+          paddingTop: 40,
+          height: 150,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex_start",
+        }}
+        >
+          <SelectOrderColumns />
+        </FormControl>
+        <FormControl style={{
+          paddingTop: 40,
+          height: 500,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "flex_start",
+        }}
+        >
+          <h3 style={{marginLeft: 22}}>Orders</h3>
           <div className='ag-theme-alpine' style={{ width: 1005, height: 500, marginLeft: 20 }}>
             <AgGridReact
               rowData={rowData}
@@ -36,7 +55,8 @@ export default function MerchantDashboard() {
               // or just add a column with cancel buttons
               onRowClicked={(e) => console.log("row clicked", e.data)}
             />
-        </div>
+          </div>
+        </FormControl>
       </>
   );
 }
