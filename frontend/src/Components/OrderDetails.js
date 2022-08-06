@@ -26,12 +26,6 @@ export default function OrderDetails() {
   const [type, setType] = useState("");
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
-  const [addItem, setAddItem] = useState({
-    item: "",
-    type: "",
-    price: "",
-    quantity: "",
-  });
   const [rowData, setRowData] = useState([]);
 
   const merchantId = 3; //hardcode
@@ -55,9 +49,8 @@ export default function OrderDetails() {
     if (!item || !type || !price || !quantity) {
       alert("Please enter in all fields.");
     } else {
-      setAddItem({ item, type, price, quantity })
-      setRowData(rowData => [...rowData, { item, type, price, quantity }]);
-      console.log(rowData)
+      setRowData(rowData => [...rowData, { item, type, price: price, quantity }]);
+      // console.log(rowData)
     }
   }
 
@@ -141,7 +134,7 @@ export default function OrderDetails() {
             <p>{customerData ? customerData.email : ""}</p>
           </div>
           <ThemeProvider theme={theme}>
-            <LoadingButtonsTransition />
+            <LoadingButtonsTransition cart={rowData} merchant_id={merchantId} item_brand={"Zara"} customer_id={customerId} fee_percentage={0.02} />
           </ThemeProvider>
         </div>
       </div>

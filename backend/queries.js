@@ -475,7 +475,11 @@ const createLineItem = (
     [order_id, item_brand, item_name, item_usd_price, item_quantity],
     (error, results) => {
       if (error) {
-        throw error;
+        if (error.code == '23505') {
+          //
+        } else {
+          throw error;
+        }
       }
     }
   );
@@ -676,14 +680,14 @@ const createOrder = (request, response) => {
         );
         // Create single OnetimePurchase entry
         var totalPrice = 0.0;
-        otp.forEach((item) => (totalPrice += item.item_usd_price));
+        otp.forEach((item) => (totalPrice += parseFloat(item.item_usd_price)));
         createOTP(results.rows[0].order_id, Math.random(), totalPrice);
 
         // Update customer wallet balance
         updateWalletDb(-(convRate * totalPrice), wallet_id);
         // Update company account with our fee
         updateCompanyAccount(
-          -(convRate * totalPrice * fee_percentage),
+          convRate * totalPrice * fee_percentage,
           company_account_number
         );
         // Update Merchant account usd owed balance
@@ -707,10 +711,10 @@ const createOrder = (request, response) => {
         );
 
         // Update customer wallet balance
-        updateWalletDb(-(convRate * subscription.item_usd_price), wallet_id);
+        updateWalletDb(-(convRate * parseFloat(subscription.item_usd_price)), wallet_id);
         // Update company account with our fee
         updateCompanyAccount(
-          -(convRate * subscription.item_usd_price * fee_percentage),
+          convRate * subscription.item_usd_price * fee_percentage,
           company_account_number
         );
         // Update Merchant account usd owed balance
