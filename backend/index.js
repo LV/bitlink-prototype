@@ -53,6 +53,9 @@ app.get("/deposit", db.getDeposits);
 app.get("/withdrawal", db.getWithdrawals);
 app.post("/deposit", db.createDepositTransaction);
 app.post("/withdrawal", db.createWithdrawalTransaction);
+app.get("/itemType", db.getItemType);
+app.post("/itemType", db.createItemType);
+
 
 app.listen(port, () => {
     console.log(`App running on port ${port}.`);

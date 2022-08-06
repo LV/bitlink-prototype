@@ -51,6 +51,18 @@ const getCustomers = (request, response) => {
   );
 };
 
+const getItemType = (request, response) => {
+  pool.query(
+    "SELECT * FROM LineItemType;",
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 const getCustomerById = (request, response) => {
   const customer_id = parseInt(request.params.id);
 
@@ -408,6 +420,30 @@ const createCustomer = (request, response) => {
   );
 };
 
+const createItemType = (request, response) => {
+  const { item_name, item_type } = request.body;
+
+  pool.query(
+    "INSERT INTO LineItemType(item_name, item_type) VALUES ($1, $2) RETURNING *",
+    [item_name, item_type],
+    (error, results) => {
+      if (error) {
+        if (error.code == '23505') {
+          response.status(400).send();
+        } else {
+          throw error;
+        }
+      } else {
+        response
+          .status(201)
+          .send(
+            `Item Type created with name: ${results.rows[0].item_name} and ${results.rows[0].item_type}`
+          );
+      }
+    }
+  );
+};
+
 const createMerchant = (request, response) => {
   const { bank_account_number, name, usd_owed } = request.body;
 
@@ -606,20 +642,18 @@ const createOrder = (request, response) => {
     company_account_number,
     merchant_id,
     wallet_id,
-    datetime,
     fee_percentage,
     otp,
     subscription,
   } = request.body;
 
   pool.query(
-    "INSERT INTO OrderDetails (customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *",
+    "INSERT INTO OrderDetails (customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES ($1, $2, $3, $4, CURRENT_DATE, $5) RETURNING *",
     [
       customer_id,
       company_account_number,
       merchant_id,
       wallet_id,
-      datetime,
       fee_percentage,
     ],
     (error, results) => {
@@ -843,4 +877,6 @@ module.exports = {
   getWithdrawals,
   createDepositTransaction,
   createWithdrawalTransaction,
+  createItemType,
+  getItemType
 };
