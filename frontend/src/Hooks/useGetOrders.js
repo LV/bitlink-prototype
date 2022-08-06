@@ -7,7 +7,7 @@ export default function useGetOrders() {
   useEffect(() => {
     axios.get(`http://localhost:8080/order/`).then((response) => {
       const { data } = response;
-      setOrders(data[0]);
+      setOrders(data);
     });
   }, [orders]);
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { AgGridReact } from "ag-grid-react";
 import {
   createTheme,
@@ -9,10 +9,10 @@ import {
   Button,
 } from "@mui/material";
 import LoadingButtonsTransition from "./AnimatedButton";
-import axios from "axios";
 import useGetCustomerDataById from "../Hooks/useGetCustomerDataById";
 import useGetMerchantDataById from "../Hooks/useGetMerchantDataById";
 import useGetBitcoinFxRate from "../Hooks/useGetBitcoinFxRate";
+import useGetOrders from "../Hooks/useGetOrders";
 
 const theme = createTheme({
   palette: {
@@ -28,7 +28,7 @@ export default function OrderDetails() {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [rowData, setRowData] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0.00);
+  const [totalPrice, setTotalPrice] = useState(0.0);
 
   const merchantId = 3; //hardcode
   const customerId = 4; //hardcode
@@ -36,6 +36,13 @@ export default function OrderDetails() {
   const customerData = useGetCustomerDataById(customerId);
   const merchantData = useGetMerchantDataById(merchantId);
   const bitcoinRate = useGetBitcoinFxRate();
+  const orders = useGetOrders();
+
+  let lastOrder;
+
+  if (orders) {
+    lastOrder = orders[orders.length - 1].order_id;
+  }
 
   const columnDefs = [
     { field: "item" },
@@ -52,22 +59,24 @@ export default function OrderDetails() {
     if (!item || !type || !price || !quantity) {
       alert("Please enter in all fields.");
     } else {
-      setRowData(rowData => [...rowData, { item, type, price: price, quantity }]);
+      setRowData((rowData) => [
+        ...rowData,
+        { item, type, price: price, quantity },
+      ]);
       // TotalPrice starts at the item being added since React State for rowData doesn't include the current one being added yet
       var totalPrice = price * quantity;
-      rowData.forEach((rowData) => (totalPrice += (rowData.price * rowData.quantity)));
-      setTotalPrice(totalPrice)
-      console.log("Total Price", totalPrice)
+      rowData.forEach(
+        (rowData) => (totalPrice += rowData.price * rowData.quantity)
+      );
+      setTotalPrice(totalPrice);
     }
   }
-
-
 
   return (
     <>
       <div style={{ marginLeft: 22, marginTop: 20 }}>
         <h3>{merchantData ? merchantData.name : ""}</h3>
-        <h5>Order ID: 00000001</h5>
+        <h5>Order ID: 0000000{lastOrder + 1}</h5>
         <h5>
           Date: {date} {time}{" "}
         </h5>
@@ -143,12 +152,22 @@ export default function OrderDetails() {
             <p>{customerData ? customerData.email : ""}</p>
           </div>
           <ThemeProvider theme={theme}>
-            <LoadingButtonsTransition cart={rowData} merchant_id={merchantId} item_brand={"Zara"} customer_id={customerId} fee_percentage={0.02} />
+            <LoadingButtonsTransition
+              cart={rowData}
+              merchant_id={merchantId}
+              item_brand={"Zara"}
+              customer_id={customerId}
+              fee_percentage={0.02}
+            />
           </ThemeProvider>
         </div>
       </div>
-      <h4 style={{ marginLeft: 22 }}>Order Total (USD): ${totalPrice}</h4>
-      <h4 style={{ marginLeft: 22 }}>Order Total (BTC): ₿{totalPrice * 1 / (bitcoinRate)}</h4>
+      <h5 style={{ marginLeft: 22, marginTop: 10 }}>
+        Order Total (USD): ${totalPrice}
+      </h5>
+      <h5 style={{ marginLeft: 22 }}>
+        Order Total (BTC): ₿{(totalPrice * 1) / bitcoinRate}
+      </h5>
     </>
   );
 }
