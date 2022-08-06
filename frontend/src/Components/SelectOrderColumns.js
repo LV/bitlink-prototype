@@ -19,6 +19,15 @@ export default function SelectOrderColumns() {
   const [walletIdChecked, setWalletIdCheckbox] = useState(true);
   const [dateTimeChecked, setDateTimeCheckbox] = useState(true);
   const [feeChecked, setFeeCheckbox] = useState(true);
+  const [orderGetBody, setOrderGetBody] = useState({
+    order_id: orderIdChecked,
+    customer_id: customerIdChecked,
+    company_account_number: companyAccountChecked,
+    merchant_id: merchantIdChecked,
+    wallet_id: walletIdChecked,
+    datetime: dateTimeChecked,
+    fee_percentage: feeChecked,
+  })
 
   const handleOrderIdChange = (event) => {
     setOrderIdCheckbox(event.target.checked);
@@ -47,10 +56,16 @@ export default function SelectOrderColumns() {
   const handleFeeChange = (event) => {
     setFeeCheckbox(event.target.checked);
   };
-
-  function handleOrderColumns() {
+  
+  function handleOrderProjection() {
     console.log([orderIdChecked, customerIdChecked, companyAccountChecked, merchantIdChecked, walletIdChecked, dateTimeChecked, feeChecked]);
-  }
+    axios.put(`http://localhost:8080/projOrder`,
+      orderGetBody
+    ).then((response) => {
+      const { data } = response;
+      console.log(data);
+    });
+  };
 
   return(
     <FormControl component="fieldset">
@@ -99,7 +114,7 @@ export default function SelectOrderColumns() {
         />
       </FormGroup>
       <ThemeProvider theme={theme}>
-        <Button color="primary" variant="contained" onClick={handleOrderColumns}>
+        <Button color="primary" variant="contained" onClick={handleOrderProjection}>
           Filter
         </Button>
       </ThemeProvider>
