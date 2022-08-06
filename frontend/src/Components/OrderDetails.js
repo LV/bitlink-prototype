@@ -27,6 +27,7 @@ export default function OrderDetails() {
   const [price, setPrice] = useState("");
   const [quantity, setQuantity] = useState("");
   const [rowData, setRowData] = useState([]);
+  const [totalPrice, setTotalPrice] = useState(0.00);
 
   const merchantId = 3; //hardcode
   const customerId = 4; //hardcode
@@ -50,9 +51,15 @@ export default function OrderDetails() {
       alert("Please enter in all fields.");
     } else {
       setRowData(rowData => [...rowData, { item, type, price: price, quantity }]);
-      // console.log(rowData)
+      // TotalPrice starts at the item being added since React State for rowData doesn't include the current one being added yet
+      var totalPrice = price * quantity;
+      rowData.forEach((rowData) => (totalPrice += (rowData.price * rowData.quantity)));
+      setTotalPrice(totalPrice)
+      console.log("Total Price", totalPrice)
     }
   }
+
+
 
   return (
     <>
@@ -138,7 +145,7 @@ export default function OrderDetails() {
           </ThemeProvider>
         </div>
       </div>
-      <h4 style={{ marginLeft: 22 }}>Order Total (USD): $300</h4>
+      <h4 style={{ marginLeft: 22 }}>Order Total (USD): ${totalPrice}</h4>
       <h4 style={{ marginLeft: 22 }}>Order Total (BTC): ₿0.000043</h4>
     </>
   );
