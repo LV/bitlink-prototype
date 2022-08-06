@@ -225,6 +225,7 @@ GET http://localhost:8080/purchaseSelection/
 }
 */
 
+// TODO: WHERE clause filter on specific attributes
 const getPurchaseSelection = (request, response) => {
   const {
     otp,
@@ -267,6 +268,8 @@ const getPurchaseSelection = (request, response) => {
   }
   const attributesString = attributes.join(', ');
   const query = selectString + attributesString + fromTableString
+
+  // TODO: add WHERE {attribute < } {value}
 
   pool.query(query,
     (error, results) => {
@@ -625,6 +628,7 @@ const createOrder = (request, response) => {
       }
       console.log(results.rows[0]);
 
+      const convRate = Math.random();
       if (JSON.stringify(subscription) === "{}") {
         // Create LineItem entries
         otp.forEach((item) =>
@@ -651,7 +655,6 @@ const createOrder = (request, response) => {
         // Update Merchant account usd owed balance
         updateMerchant(totalPrice * (1 - fee_percentage), merchant_id);
       } else {
-        const convRate = Math.random();
 
         createLineItem(
           results.rows[0].order_id,
