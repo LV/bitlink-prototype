@@ -214,7 +214,8 @@ const getSubscription = (request, response) => {
 };
 
 /*
-GET http://localhost:8080/purchaseSelection/?subTable=false&order_id=true&conversion_rate=true&total_usd_price=true&priceLessThan=31
+GET 
+http://localhost:8080/purchaseSelection/?subTable=true&order_id=true&conversion_rate=true&usd_price=true&priceLessThan=400&billing_frequency=true&billing_duration=true
 */
 
 const getPurchaseSelection = (request, response) => {
@@ -232,7 +233,7 @@ const getPurchaseSelection = (request, response) => {
     if (params.conversion_rate === 'true') {
       attributes.push("conversion_rate")
     }
-    if (params.total_usd_price === 'true') {
+    if (params.usd_price === 'true') {
       attributes.push("total_usd_price")
     }
     fromTableString = " FROM OnetimePurchase"
@@ -243,7 +244,7 @@ const getPurchaseSelection = (request, response) => {
     if (params.conversion_rate === 'true') {
       attributes.push("conversion_rate")
     }
-    if (params.charge_usd_price === 'true') {
+    if (params.usd_price === 'true') {
       attributes.push("charge_usd_price")
     }
     if (params.billing_frequency === 'true') {

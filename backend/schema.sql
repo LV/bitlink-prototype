@@ -138,3 +138,20 @@ INSERT INTO OrderDetails(customer_id, company_account_number, merchant_id, walle
 INSERT INTO OrderDetails(customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES (2, 1000000002, 1, 2, '2022-08-01', 0.01);
 INSERT INTO OrderDetails(customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES (4, 1000000004, 5, 4, '2022-08-03', 0.02);
 INSERT INTO OrderDetails(customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES (4, 1000000001, 3, 4, '2022-08-06', 0.02);
+INSERT INTO OrderDetails(customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES (1, 1000000005, 5, 1, '2022-07-31', 0.02);
+INSERT INTO OrderDetails(customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES (2, 1000000005, 5, 2, '2022-08-01', 0.02);
+INSERT INTO OrderDetails(customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES (3, 1000000005, 5, 3, '2022-08-01', 0.02);
+INSERT INTO OrderDetails(customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES (4, 1000000005, 5, 4, '2022-08-03', 0.02);
+INSERT INTO OrderDetails(customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES (5, 1000000005, 5, 5, '2022-08-06', 0.02);
+
+INSERT INTO OnetimePurchase(order_id, conversion_rate, total_usd_price) VALUES (1, 0.00004304037, 30);
+INSERT INTO OnetimePurchase(order_id, conversion_rate, total_usd_price) VALUES (2, 0.00004504037, 500);
+INSERT INTO OnetimePurchase(order_id, conversion_rate, total_usd_price) VALUES (3, 0.00003904037, 456);
+INSERT INTO OnetimePurchase(order_id, conversion_rate, total_usd_price) VALUES (4, 0.00005704037, 123);
+INSERT INTO OnetimePurchase(order_id, conversion_rate, total_usd_price) VALUES (5, 0.00003704037, 456);
+
+INSERT INTO Subscription(order_id, conversion_rate, charge_usd_price, billing_frequency, billing_duration) VALUES (6, 0.00004304037, 15, 'Monthly', 2);
+INSERT INTO Subscription(order_id, conversion_rate, charge_usd_price, billing_frequency, billing_duration) VALUES (7, 0.00004504037, 56, 'Monthly', 6);
+INSERT INTO Subscription(order_id, conversion_rate, charge_usd_price, billing_frequency, billing_duration) VALUES (8, 0.00003904037, 15, 'Yearly', 1);
+INSERT INTO Subscription(order_id, conversion_rate, charge_usd_price, billing_frequency, billing_duration) VALUES (9, 0.00005704037, 100, 'Monthly', 3);
+INSERT INTO Subscription(order_id, conversion_rate, charge_usd_price, billing_frequency, billing_duration) VALUES (10, 0.00003704037, 80, 'Yearly', 3);
