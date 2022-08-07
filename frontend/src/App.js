@@ -6,6 +6,7 @@ import CustomerDashboard from "./Components/CustomerDashboard";
 import MerchantDashboard from "./Components/MerchantDashboard";
 import Main from "./Main";
 import SignUp from "./Components/SignUp";
+import ItemsBought from "./Components/ItemsBought";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Main />} />
         <Route path="/customer-dashboard" element={<CustomerDashboard />} />
+        <Route path="/items-bought" element={<ItemsBought />} />
         <Route path="/merchant-dashboard" element={<MerchantDashboard />} />
         <Route path="/company-dashboard" element={<CompanyDashboard />} />
         <Route path="/checkout" element={<Checkout />} />

@@ -8,6 +8,7 @@ import WithdrawalDeposit, { BitcoinAddress } from "./WithdrawalDeposit";
 import UpdateInformation from "./UpdateInformation";
 import axios from "axios";
 import useGetCustomerDataById from "../Hooks/useGetCustomerDataById";
+import {useNavigate} from 'react-router-dom';
 
 const theme = createTheme({
   palette: {
@@ -27,6 +28,7 @@ export default function CustomerDashboard() {
 
   const customerId = 4; //hardcode
   const customerData = useGetCustomerDataById(customerId);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (customerData) {
@@ -142,7 +144,7 @@ export default function CustomerDashboard() {
         <div
           style={{
             height: 100,
-            width: 500,
+            width: 600,
             display: "flex",
             alignItems: "center",
             justifyContent: "space-around",
@@ -169,6 +171,14 @@ export default function CustomerDashboard() {
             >
               {" "}
               Update Information
+            </Button>
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={() => navigate("/items-bought")}
+            >
+              {" "}
+              Items Bought
             </Button>
           </ThemeProvider>
         </div>

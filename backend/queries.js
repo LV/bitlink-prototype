@@ -288,7 +288,7 @@ const getPurchaseSelection = (request, response) => {
 };
 
 
-// http://localhost:8080/lineitemJoin?customer_id=4&datetime=2022-08-01
+// GET http://localhost:8080/lineitemJoin?customer_id=4&date=2022-08-07
 const getLineItemJoin = (request, response) => {
 
   const params = request.query;
@@ -300,11 +300,11 @@ const getLineItemJoin = (request, response) => {
   var whereClauseString = ` WHERE O.order_id = L.order_id AND O.merchant_id = M.merchant_id AND O.customer_id = ${params.customer_id}`
 
   if (params.date != null) {
-    whereClauseString += ` AND O.datetime = ${params.datetime}`
+    whereClauseString += ` AND O.datetime = '${params.date}'`
   }
-  
+
   const query = selectString + fromTableString + whereClauseString
-  
+  console.log(query)
   pool.query(query,
     (error, results) => {
       if (error) {
