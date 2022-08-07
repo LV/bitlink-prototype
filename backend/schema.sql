@@ -97,164 +97,44 @@ CREATE TABLE LineItem(
 );
 
 -- DATA AGGREGATION
-INSERT INTO
-    Wallet(btc_amount)
-VALUES
-    (1204.98151203);
+INSERT INTO Wallet(btc_amount) VALUES (1204.98151203);
+INSERT INTO Wallet(btc_amount) VALUES (0.426039413);
+INSERT INTO Wallet(btc_amount) VALUES (53.18008000);
+INSERT INTO Wallet(btc_amount) VALUES (3.14159265);
+INSERT INTO Wallet(btc_amount) VALUES (0.02127135);
 
-INSERT INTO
-    Wallet(btc_amount)
-VALUES
-    (0.426039413);
+INSERT INTO Customer(name, email) VALUES ('Zan Yhang', 'zannycats@gmail.com');
+INSERT INTO Customer(name, email) VALUES ('Cichard Rhen', 'rhen-cichard@gmail.com');
+INSERT INTO Customer(name, email) VALUES ('Vuis Lictoria', 'vuis@gmail.com');
+INSERT INTO Customer(name, email) VALUES ('Jordon Johnson', 'jjbeans@gmail.com');
+INSERT INTO Customer(name, email) VALUES ('Post Gres', 'pgres@gmail.com');
 
-INSERT INTO
-    Wallet(btc_amount)
-VALUES
-    (53.18008000);
+INSERT INTO CompanyAccount(account_number, usd_balance, btc_balance) VALUES (1000000001, 84719124.33, 0.031044);
+INSERT INTO CompanyAccount(account_number, usd_balance, btc_balance) VALUES (1000000002, 34781.52, 3904.40129532);
+INSERT INTO CompanyAccount(account_number, usd_balance, btc_balance) VALUES (1000000003, 349135.31, 41.04951);
+INSERT INTO CompanyAccount(account_number, usd_balance, btc_balance) VALUES (1000000004, 48998405.51, 59.30908305);
+INSERT INTO CompanyAccount(account_number, usd_balance, btc_balance) VALUES (1000000005, 95810.19, 595910.03);
 
-INSERT INTO
-    Wallet(btc_amount)
-VALUES
-    (3.14159265);
+INSERT INTO MerchantBankAccount(account_number, routing_number) VALUES (111111111, 111111);
+INSERT INTO MerchantBankAccount(account_number, routing_number) VALUES (222222222, 222222);
+INSERT INTO MerchantBankAccount(account_number, routing_number) VALUES (333333333, 333333);
+INSERT INTO MerchantBankAccount(account_number, routing_number) VALUES (444444444, 444444);
+INSERT INTO MerchantBankAccount(account_number, routing_number) VALUES (555555555, 555555);
 
-INSERT INTO
-    Wallet(btc_amount)
-VALUES
-    (0.02127135);
+INSERT INTO Merchant(bank_account_number, name, usd_owed) VALUES (111111111, 'Tesla', 500);
+INSERT INTO Merchant(bank_account_number, name, usd_owed) VALUES (111111111, 'Ministry of Supply', 600);
+INSERT INTO Merchant(bank_account_number, name, usd_owed) VALUES (111111111, 'Zara', 700);
+INSERT INTO Merchant(bank_account_number, name, usd_owed) VALUES (111111111, 'Apple', 800);
+INSERT INTO Merchant(bank_account_number, name, usd_owed) VALUES (111111111, 'Netflix', 900);
 
-INSERT INTO
-    Customer(name, email)
-VALUES
-    ('Zan Yhang', 'zannycats@gmail.com');
+INSERT INTO LineItemType (item_name, item_type) VALUES ('Tesla', 'Car');
+INSERT INTO LineItemType (item_name, item_type) VALUES ('Dress Shirt', 'Clothes');
+INSERT INTO LineItemType (item_name, item_type) VALUES ('Scarf', 'Clothes');
+INSERT INTO LineItemType (item_name, item_type) VALUES ('Macbook', 'Computer');
+INSERT INTO LineItemType (item_name, item_type) VALUES ('Two Month Subscription', 'Subscription');
 
-INSERT INTO
-    Customer(name, email)
-VALUES
-    ('Cichard Rhen', 'rhen-cichard@gmail.com');
-
-INSERT INTO
-    Customer(name, email)
-VALUES
-    ('Vuis Lictoria', 'vuis@gmail.com');
-
-INSERT INTO
-    Customer(name, email)
-VALUES
-    ('Jordon Johnson', 'jjbeans@gmail.com');
-
-INSERT INTO
-    Customer(name, email)
-VALUES
-    ('Post Gres', 'pgres@gmail.com');
-
-INSERT INTO
-    CompanyAccount(account_number, usd_balance, btc_balance)
-VALUES
-    (1000000001, 84719124.33, 0.031044);
-
-INSERT INTO
-    CompanyAccount(account_number, usd_balance, btc_balance)
-VALUES
-    (1000000002, 34781.52, 3904.40129532);
-
-INSERT INTO
-    CompanyAccount(account_number, usd_balance, btc_balance)
-VALUES
-    (1000000003, 349135.31, 41.04951);
-
-INSERT INTO
-    CompanyAccount(account_number, usd_balance, btc_balance)
-VALUES
-    (1000000004, 48998405.51, 59.30908305);
-
-INSERT INTO
-    CompanyAccount(account_number, usd_balance, btc_balance)
-VALUES
-    (1000000005, 95810.19, 595910.03);
-
-INSERT INTO
-    MerchantBankAccount(account_number, routing_number)
-VALUES
-    (111111111, 111111);
-
-INSERT INTO
-    MerchantBankAccount(account_number, routing_number)
-VALUES
-    (222222222, 222222);
-
-INSERT INTO
-    MerchantBankAccount(account_number, routing_number)
-VALUES
-    (333333333, 333333);
-
-INSERT INTO
-    MerchantBankAccount(account_number, routing_number)
-VALUES
-    (444444444, 444444);
-
-INSERT INTO
-    MerchantBankAccount(account_number, routing_number)
-VALUES
-    (555555555, 555555);
-
-INSERT INTO
-    Merchant (bank_account_number, name, usd_owed)
-VALUES
-    (111111111, 'Tesla', 500);
-
-INSERT INTO
-    Merchant (bank_account_number, name, usd_owed)
-VALUES
-    (111111111, 'Ministry of Supply', 600);
-
-INSERT INTO
-    Merchant (bank_account_number, name, usd_owed)
-VALUES
-    (111111111, 'Zara', 700);
-
-INSERT INTO
-    Merchant (bank_account_number, name, usd_owed)
-VALUES
-    (111111111, 'Apple', 800);
-
-INSERT INTO
-    Merchant (bank_account_number, name, usd_owed)
-VALUES
-    (111111111, 'Netflix', 900);
-
-INSERT INTO
-    LineItemType (item_name, item_type)
-VALUES
-    ('Tesla', 'Car');
-
-INSERT INTO
-    LineItemType (item_name, item_type)
-VALUES
-    ('Dress Shirt', 'Clothes');
-
-INSERT INTO
-    LineItemType (item_name, item_type)
-VALUES
-    ('Scarf', 'Clothes');
-
-INSERT INTO
-    LineItemType (item_name, item_type)
-VALUES
-    ('Macbook', 'Computer');
-
-INSERT INTO
-    LineItemType (item_name, item_type)
-VALUES
-    ('Two Month Subscription', 'Subscription');
-
-INSERT INTO
-    OrderDetails(
-        customer_id,
-        company_account_number,
-        merchant_id,
-        wallet_id,
-        datetime,
-        fee_percentage
-    )
-VALUES
-    (4, 1000000001, 3, 4, '2022-07-31', 0.02);
+INSERT INTO OrderDetails(customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES (4, 1000000001, 3, 4, '2022-07-31', 0.02);
+INSERT INTO OrderDetails(customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES (1, 1000000001, 2, 1, '2022-08-01', 0.05);
+INSERT INTO OrderDetails(customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES (2, 1000000002, 1, 2, '2022-08-01', 0.01);
+INSERT INTO OrderDetails(customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES (4, 1000000004, 5, 4, '2022-08-03', 0.02);
+INSERT INTO OrderDetails(customer_id, company_account_number, merchant_id, wallet_id, datetime, fee_percentage) VALUES (4, 1000000001, 3, 4, '2022-08-06', 0.02);
