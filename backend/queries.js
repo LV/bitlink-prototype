@@ -144,25 +144,32 @@ const getOrdersProjection = (request, response) => {
 
   var selectString = "SELECT "
   const attributes = []
-  if (order_id) {
+
+  if(request.query.order_id==='true') {
     attributes.push("order_id")
   }
-  if (customer_id) {
+
+  if(request.query.customer_id==='true') {
     attributes.push("customer_id")
   }
-  if (company_account_number) {
+
+  if(request.query.company_account_number==='true') {
     attributes.push("company_account_number")
   }
-  if (merchant_id) {
+
+  if(request.query.merchant_id==='true') {
     attributes.push("merchant_id")
   }
-  if (wallet_id) {
+
+  if(request.query.wallet_id==='true') {
     attributes.push("wallet_id")
   }
-  if (datetime) {
+
+  if(request.query.datetime==='true') {
     attributes.push("datetime")
   }
-  if (fee_percentage) {
+  
+  if(request.query.fee_percentage==='true') {
     attributes.push("fee_percentage")
   }
 
