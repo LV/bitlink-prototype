@@ -287,6 +287,34 @@ const getPurchaseSelection = (request, response) => {
   );
 };
 
+
+// http://localhost:8080/lineitemJoin?customer_id=4&datetime=2022-08-01
+const getLineItemJoin = (request, response) => {
+
+  const params = request.query;
+  // params.customer_id (REQUIRED)
+  // params.date to filter on (OPTIONAL)
+
+  var selectString = "SELECT O.order_id, M.name, O.datetime, L.item_name, L.item_usd_price, L.item_quantity"
+  var fromTableString = " FROM OrderDetails O, LineItem L, Merchant M"
+  var whereClauseString = ` WHERE O.order_id = L.order_id AND O.merchant_id = M.merchant_id AND O.customer_id = ${params.customer_id}`
+
+  if (params.date != null) {
+    whereClauseString += ` AND O.datetime = ${params.datetime}`
+  }
+  
+  const query = selectString + fromTableString + whereClauseString
+  
+  pool.query(query,
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 const getTransactions = (request, response) => {
   pool.query(
     "SELECT * FROM Transaction ORDER BY transaction_id ASC;",
@@ -875,5 +903,6 @@ module.exports = {
   createDepositTransaction,
   createWithdrawalTransaction,
   createItemType,
-  getItemType
+  getItemType,
+  getLineItemJoin
 };
