@@ -1,19 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
 import Navbar from "./Navbar";
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import { Button, Checkbox, FormControl, FormGroup, FormControlLabel } from "@mui/material";
+import { Checkbox, FormControl, FormGroup, FormControlLabel } from "@mui/material";
 import axios from "axios";
-
-const theme = createTheme({
-	palette: {
-    primary: {
-      main: "#EEEEEE",
-    },
-	},
-});
 
 
 export default function MerchantDashboard() {
@@ -57,19 +48,6 @@ export default function MerchantDashboard() {
 
   const [resData, setResData] = useState(null);
 
-  function colDefine() {
-    var filterCol = [];
-    if(orderIdChecked) filterCol.push({field: 'order_id'});
-    if(customerIdChecked) filterCol.push({field: 'customer_id'});
-    if(companyAccountChecked) filterCol.push({field: 'company_account_number'});
-    if(merchantIdChecked) filterCol.push({field: 'merchant_id'});
-    if(walletIdChecked) filterCol.push({field: 'wallet_id'});
-    if(dateTimeChecked) filterCol.push({field: 'datetime'});
-    if(feeChecked) filterCol.push({field: 'fee_percentage'});
-
-    return filterCol;
-  }
-
   useEffect(() => {
     axios.get(`http://localhost:8080/orderProj`, {
       params: {
@@ -85,21 +63,17 @@ export default function MerchantDashboard() {
       const { data } = response;
       setResData(data);
 
-      const tableCols = []
-      tableCols.push(orderIdChecked);
-      tableCols.push(customerIdChecked);
-      tableCols.push(companyAccountChecked);
-      tableCols.push(merchantIdChecked);
-      tableCols.push(walletIdChecked);
-      tableCols.push(dateTimeChecked);
-      tableCols.push(feeChecked);
-      var colDef = colDefine(tableCols);
-      setColumnDefs(colDef);
-
-      console.log(data);
-      console.log(tableCols);
+      const filterCol = [];
+      if(orderIdChecked) filterCol.push({field: 'order_id'});
+      if(customerIdChecked) filterCol.push({field: 'customer_id'});
+      if(companyAccountChecked) filterCol.push({field: 'company_account_number'});
+      if(merchantIdChecked) filterCol.push({field: 'merchant_id'});
+      if(walletIdChecked) filterCol.push({field: 'wallet_id'});
+      if(dateTimeChecked) filterCol.push({field: 'datetime'});
+      if(feeChecked) filterCol.push({field: 'fee_percentage'});
+      setColumnDefs(filterCol);
     });
-  }, [orderIdChecked, customerIdChecked, companyAccountChecked, merchantIdChecked, walletIdChecked, dateTimeChecked, feeChecked, colDefine]);
+  }, [orderIdChecked, customerIdChecked, companyAccountChecked, merchantIdChecked, walletIdChecked, dateTimeChecked, feeChecked]);
 
     return (
       <>
