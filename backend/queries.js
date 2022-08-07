@@ -132,44 +132,34 @@ http://localhost:8080/orderProj/
 */
 
 const getOrdersProjection = (request, response) => {
-  const {
-    order_id,
-    customer_id,
-    company_account_number,
-    merchant_id,
-    wallet_id,
-    datetime,
-    fee_percentage
-  } = request.body;
-
   var selectString = "SELECT "
   const attributes = []
 
-  if(request.query.order_id==='true') {
+  if (request.query.order_id === 'true') {
     attributes.push("order_id")
   }
 
-  if(request.query.customer_id==='true') {
+  if (request.query.customer_id === 'true') {
     attributes.push("customer_id")
   }
 
-  if(request.query.company_account_number==='true') {
+  if (request.query.company_account_number === 'true') {
     attributes.push("company_account_number")
   }
 
-  if(request.query.merchant_id==='true') {
+  if (request.query.merchant_id === 'true') {
     attributes.push("merchant_id")
   }
 
-  if(request.query.wallet_id==='true') {
+  if (request.query.wallet_id === 'true') {
     attributes.push("wallet_id")
   }
 
-  if(request.query.datetime==='true') {
+  if (request.query.datetime === 'true') {
     attributes.push("datetime")
   }
-  
-  if(request.query.fee_percentage==='true') {
+
+  if (request.query.fee_percentage === 'true') {
     attributes.push("fee_percentage")
   }
 
@@ -224,71 +214,67 @@ const getSubscription = (request, response) => {
 };
 
 /*
-GET http://localhost:8080/purchaseSelection/
-{
-    "subscription" : {
-      "order_id" : true,
-      "conversion_rate" : true,
-      "charge_usd_price" : true,
-      "billing_frequency" : true,
-      "billing_duration" : true
-    }
-}
-
-{
-    "otp" : {
-      "order_id" : true,
-      "conversion_rate" : true,
-      "total_usd_price" : true
-    }
-}
+GET http://localhost:8080/purchaseSelection/?subTable=false&order_id=true&conversion_rate=true&total_usd_price=true&priceLessThan=31
 */
 
-// TODO: WHERE clause filter on specific attributes
 const getPurchaseSelection = (request, response) => {
-  const {
-    otp,
-    subscription
-  } = request.body;
+
+  // subTable - if subTable = True display Subscription Table, if false display the OTP table
+  const params = request.query;
 
   var selectString = "SELECT "
   const attributes = []
   var fromTableString = ""
-  if (otp != null) {
-    if (otp.order_id) {
+  if (params.subTable === 'false') {
+    if (params.order_id === 'true') {
       attributes.push("order_id")
     }
-    if (otp.conversion_rate) {
+    if (params.conversion_rate === 'true') {
       attributes.push("conversion_rate")
     }
-    if (otp.total_usd_price) {
+    if (params.total_usd_price === 'true') {
       attributes.push("total_usd_price")
     }
     fromTableString = " FROM OnetimePurchase"
-  }
-
-  if (subscription != null) {
-    if (subscription.order_id) {
+  } else {
+    if (params.order_id === 'true') {
       attributes.push("order_id")
     }
-    if (subscription.conversion_rate) {
+    if (params.conversion_rate === 'true') {
       attributes.push("conversion_rate")
     }
-    if (subscription.charge_usd_price) {
+    if (params.charge_usd_price === 'true') {
       attributes.push("charge_usd_price")
     }
-    if (subscription.billing_frequency) {
+    if (params.billing_frequency === 'true') {
       attributes.push("billing_frequency")
     }
-    if (subscription.billing_duration) {
+    if (params.billing_duration === 'true') {
       attributes.push("billing_duration")
     }
     fromTableString = " FROM Subscription"
   }
   const attributesString = attributes.join(', ');
-  const query = selectString + attributesString + fromTableString
 
-  // TODO: add WHERE {attribute < } {value}
+  var whereClauseString = ""
+
+  if (params.priceLessThan != null) {
+    if (params.subTable === 'false') {
+      whereClauseString = ` WHERE total_usd_price < ${params.priceLessThan}`
+    } else {
+      whereClauseString = ` WHERE charge_usd_price < ${params.priceLessThan}`
+    }
+  }
+
+  if (params.priceGreaterThan != null) {
+    if (params.subTable === 'false') {
+      whereClauseString = ` WHERE total_usd_price > ${params.priceGreaterThan}`
+    } else {
+      whereClauseString = ` WHERE charge_usd_price > ${params.priceGreaterThan}`
+    }
+  }
+
+  const query = selectString + attributesString + fromTableString + whereClauseString
 
   pool.query(query,
     (error, results) => {
@@ -606,7 +592,7 @@ const updateMerchant = (usd_adjustment, merchant_id) => {
 
 /*
 POST to http://localhost:8080/order 
-
+ 
 OTP body
 {
     "customer_id" : 1,
@@ -625,7 +611,7 @@ OTP body
         ],
     "subscription" : {}
 }
-
+ 
 Subscription body
 {
     "customer_id" : 1,
@@ -643,7 +629,7 @@ Subscription body
         "billing_duration" : 2
     }
 }
-
+ 
 */
 const createOrder = (request, response) => {
   const {
