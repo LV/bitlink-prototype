@@ -86,6 +86,7 @@ export default function MerchantDashboard() {
           justifyContent: "flex_start",
         }}
         >
+          <h4>Filter Columns:</h4>
           <FormControl component="fieldset">
             <FormGroup aria-label="position" row>
               <FormControlLabel
@@ -142,7 +143,7 @@ export default function MerchantDashboard() {
         }}
         >
           <h3 style={{marginLeft: 22}}>Orders</h3>
-          <div className='ag-theme-alpine' style={{ width: 1005, height: 500, marginLeft: 20 }}>
+          <div className='ag-theme-alpine' style={{ width: 1402, height: 500, marginLeft: 20 }}>
             <AgGridReact
               rowData={resData}
               columnDefs={columnDefs}
