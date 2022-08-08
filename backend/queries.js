@@ -341,7 +341,7 @@ const getWithdrawals = (request, response) => {
   );
 };
 
-// GET http://localhost:8080/getAvgOrderPrice
+// GET http://localhost:8080/avgOrderPriceByMerchant
 const getAvgOrderPriceByMerchant = (request, response) => {
   pool.query(
     `SELECT M.name, AVG(DISTINCT CombinedPriceTable.price)
@@ -963,5 +963,5 @@ module.exports = {
   getItemType,
   getLineItemJoin,
   getAvgOrderPriceByMerchant,
-  getMostPopularItemType
+  getMostPopularItemType,
 };
