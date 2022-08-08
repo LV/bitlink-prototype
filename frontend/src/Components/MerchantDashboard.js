@@ -62,6 +62,7 @@ export default function MerchantDashboard() {
     }).then((response) => {
       const { data } = response;
       setResData(data);
+      console.log(resData)
       const filterCol = [];
       if (orderIdChecked) filterCol.push({ field: 'order_id' });
       if (customerIdChecked) filterCol.push({ field: 'customer_id' });
@@ -72,7 +73,18 @@ export default function MerchantDashboard() {
       if (feeChecked) filterCol.push({ field: 'fee_percentage' });
       setColumnDefs(filterCol);
     });
-  }, [orderIdChecked, customerIdChecked, companyAccountChecked, merchantIdChecked, walletIdChecked, dateTimeChecked, feeChecked]);
+  }, [orderIdChecked, customerIdChecked, companyAccountChecked, merchantIdChecked, walletIdChecked, dateTimeChecked, feeChecked, orderCancelled]);
+
+  var menuItems = [<MenuItem key={"none"} value="">
+    <em>None</em>
+  </MenuItem>]
+
+  if (resData != null) {
+    menuItems = resData.map((order) => (<MenuItem key={order.order_id} value={order.order_id}>{order.order_id}</MenuItem>))
+    menuItems.unshift(<MenuItem key={"none"} value="">
+      <em>None</em>
+    </MenuItem>)
+  }
 
   return (
     <>
@@ -163,13 +175,12 @@ export default function MerchantDashboard() {
           onChange={(e) => {
             console.log(e.target.value)
             setOrderCancelled(e.target.value)
+            axios
+              .delete(`http://localhost:8080/order/${e.target.value}`)
           }}
         >
-          <MenuItem value="">
-            <em>None</em>
-          </MenuItem>
           {
-            resData.map((order) => (<MenuItem value={order.order_id}>{order.order_id}</MenuItem>))
+            menuItems
           }
         </Select>
       </FormControl>
