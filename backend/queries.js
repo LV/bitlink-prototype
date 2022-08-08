@@ -389,8 +389,8 @@ const getMerchantsAtLeastTwoOrders = (request, response) => {
   );
 };
 
-// GET http://localhost:8080/minPricePopularItem
-const getMinPricePopularItem = (request, response) => {
+// GET http://localhost:8080/mostPopularItemType
+const getMostPopularItemType = (request, response) => {
   const params = request.query;
 
   pool.query(
@@ -963,5 +963,5 @@ module.exports = {
   getItemType,
   getLineItemJoin,
   getAvgOrderPriceByMerchant,
-  getMinPricePopularItem
+  getMostPopularItemType
 };
