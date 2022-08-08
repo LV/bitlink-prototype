@@ -366,16 +366,20 @@ const getAvgOrderPriceByMerchant = (request, response) => {
   );
 };
 
-// GET http://localhost:8080/merchantOrders?company_account_number=1000000001
-const getMerchantOrdersById = (request, response) => {
+// GET http://localhost:8080/getMerchantsAtLeastTwoOrders
+const getMerchantsAtLeastTwoOrders = (request, response) => {
   const params = request.query;
-  const { company_account_number } = params;
 
   pool.query(
-    `SELECT * FROM OrderDetails WHERE merchant_id IN (
-        SELECT merchant_id FROM OrderDetails WHERE company_account_number = $1 GROUP BY merchant_id HAVING COUNT(*) > 1
-    )`,
-    [company_account_number],
+    `SELECT DISTINCT Merchant.name
+    FROM OrderDetails, Merchant 
+    WHERE OrderDetails.merchant_id = Merchant.merchant_id AND
+    OrderDetails.merchant_id IN 
+      (SELECT merchant_id 
+      FROM OrderDetails 
+      GROUP BY merchant_id 
+      HAVING COUNT(*) > 1)
+    `,
     (error, results) => {
       if (error) {
         throw error;
@@ -921,7 +925,7 @@ module.exports = {
   createCustomer,
   getMerchants,
   getMerchantById,
-  getMerchantOrdersById,
+  getMerchantsAtLeastTwoOrders,
   createMerchant,
   getOrders,
   getOrdersProjection,

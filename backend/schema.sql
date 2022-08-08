@@ -159,7 +159,7 @@ INSERT INTO Subscription(order_id, conversion_rate, charge_usd_price, billing_fr
 
 INSERT INTO LineItem(order_id, item_brand, item_name, item_usd_price, item_quantity) VALUES (1, 'Zara', 'Dress Shirt', 30, 1);
 INSERT INTO LineItem(order_id, item_brand, item_name, item_usd_price, item_quantity) VALUES (2, 'Ministry of Supply', 'Dress Shirt', 500, 1);
-INSERT INTO LineItem(order_id, item_brand, item_name, item_usd_price, item_quantity) VALUES (3, 'Tesla', 'Dress Shirt', 456, 1);
+INSERT INTO LineItem(order_id, item_brand, item_name, item_usd_price, item_quantity) VALUES (3, 'Tesla', 'Tesla', 456, 1);
 INSERT INTO LineItem(order_id, item_brand, item_name, item_usd_price, item_quantity) VALUES (4, 'Apple', 'Macbook', 1230, 1);
 INSERT INTO LineItem(order_id, item_brand, item_name, item_usd_price, item_quantity) VALUES (5, 'Zara', 'Scarf', 256, 1);
 
