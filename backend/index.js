@@ -44,7 +44,7 @@ app.get("/order", db.getOrders);
 app.get("/orderProj", db.getOrdersProjection);
 app.post("/order", db.createOrder);
 app.delete("/order/:id", db.deleteOrder);
-app.get("/merchantOrders", db.getMerchantOrdersById);
+app.get("/merchantsAtLeastTwoOrders", db.getMerchantsAtLeastTwoOrders);
 app.get("/lineitem", db.getLineItems);
 app.get("/lineitemJoin", db.getLineItemJoin);
 app.get("/otp", db.getOnetimePurchase);
