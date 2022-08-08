@@ -23,6 +23,8 @@ export default function CompanyDashboard() {
     merchantsAtLeastTwoOrdersRowData,
     setMerchantsAtLeastTwoOrdersRowData,
   ] = useState(null);
+  const [mostPopularItemTypeRowData, setMostPopularItemTypeRowData] =
+    useState(null);
 
   const avgOrderPriceColumnData = [
     { field: "name" },
@@ -30,6 +32,11 @@ export default function CompanyDashboard() {
   ];
 
   const merchantsAtLeastTwoOrdersColumnData = [{ field: "merchants" }];
+
+  const mostPopularItemTypeColumnData = [
+    { field: "item type" },
+    { field: "count" },
+  ];
 
   function handleGetAvgPrice() {
     setColumnData(avgOrderPriceColumnData);
@@ -50,6 +57,18 @@ export default function CompanyDashboard() {
     );
   }
 
+  function handleGetMostPopularItemType() {
+    setColumnData(mostPopularItemTypeColumnData);
+    setRowData(
+      mostPopularItemTypeRowData
+        ? mostPopularItemTypeRowData.map((i) => ({
+            "item type": i.item_type,
+            count: i.count,
+          }))
+        : null
+    );
+  }
+
   useEffect(() => {
     axios
       .get("http://localhost:8080/avgOrderPriceByMerchant/")
@@ -66,6 +85,13 @@ export default function CompanyDashboard() {
         const { data } = response;
         setMerchantsAtLeastTwoOrdersRowData(data);
       });
+  }, []);
+
+  useEffect(() => {
+    axios.get("http://localhost:8080/mostPopularItemType/").then((response) => {
+      const { data } = response;
+      setMostPopularItemTypeRowData(data);
+    });
   }, []);
 
   return (
@@ -123,6 +149,29 @@ export default function CompanyDashboard() {
             >
               {" "}
               2
+            </Button>
+          </Tooltip>
+          <Tooltip
+            title={
+              <>
+                <Typography color="inherit" fontSize={12}>
+                  Nested Aggregation with Group By:
+                </Typography>
+                <Typography color="inherit" fontSize={12}>
+                  Get most popular item type
+                </Typography>
+              </>
+            }
+            placement="top"
+          >
+            <Button
+              color="primary"
+              variant="contained"
+              onClick={handleGetMostPopularItemType}
+              style={{ marginLeft: 20 }}
+            >
+              {" "}
+              3
             </Button>
           </Tooltip>
         </ThemeProvider>
