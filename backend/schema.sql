@@ -169,3 +169,26 @@ INSERT INTO LineItem(order_id, item_brand, item_name, item_usd_price, item_quant
 INSERT INTO LineItem(order_id, item_brand, item_name, item_usd_price, item_quantity) VALUES (9, 'Netflix', 'Two Month Subscription', 100, 1);
 INSERT INTO LineItem(order_id, item_brand, item_name, item_usd_price, item_quantity) VALUES (10, 'Netflix', 'Two Month Subscription', 80, 1);
 
+INSERT INTO Transaction(wallet_id) VALUES (1);
+INSERT INTO Transaction(wallet_id) VALUES (2);
+INSERT INTO Transaction(wallet_id) VALUES (4);
+INSERT INTO Transaction(wallet_id) VALUES (3);
+INSERT INTO Transaction(wallet_id) VALUES (1);
+
+INSERT INTO Transaction(wallet_id) Values (1);
+INSERT INTO Transaction(wallet_id) Values (3);
+INSERT INTO Transaction(wallet_id) Values (2);
+INSERT INTO Transaction(wallet_id) Values (5);
+INSERT INTO Transaction(wallet_id) Values (5);
+
+INSERT INTO Withdrawal(transaction_id, customer_btc_address, btc_to_withdraw) VALUES (1, '3EktnHQD7RiAE6uzMj2ZifT9YgRrkSgzQX', 200);
+INSERT INTO Withdrawal(transaction_id, customer_btc_address, btc_to_withdraw) VALUES (2, '17jRd5WEzpNbmTePP4RpiKoZdXnGfsfg9F', 0.03301199);
+INSERT INTO Withdrawal(transaction_id, customer_btc_address, btc_to_withdraw) VALUES (3, '1JqDybm2nWTENrHvMyafbSXXtTk5Uv5QAn', 2.10109377);
+INSERT INTO Withdrawal(transaction_id, customer_btc_address, btc_to_withdraw) VALUES (4, '17jRd5WEzpNbmTePP4RpiKoZdXnGfsfg9F', 1.00053213);
+INSERT INTO Withdrawal(transaction_id, customer_btc_address, btc_to_withdraw) VALUES (5, 'bc1qa5wkgaew2dkv56kfvj49j0av5nml45x9ek9hz6', 69.62348514);
+
+INSERT INTO Deposit(transaction_id, bitlink_btc_address, btc_to_deposit) VALUES (6, 'bc1qs9ynug9k0m9llzwg0ljs66xu5hwetc4sy8hyuu', 500);
+INSERT INTO Deposit(transaction_id, bitlink_btc_address, btc_to_deposit) VALUES (7, 'bc1q334y6udd2ylenw8p99mschghy7udttaeyp7prt', 52.13588780);
+INSERT INTO Deposit(transaction_id, bitlink_btc_address, btc_to_deposit) VALUES (8, 'bc1qs9ynug9k0m9llzwg0ljs66xu5hwetc4sy8hyuu', 0.95592348);
+INSERT INTO Deposit(transaction_id, bitlink_btc_address, btc_to_deposit) VALUES (9, 'bc1q334y6udd2ylenw8p99mschghy7udttaeyp7prt', 0.06602803);
+INSERT INTO Deposit(transaction_id, bitlink_btc_address, btc_to_deposit) VALUES (10, 'bc1qs9ynug9k0m9llzwg0ljs66xu5hwetc4sy8hyuu', 0.12228467);
