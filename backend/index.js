@@ -7,26 +7,26 @@ const db = require("./queries");
 
 const whitelist = ["http://localhost:3000"];
 const corsOptions = {
-    origin: function (origin, callback) {
-        if (!origin || whitelist.indexOf(origin) !== -1) {
-            callback(null, true);
-        } else {
-            callback(new Error("Not allowed by CORS"));
-        }
-    },
-    credentials: true,
+  origin: function (origin, callback) {
+    if (!origin || whitelist.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
 };
 app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
 app.use(
-    bodyParser.urlencoded({
-        extended: true,
-    })
+  bodyParser.urlencoded({
+    extended: true,
+  })
 );
 
 app.get("/", (request, response) => {
-    response.json({ info: "Node.js, Express, and Postgres API" });
+  response.json({ info: "Node.js, Express, and Postgres API" });
 });
 
 app.get("/wallet", db.getWallets);
@@ -44,8 +44,9 @@ app.get("/order", db.getOrders);
 app.get("/orderProj", db.getOrdersProjection);
 app.post("/order", db.createOrder);
 app.delete("/order/:id", db.deleteOrder);
+app.get("/merchantOrders", db.getMerchantOrdersById);
 app.get("/lineitem", db.getLineItems);
-app.get("/lineitemJoin", db.getLineItemJoin)
+app.get("/lineitemJoin", db.getLineItemJoin);
 app.get("/otp", db.getOnetimePurchase);
 app.get("/subscription", db.getSubscription);
 app.get("/purchaseSelection", db.getPurchaseSelection);
@@ -58,7 +59,6 @@ app.get("/itemType", db.getItemType);
 app.post("/itemType", db.createItemType);
 app.get("/getAvgOrderPriceByMerchant", db.getAvgOrderPriceByMerchant)
 
-
 app.listen(port, () => {
-    console.log(`App running on port ${port}.`);
+  console.log(`App running on port ${port}.`);
 });
