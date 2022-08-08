@@ -1,8 +1,8 @@
 import { Fragment } from "react";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
-import logo from './navbar-logo.png';
-import avatar from './avatar.png';
+import logo from "./navbar-logo.png";
+import avatar from "./avatar.png";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -12,9 +12,17 @@ export default function Navbar(props) {
   const { cusPage, orSel, merPage, coPage, chkPage, itPur } = props;
 
   const navigation = [
-    { name: "Customer Dashboard", href: "customer-dashboard", current: cusPage },
+    {
+      name: "Customer Dashboard",
+      href: "customer-dashboard",
+      current: cusPage,
+    },
     { name: "Order Selection", href: "order-selection", current: orSel },
-    { name: "Merchant Dashboard", href: "merchant-dashboard", current: merPage },
+    {
+      name: "Merchant Dashboard",
+      href: "merchant-dashboard",
+      current: merPage,
+    },
     { name: "Company Dashboard", href: "company-dashboard", current: coPage },
     { name: "Items Bought", href: "items-bought", current: itPur },
     { name: "Customer Checkout", href: "checkout", current: chkPage },
@@ -39,17 +47,19 @@ export default function Navbar(props) {
               </div>
               <div className="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start">
                 <div className="flex-shrink-0 flex items-center">
-                  <a href="."><img
-                    className="block lg:hidden h-8 w-auto"
-                    src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
-                    alt="Workflow"
-                  />
-                  <img
-                    className="hidden lg:block h-8 w-auto"
-                    // src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
-					src={logo}
-                    alt="Workflow"
-                  /></a>
+                  <a href=".">
+                    <img
+                      className="block lg:hidden h-8 w-auto"
+                      src="https://tailwindui.com/img/logos/workflow-mark-indigo-500.svg"
+                      alt="Workflow"
+                    />
+                    <img
+                      className="hidden lg:block h-8 w-auto"
+                      // src="https://tailwindui.com/img/logos/workflow-logo-indigo-500-mark-white-text.svg"
+                      src={logo}
+                      alt="Workflow"
+                    />
+                  </a>
                 </div>
                 <div className="hidden sm:block sm:ml-6">
                   <div className="flex space-x-4">
@@ -61,7 +71,7 @@ export default function Navbar(props) {
                           item.current
                             ? "bg-gray-900 text-white"
                             : "text-gray-300 hover:bg-gray-700 hover:text-white",
-                          "px-3 py-2 rounded-md text-sm font-medium"
+                          "px-3 py-2 rounded-md text-sm font-small"
                         )}
                         aria-current={item.current ? "page" : undefined}
                       >
