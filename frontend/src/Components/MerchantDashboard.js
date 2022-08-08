@@ -62,7 +62,6 @@ export default function MerchantDashboard() {
     }).then((response) => {
       const { data } = response;
       setResData(data);
-      console.log(resData)
       const filterCol = [];
       if (orderIdChecked) filterCol.push({ field: 'order_id' });
       if (customerIdChecked) filterCol.push({ field: 'customer_id' });
