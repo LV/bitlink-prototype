@@ -351,6 +351,31 @@ const getWithdrawals = (request, response) => {
   );
 };
 
+// GET http://localhost:8080/getAvgOrderPrice
+const getAvgOrderPriceByMerchant = (request, response) => {
+  pool.query(
+    `SELECT M.name, AVG(DISTINCT CombinedPriceTable.price)
+    from(
+      SELECT OD.order_id, OD.merchant_id, OP.total_usd_price as price
+    FROM OrderDetails OD, OnetimePurchase OP
+    WHERE OD.order_id = OP.order_id
+    UNION
+    SELECT OD.order_id, OD.merchant_id, S.charge_usd_price as price
+    FROM OrderDetails OD, Subscription S
+    WHERE OD.order_id = S.order_id
+    ) CombinedPriceTable, Merchant M
+    WHERE CombinedPriceTable.merchant_id = M.merchant_id
+    GROUP BY M.name
+    `,
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 /*
 PUT Requests
 */
@@ -904,5 +929,6 @@ module.exports = {
   createWithdrawalTransaction,
   createItemType,
   getItemType,
-  getLineItemJoin
+  getLineItemJoin,
+  getAvgOrderPriceByMerchant
 };

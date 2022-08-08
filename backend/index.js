@@ -56,6 +56,7 @@ app.post("/deposit", db.createDepositTransaction);
 app.post("/withdrawal", db.createWithdrawalTransaction);
 app.get("/itemType", db.getItemType);
 app.post("/itemType", db.createItemType);
+app.get("/getAvgOrderPriceByMerchant", db.getAvgOrderPriceByMerchant)
 
 
 app.listen(port, () => {
