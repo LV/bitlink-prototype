@@ -68,7 +68,7 @@ export default function ItemsBought() {
         chkPage={false}
         itPur={true}
       />
-      <h3 style={{ marginLeft: 22 }}>Items Bought</h3>
+      <h3 style={{ marginLeft: 22, marginTop: 12 }}>Items Bought</h3>
       <FormControl variant="standard" style={{ width: 100, marginLeft: 20 }}>
         <InputLabel>YYYY-MM-DD</InputLabel>
         <Input
@@ -93,7 +93,7 @@ export default function ItemsBought() {
       </ThemeProvider>
       <div
         className="ag-theme-alpine"
-        style={{ width: 1200, height: 500, marginLeft: 20, marginTop: 10 }}
+        style={{ width: 1205, height: 500, marginLeft: 20, marginTop: 10 }}
       >
         <AgGridReact rowData={rowData} columnDefs={columnDefs} />
       </div>
