@@ -366,7 +366,7 @@ const getAvgOrderPriceByMerchant = (request, response) => {
   );
 };
 
-// GET http://localhost:8080/getMerchantsAtLeastTwoOrders
+// GET http://localhost:8080/merchantsAtLeastTwoOrders
 const getMerchantsAtLeastTwoOrders = (request, response) => {
   const params = request.query;
 
