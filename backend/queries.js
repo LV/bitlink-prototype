@@ -341,7 +341,7 @@ const getWithdrawals = (request, response) => {
   );
 };
 
-// GET http://localhost:8080/getAvgOrderPrice
+// GET http://localhost:8080/avgOrderPriceByMerchant
 const getAvgOrderPriceByMerchant = (request, response) => {
   pool.query(
     `SELECT M.name, AVG(DISTINCT CombinedPriceTable.price)
@@ -379,6 +379,25 @@ const getMerchantsAtLeastTwoOrders = (request, response) => {
       FROM OrderDetails 
       GROUP BY merchant_id 
       HAVING COUNT(*) > 1)
+    `,
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
+// GET http://localhost:8080/mostPopularItemType
+const getMostPopularItemType = (request, response) => {
+  const params = request.query;
+
+  pool.query(
+    ` SELECT COUNT(IT.item_type), IT.item_type
+      FROM LineItemType IT
+      GROUP BY IT.item_type
+      HAVING COUNT(IT.item_type) >= ALL (SELECT COUNT(IT2.item_type) FROM LineItemType IT2 GROUP BY IT2.item_type)
     `,
     (error, results) => {
       if (error) {
@@ -944,4 +963,5 @@ module.exports = {
   getItemType,
   getLineItemJoin,
   getAvgOrderPriceByMerchant,
+  getMostPopularItemType,
 };
