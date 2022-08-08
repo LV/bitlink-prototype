@@ -9,12 +9,13 @@ function classNames(...classes) {
 }
 
 export default function Navbar(props) {
-  const { cusPage, merPage, coPage, chkPage } = props;
+  const { cusPage, merPage, coPage, chkPage, itPur } = props;
 
   const navigation = [
     { name: "Customer Dashboard", href: "customer-dashboard", current: cusPage },
     { name: "Merchant Dashboard", href: "merchant-dashboard", current: merPage },
     { name: "Company Dashboard", href: "company-dashboard", current: coPage },
+    { name: "Items Bought", href: "items-bought", current: itPur },
     { name: "Customer Checkout", href: "checkout", current: chkPage },
   ];
 
