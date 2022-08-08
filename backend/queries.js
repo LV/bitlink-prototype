@@ -408,7 +408,7 @@ const getMostPopularItemType = (request, response) => {
   );
 };
 
-// GET http://localhost:8080/
+// GET http://localhost:8080/customerBoughtAllMerchant
 const getCustomerBoughtAllMerchant = (request, response) => {
   const params = request.query;
 
@@ -988,5 +988,5 @@ module.exports = {
   getLineItemJoin,
   getAvgOrderPriceByMerchant,
   getMostPopularItemType,
-  getCustomerBoughtAllMerchant
+  getCustomerBoughtAllMerchant,
 };
