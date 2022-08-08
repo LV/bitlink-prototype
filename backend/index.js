@@ -59,6 +59,7 @@ app.get("/itemType", db.getItemType);
 app.post("/itemType", db.createItemType);
 app.get("/avgOrderPriceByMerchant", db.getAvgOrderPriceByMerchant)
 app.get("/mostPopularItemType", db.getMostPopularItemType)
+app.get("/customerBoughtAllMerchant", db.getCustomerBoughtAllMerchant)
 
 app.listen(port, () => {
   console.log(`App running on port ${port}.`);

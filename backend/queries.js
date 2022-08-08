@@ -408,6 +408,30 @@ const getMostPopularItemType = (request, response) => {
   );
 };
 
+// GET http://localhost:8080/
+const getCustomerBoughtAllMerchant = (request, response) => {
+  const params = request.query;
+
+  pool.query(
+    `
+    SELECT c.name
+    FROM Customer c
+    WHERE NOT EXISTS ((SELECT m.merchant_id
+                      FROM Merchant m)
+                      EXCEPT 
+                      (SELECT o.merchant_id
+                      FROM OrderDetails o
+                      WHERE o.customer_id = c.customer_id))
+    `,
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 /*
 PUT Requests
 */
@@ -964,4 +988,5 @@ module.exports = {
   getLineItemJoin,
   getAvgOrderPriceByMerchant,
   getMostPopularItemType,
+  getCustomerBoughtAllMerchant
 };
