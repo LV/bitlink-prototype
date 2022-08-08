@@ -27,8 +27,10 @@ export default function OrderSelection() {
 
   useEffect(() => {
     if(isNaN(filterValue) || filterValue === null || filterValue === "") setFilterValue(0);
-    
+    console.log('isGreaterThan: ' + isGreaterThan);
+    console.log(isGreaterThan, typeof(isGreaterThan))
     if(isGreaterThan) {
+      console.log('RUNNING GREATER THAN');
       axios.get(`http://localhost:8080/purchaseSelection`, {
         params: {
           subTable: isSubscriptionPurchase,
@@ -36,6 +38,7 @@ export default function OrderSelection() {
           conversion_rate: true,
           usd_price: true,
           priceGreaterThan: filterValue,
+          priceLessThan: filterValue,
           billing_frequency: true,
           billing_duration: true,
         }
@@ -59,6 +62,7 @@ export default function OrderSelection() {
         } 
       });
     } else {
+      console.log('RUNNING LESS THAN');
       axios.get(`http://localhost:8080/purchaseSelection`, {
         params: {
           subTable: isSubscriptionPurchase,
@@ -89,14 +93,15 @@ export default function OrderSelection() {
         } 
       });
     }
-  }, [isSubscriptionPurchase, isGreaterThan, toggleButton]);
+  }, [isSubscriptionPurchase, toggleButton]);
 
   const handleChangeTransactionType = (event) => {
     setIsSubscriptionPurchase(event.target.value);
   };
 
   const handleChangeRadio = (event) => {
-    setIsGreaterThan(event.target.value);
+    if(event.target.value === 'true') setIsGreaterThan(true);
+    else setIsGreaterThan(false);
   };
 
   return (
@@ -150,8 +155,8 @@ export default function OrderSelection() {
             value={isGreaterThan}
             onChange={handleChangeRadio}
           >
-            <FormControlLabel value={true} control={<Radio />} label="Greater Than" />
-            <FormControlLabel value={false} control={<Radio />} label="Less Than" />
+            <FormControlLabel value={'true'} control={<Radio />} label="Greater Than" />
+            <FormControlLabel value={'false'} control={<Radio />} label="Less Than" />
           </RadioGroup>
         </FormControl>
       </FormControl>
