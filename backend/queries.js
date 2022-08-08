@@ -52,15 +52,12 @@ const getCustomers = (request, response) => {
 };
 
 const getItemType = (request, response) => {
-  pool.query(
-    "SELECT * FROM LineItemType;",
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      response.status(200).json(results.rows);
+  pool.query("SELECT * FROM LineItemType;", (error, results) => {
+    if (error) {
+      throw error;
     }
-  );
+    response.status(200).json(results.rows);
+  });
 };
 
 const getCustomerById = (request, response) => {
@@ -132,49 +129,47 @@ http://localhost:8080/orderProj/
 */
 
 const getOrdersProjection = (request, response) => {
-  var selectString = "SELECT "
-  const attributes = []
+  var selectString = "SELECT ";
+  const attributes = [];
 
-  if (request.query.order_id === 'true') {
-    attributes.push("order_id")
+  if (request.query.order_id === "true") {
+    attributes.push("order_id");
   }
 
-  if (request.query.customer_id === 'true') {
-    attributes.push("customer_id")
+  if (request.query.customer_id === "true") {
+    attributes.push("customer_id");
   }
 
-  if (request.query.company_account_number === 'true') {
-    attributes.push("company_account_number")
+  if (request.query.company_account_number === "true") {
+    attributes.push("company_account_number");
   }
 
-  if (request.query.merchant_id === 'true') {
-    attributes.push("merchant_id")
+  if (request.query.merchant_id === "true") {
+    attributes.push("merchant_id");
   }
 
-  if (request.query.wallet_id === 'true') {
-    attributes.push("wallet_id")
+  if (request.query.wallet_id === "true") {
+    attributes.push("wallet_id");
   }
 
-  if (request.query.datetime === 'true') {
-    attributes.push("datetime")
+  if (request.query.datetime === "true") {
+    attributes.push("datetime");
   }
 
-  if (request.query.fee_percentage === 'true') {
-    attributes.push("fee_percentage")
+  if (request.query.fee_percentage === "true") {
+    attributes.push("fee_percentage");
   }
 
-  const attributesString = attributes.join(', ');
-  const fromTableString = " FROM OrderDetails;"
-  const query = selectString + attributesString + fromTableString
+  const attributesString = attributes.join(", ");
+  const fromTableString = " FROM OrderDetails;";
+  const query = selectString + attributesString + fromTableString;
 
-  pool.query(query,
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      response.status(200).json(results.rows);
+  pool.query(query, (error, results) => {
+    if (error) {
+      throw error;
     }
-  );
+    response.status(200).json(results.rows);
+  });
 };
 
 const getLineItems = (request, response) => {
@@ -219,100 +214,95 @@ http://localhost:8080/purchaseSelection/?subTable=true&order_id=true&conversion_
 */
 
 const getPurchaseSelection = (request, response) => {
-
   // subTable - if subTable = True display Subscription Table, if false display the OTP table
   const params = request.query;
 
-  var selectString = "SELECT "
-  const attributes = []
-  var fromTableString = ""
-  if (params.subTable === 'false') {
-    if (params.order_id === 'true') {
-      attributes.push("order_id")
+  var selectString = "SELECT ";
+  const attributes = [];
+  var fromTableString = "";
+  if (params.subTable === "false") {
+    if (params.order_id === "true") {
+      attributes.push("order_id");
     }
-    if (params.conversion_rate === 'true') {
-      attributes.push("conversion_rate")
+    if (params.conversion_rate === "true") {
+      attributes.push("conversion_rate");
     }
-    if (params.usd_price === 'true') {
-      attributes.push("total_usd_price")
+    if (params.usd_price === "true") {
+      attributes.push("total_usd_price");
     }
-    fromTableString = " FROM OnetimePurchase"
+    fromTableString = " FROM OnetimePurchase";
   } else {
-    if (params.order_id === 'true') {
-      attributes.push("order_id")
+    if (params.order_id === "true") {
+      attributes.push("order_id");
     }
-    if (params.conversion_rate === 'true') {
-      attributes.push("conversion_rate")
+    if (params.conversion_rate === "true") {
+      attributes.push("conversion_rate");
     }
-    if (params.usd_price === 'true') {
-      attributes.push("charge_usd_price")
+    if (params.usd_price === "true") {
+      attributes.push("charge_usd_price");
     }
-    if (params.billing_frequency === 'true') {
-      attributes.push("billing_frequency")
+    if (params.billing_frequency === "true") {
+      attributes.push("billing_frequency");
     }
-    if (params.billing_duration === 'true') {
-      attributes.push("billing_duration")
+    if (params.billing_duration === "true") {
+      attributes.push("billing_duration");
     }
-    fromTableString = " FROM Subscription"
+    fromTableString = " FROM Subscription";
   }
-  const attributesString = attributes.join(', ');
+  const attributesString = attributes.join(", ");
 
-  var whereClauseString = ""
+  var whereClauseString = "";
 
   if (params.priceLessThan != null) {
-    if (params.subTable === 'false') {
-      whereClauseString = ` WHERE total_usd_price < ${params.priceLessThan}`
+    if (params.subTable === "false") {
+      whereClauseString = ` WHERE total_usd_price < ${params.priceLessThan}`;
     } else {
-      whereClauseString = ` WHERE charge_usd_price < ${params.priceLessThan}`
+      whereClauseString = ` WHERE charge_usd_price < ${params.priceLessThan}`;
     }
   }
 
   if (params.priceGreaterThan != null) {
-    if (params.subTable === 'false') {
-      whereClauseString = ` WHERE total_usd_price > ${params.priceGreaterThan}`
+    if (params.subTable === "false") {
+      whereClauseString = ` WHERE total_usd_price > ${params.priceGreaterThan}`;
     } else {
-      whereClauseString = ` WHERE charge_usd_price > ${params.priceGreaterThan}`
+      whereClauseString = ` WHERE charge_usd_price > ${params.priceGreaterThan}`;
     }
   }
 
-  const query = selectString + attributesString + fromTableString + whereClauseString
+  const query =
+    selectString + attributesString + fromTableString + whereClauseString;
 
-  pool.query(query,
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      response.status(200).json(results.rows);
+  pool.query(query, (error, results) => {
+    if (error) {
+      throw error;
     }
-  );
+    response.status(200).json(results.rows);
+  });
 };
-
 
 // GET http://localhost:8080/lineitemJoin?customer_id=4&date=2022-08-07
 const getLineItemJoin = (request, response) => {
-
   const params = request.query;
   // params.customer_id (REQUIRED)
   // params.date to filter on (OPTIONAL)
 
-  var selectString = "SELECT O.order_id, M.name, O.datetime, L.item_name, L.item_usd_price, L.item_quantity"
-  var fromTableString = " FROM OrderDetails O, LineItem L, Merchant M"
-  var whereClauseString = ` WHERE O.order_id = L.order_id AND O.merchant_id = M.merchant_id AND O.customer_id = ${params.customer_id}`
+  var selectString =
+    "SELECT O.order_id, M.name, O.datetime, L.item_name, L.item_usd_price, L.item_quantity";
+  var fromTableString = " FROM OrderDetails O, LineItem L, Merchant M";
+  var whereClauseString = ` WHERE O.order_id = L.order_id AND O.merchant_id = M.merchant_id AND O.customer_id = ${params.customer_id}`;
 
   if (params.date != null) {
-    whereClauseString += ` AND O.datetime = '${params.date}'`
+    whereClauseString += ` AND O.datetime = '${params.date}'`;
   }
 
-  const query = selectString + fromTableString + whereClauseString
-  console.log(query)
-  pool.query(query,
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      response.status(200).json(results.rows);
+  const query = selectString + fromTableString + whereClauseString;
+  console.log(query);
+  pool.query(query, (error, results) => {
+    if (error) {
+      throw error;
     }
-  );
+    response.status(200).json(results.rows);
+  });
 };
 
 const getTransactions = (request, response) => {
@@ -376,6 +366,25 @@ const getAvgOrderPriceByMerchant = (request, response) => {
   );
 };
 
+// GET http://localhost:8080/merchantOrders?company_account_number=1000000001
+const getMerchantOrdersById = (request, response) => {
+  const params = request.query;
+  const { company_account_number } = params;
+
+  pool.query(
+    `SELECT * FROM OrderDetails WHERE merchant_id IN (
+        SELECT merchant_id FROM OrderDetails WHERE company_account_number = $1 GROUP BY merchant_id HAVING COUNT(*) > 1
+    )`,
+    [company_account_number],
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      response.status(200).json(results.rows);
+    }
+  );
+};
+
 /*
 PUT Requests
 */
@@ -403,28 +412,25 @@ const updateCustomer = (request, response) => {
   const { name, email } = request.body;
   console.log(name, email);
 
-  var query = "UPDATE Customer"
+  var query = "UPDATE Customer";
   if (name != null) {
-    query += ` SET name = '${name}'`
+    query += ` SET name = '${name}'`;
   }
 
   if (email != null) {
-    query += `, email = '${email}' `
+    query += `, email = '${email}' `;
   }
 
-  query += `WHERE customer_id = ${customer_id}`
+  query += `WHERE customer_id = ${customer_id}`;
 
-  console.log(query)
+  console.log(query);
 
-  pool.query(query,
-    (error, results) => {
-      if (error) {
-        throw error;
-      }
-      response.status(200).send(`Customer details updated`);
+  pool.query(query, (error, results) => {
+    if (error) {
+      throw error;
     }
-  );
-
+    response.status(200).send(`Customer details updated`);
+  });
 };
 
 /*
@@ -475,7 +481,7 @@ const createItemType = (request, response) => {
     [item_name, item_type],
     (error, results) => {
       if (error) {
-        if (error.code == '23505') {
+        if (error.code == "23505") {
           response.status(400).send();
         } else {
           throw error;
@@ -522,7 +528,7 @@ const createLineItem = (
     [order_id, item_brand, item_name, item_usd_price, item_quantity],
     (error, results) => {
       if (error) {
-        if (error.code == '23505') {
+        if (error.code == "23505") {
           //
         } else {
           throw error;
@@ -739,7 +745,6 @@ const createOrder = (request, response) => {
         // Update Merchant account usd owed balance
         updateMerchant(totalPrice * (1 - fee_percentage), merchant_id);
       } else {
-
         createLineItem(
           results.rows[0].order_id,
           subscription.item_brand,
@@ -757,7 +762,10 @@ const createOrder = (request, response) => {
         );
 
         // Update customer wallet balance
-        updateWalletDb(-(convRate * parseFloat(subscription.item_usd_price)), wallet_id);
+        updateWalletDb(
+          -(convRate * parseFloat(subscription.item_usd_price)),
+          wallet_id
+        );
         // Update company account with our fee
         updateCompanyAccount(
           convRate * subscription.item_usd_price * fee_percentage,
@@ -889,12 +897,12 @@ const deleteOrder = (request, response) => {
       pool.query(
         "DELETE FROM OnetimePurchase WHERE order_id = $1",
         [order_id],
-        (error, results) => { }
+        (error, results) => {}
       );
       pool.query(
         "DELETE FROM Subscription WHERE order_id = $1",
         [order_id],
-        (error, results) => { }
+        (error, results) => {}
       );
 
       response.status(200).send(`Order deleted with ID: ${order_id}`);
@@ -913,6 +921,7 @@ module.exports = {
   createCustomer,
   getMerchants,
   getMerchantById,
+  getMerchantOrdersById,
   createMerchant,
   getOrders,
   getOrdersProjection,
@@ -930,5 +939,5 @@ module.exports = {
   createItemType,
   getItemType,
   getLineItemJoin,
-  getAvgOrderPriceByMerchant
+  getAvgOrderPriceByMerchant,
 };
