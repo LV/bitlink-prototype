@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "../index.css";
 import Navbar from "./Navbar";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import WithdrawalDeposit, { BitcoinAddress } from "./WithdrawalDeposit";
+import WithdrawalDeposit from "./WithdrawalDeposit";
 import UpdateInformation from "./UpdateInformation";
 import axios from "axios";
 import useGetCustomerDataById from "../Hooks/useGetCustomerDataById";
@@ -186,16 +186,6 @@ export default function CustomerDashboard() {
       {showUpdateInformation && (
         <UpdateInformation customerData={customerData} />
       )}
-      <div
-        style={{
-          height: 200,
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {(showDeposit || showWithdrawal) && <BitcoinAddress />}
-      </div>
       <div
         style={{
           height: 200,

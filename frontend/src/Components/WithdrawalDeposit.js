@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from "react";
-import QRCode from "react-qr-code";
-import HashLoader from "react-spinners/HashLoader";
+import React, { useState } from "react";
 import { TextField, Button, FormControl } from "@mui/material";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 
@@ -11,47 +9,6 @@ const theme = createTheme({
     },
   },
 });
-
-export function BitcoinAddress() {
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 2500);
-    return () => clearTimeout(timer);
-  });
-
-  if (loading === true) {
-    return (
-      <div>
-        <HashLoader
-          color={"#c7c7c7"}
-          loading={loading}
-          size={50}
-          style={{ marginTop: 20 }}
-        />
-      </div>
-    );
-  } else {
-    return (
-      <div style={{ marginTop: 70 }}>
-        <center>
-          <QRCode
-            size={125}
-            value="bitcoin:bc1qs9ynug9k0m9llzwg0ljs66xu5hwetc4sy8hyuu?amount=&message=1.24"
-          />
-        </center>
-        <input
-          type="text"
-          name="captcha"
-          disabled
-          id="bitcoinAddr"
-          value="bc1qs9ynug9k0m9llzwg0ljs66xu5hwetc4sy8hyuu"
-          style={{ marginTop: 10 }}
-        ></input>
-      </div>
-    );
-  }
-}
 
 export default function WithdrawalDeposit(props) {
   const { isDeposit, sendDeposit, sendWithdrawal } = props;
