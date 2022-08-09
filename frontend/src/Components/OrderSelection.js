@@ -158,12 +158,13 @@ export default function OrderSelection() {
   return (
     <>
       <Navbar orSel={true} />
+      <h3 style={{ marginLeft: 22, marginTop: 12 }}>Order Selection</h3>
       <FormControl
         variant="standard"
         style={{
           display: "flex",
           alignItems: "center",
-          marginTop: 30,
+          marginTop: 14,
         }}
       >
         <FormControl>
@@ -316,7 +317,7 @@ export default function OrderSelection() {
             className="ag-theme-alpine"
             style={{
               width: 1010,
-              height: 450,
+              height: 400,
               marginTop: 12,
             }}
           >

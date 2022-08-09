@@ -116,12 +116,23 @@ export default function CompanyDashboard() {
       <Navbar cusPage={false} merPage={false} coPage={true} chkPage={false} />
       <h3 style={{ marginLeft: 22, marginTop: 12 }}>Transactions</h3>
       <div
-        className="ag-theme-alpine"
-        style={{ width: 454, height: 500, marginLeft: 20 }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
       >
-        <AgGridReact rowData={rowData} columnDefs={columnData} />
+        <div className="ag-theme-alpine" style={{ width: 450, height: 480 }}>
+          <AgGridReact rowData={rowData} columnDefs={columnData} />
+        </div>
       </div>
-      <div style={{ marginTop: 20, marginLeft: 22 }}>
+      <div
+        style={{
+          marginTop: 46,
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
         <ThemeProvider theme={theme}>
           <Tooltip
             title={

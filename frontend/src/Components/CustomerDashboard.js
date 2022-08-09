@@ -8,7 +8,7 @@ import WithdrawalDeposit from "./WithdrawalDeposit";
 import UpdateInformation from "./UpdateInformation";
 import axios from "axios";
 import useGetCustomerDataById from "../Hooks/useGetCustomerDataById";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -208,10 +208,8 @@ export default function CustomerDashboard() {
         <div
           style={{
             display: "flex",
-            height: 50,
-            justifyContent: "flex-end",
-            marginRight: 80,
-            marginTop: 10,
+            justifyContent: "center",
+            marginTop: 80,
           }}
         >
           <ThemeProvider theme={theme}>

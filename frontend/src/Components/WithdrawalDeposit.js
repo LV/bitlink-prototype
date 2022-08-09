@@ -26,7 +26,7 @@ export default function WithdrawalDeposit(props) {
   }
 
   return (
-    <FormControl style={{ paddingTop: 60 }}>
+    <FormControl style={{ marginTop: 160 }}>
       <h5>Enter amount to {type.toLowerCase()}:</h5>
       <TextField
         id="outlined-basic"
