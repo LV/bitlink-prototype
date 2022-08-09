@@ -1,21 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { AgGridReact } from 'ag-grid-react';
+import { AgGridReact } from "ag-grid-react";
 import Navbar from "./Navbar";
-import { Box, Button, createTheme, FormControl, FormControlLabel, FormLabel, Input, InputLabel, MenuItem, Radio, RadioGroup, Select, ThemeProvider } from "@mui/material";
+import {
+  Button,
+  createTheme,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Input,
+  InputLabel,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  Select,
+  ThemeProvider,
+  Switch,
+  Checkbox,
+} from "@mui/material";
 import axios from "axios";
 
 export default function OrderSelection() {
-  const [ rowData, setRowData ] = useState(null);
-  const [ isSubscriptionPurchase, setIsSubscriptionPurchase ] = useState(false);
-  const [ isGreaterThan, setIsGreaterThan ] = useState(true);
-  const [ filterValue, setFilterValue ] = useState(0);
-  const [ toggleButton, setToggleButton ] = useState(false);
+  const [order_id, setorder_id] = useState(true);
+  const [conversion_rate, setconversion_rate] = useState(true);
+  const [price, setPrice] = useState(true);
+  const [billing_frequency, setbilling_frequency] = useState(true);
+  const [billing_duration, setbilling_duration] = useState(true);
 
-  const [ columnDefs, setColumnDefs ] = useState([
-    {field: 'order_id'},
-    {field: 'conversion_rate'},
-    {field: 'total_usd_price'},
-  ]);
+  const [rowData, setRowData] = useState(null);
+  const [columnDefs, setColumnDefs] = useState([]);
+  const [isSubscriptionPurchase, setIsSubscriptionPurchase] = useState(false);
+  const [isGreaterThan, setIsGreaterThan] = useState(true);
+  const [filterValue, setFilterValue] = useState("");
+  const [toggleButton, setToggleButton] = useState(false);
+  const [priceParams, setpriceParams] = useState({});
 
   const theme = createTheme({
     palette: {
@@ -26,152 +43,287 @@ export default function OrderSelection() {
   });
 
   useEffect(() => {
-    if(isNaN(filterValue) || filterValue === null || filterValue === "") setFilterValue(0);
-    console.log('isGreaterThan: ' + isGreaterThan);
-    console.log(isGreaterThan, typeof(isGreaterThan))
-    if(isGreaterThan) {
-      console.log('RUNNING GREATER THAN');
-      axios.get(`http://localhost:8080/purchaseSelection`, {
-        params: {
-          subTable: isSubscriptionPurchase,
-          order_id: true,
-          conversion_rate: true,
-          usd_price: true,
-          priceGreaterThan: filterValue,
-          priceLessThan: filterValue,
-          billing_frequency: true,
-          billing_duration: true,
-        }
-      }).then((response) => {
+    const baseParams = {
+      subTable: isSubscriptionPurchase,
+      order_id: order_id,
+      conversion_rate: conversion_rate,
+      usd_price: price,
+    };
+
+    const subscriptionParams = {
+      billing_frequency: billing_frequency,
+      billing_duration: billing_duration,
+    };
+
+    const params = isSubscriptionPurchase
+      ? { ...baseParams, ...subscriptionParams, ...priceParams }
+      : { ...baseParams, ...priceParams };
+
+    axios
+      .get("http://localhost:8080/purchaseSelection", {
+        params,
+      })
+      .then((response) => {
         const { data } = response;
         setRowData(data);
-        if(isSubscriptionPurchase) {
-          setColumnDefs([
-            {field: 'order_id'},
-            {field: 'conversion_rate'},
-            {field: 'charge_usd_price'},
-            {field: 'billing_frequency'},
-            {field: 'billing_duration'},
-          ]);
-        } else {
-          setColumnDefs([
-            {field: 'order_id'},
-            {field: 'conversion_rate'},
-            {field: 'total_usd_price'},
-          ]);
-        } 
       });
+  }, [
+    isSubscriptionPurchase,
+    order_id,
+    conversion_rate,
+    price,
+    billing_frequency,
+    billing_duration,
+    priceParams,
+  ]);
+
+  useEffect(() => {
+    const filterCol = [];
+    if (isSubscriptionPurchase) {
+      if (order_id) filterCol.push({ field: "order_id" });
+      if (conversion_rate) filterCol.push({ field: "conversion_rate" });
+      if (price) filterCol.push({ field: "charge_usd_price" });
+      if (billing_frequency) filterCol.push({ field: "billing_frequency" });
+      if (billing_duration) filterCol.push({ field: "billing_duration" });
     } else {
-      console.log('RUNNING LESS THAN');
-      axios.get(`http://localhost:8080/purchaseSelection`, {
-        params: {
-          subTable: isSubscriptionPurchase,
-          order_id: true,
-          conversion_rate: true,
-          usd_price: true,
-          priceLessThan: filterValue,
-          billing_frequency: true,
-          billing_duration: true,
-        }
-      }).then((response) => {
-        const { data } = response;
-        setRowData(data);
-        if(isSubscriptionPurchase) {
-          setColumnDefs([
-            {field: 'order_id'},
-            {field: 'conversion_rate'},
-            {field: 'charge_usd_price'},
-            {field: 'billing_frequency'},
-            {field: 'billing_duration'},
-          ]);
-        } else {
-          setColumnDefs([
-            {field: 'order_id'},
-            {field: 'conversion_rate'},
-            {field: 'total_usd_price'},
-          ]);
-        } 
-      });
+      if (order_id) filterCol.push({ field: "order_id" });
+      if (conversion_rate) filterCol.push({ field: "conversion_rate" });
+      if (price)
+        filterCol.push({
+          field: "total_usd_price",
+        });
     }
-  }, [isSubscriptionPurchase, toggleButton]);
+    setColumnDefs(filterCol);
+  }, [
+    isSubscriptionPurchase,
+    order_id,
+    conversion_rate,
+    price,
+    billing_frequency,
+    billing_duration,
+  ]);
 
-  const handleChangeTransactionType = (event) => {
-    setIsSubscriptionPurchase(event.target.value);
-  };
+  function handleChangeTransactionType(event) {
+    setIsSubscriptionPurchase(event);
+  }
 
-  const handleChangeRadio = (event) => {
-    if(event.target.value === 'true') setIsGreaterThan(true);
-    else setIsGreaterThan(false);
-  };
+  function handleOrderId(isChecked) {
+    setorder_id(isChecked);
+  }
+
+  function handleConversionRate(isChecked) {
+    setconversion_rate(isChecked);
+  }
+
+  function handlePrice(isChecked) {
+    setPrice(isChecked);
+  }
+
+  function handleBillingFrequency(isChecked) {
+    setbilling_frequency(isChecked);
+  }
+
+  function handleBillingDuration(isChecked) {
+    setbilling_duration(isChecked);
+  }
+
+  function handleToggle(event) {
+    if (Boolean(event)) {
+      setToggleButton(true);
+    } else {
+      setToggleButton(false);
+      setpriceParams({});
+    }
+  }
+
+  function handleChangeRadio(isGreaterThan) {
+    setIsGreaterThan(isGreaterThan);
+  }
+
+  function handleFilterPrice(event) {
+    if (!toggleButton || !filterValue) {
+      setpriceParams({});
+    } else {
+      isGreaterThan
+        ? setpriceParams({ priceGreaterThan: filterValue })
+        : setpriceParams({ priceLessThan: filterValue });
+    }
+  }
+
+  function handleClear() {
+    setFilterValue("");
+    setpriceParams({});
+  }
 
   return (
     <>
       <Navbar orSel={true} />
-      <FormControl variant="standard" style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex_start',
-        height: 250,
-        marginTop: 20,
-      }}>
-        <Box sx={{ width:220 }}>
-          <FormControl fullWidth>
-            <InputLabel id='demo-select-small'>Transaction Type</InputLabel>
-            <Select
-              lableid='demo-select-small'
-              id='demo-select-small'
-              value={isSubscriptionPurchase}
-              label='TransactionType'
-              onChange={handleChangeTransactionType}
-            >
-              <MenuItem value={true}>Subscription Purchase</MenuItem>
-              <MenuItem value={false}>One-time Purchase</MenuItem>
-            </Select>
-          </FormControl>
-        </Box>
-        <FormControl style={{ height: 50 }} />
-        <Input
-          autoComplete='off'
-          type='text'
-          onChange={(e) => setFilterValue(e.target.value)}
-        />
-        <ThemeProvider theme={theme}>
-          <Button
-            color='primary'
-            variant='contained'
-            size='small'
-            onClick={() => { setToggleButton(!toggleButton)}}
-            style={{ marginTop: 15, marginLeft: 10 }}>
-              {" "}
-              Filter Price
-          </Button>
-        </ThemeProvider>
-        <FormControl style={{ height: 75 }} />
+      <FormControl
+        variant="standard"
+        style={{
+          display: "flex",
+          alignItems: "center",
+          marginTop: 30,
+        }}
+      >
         <FormControl>
-          <FormLabel id="demo-controlled-radio-buttons-group">Filter Type</FormLabel>
-          <RadioGroup
-            aria-labelledby="demo-controlled-radio-buttons-group"
-            name="controlled-radio-buttons-group"
-            value={isGreaterThan}
-            onChange={handleChangeRadio}
+          <InputLabel>Transaction Type</InputLabel>
+          <Select
+            value={isSubscriptionPurchase}
+            label="TransactionType"
+            onChange={(e) => handleChangeTransactionType(e.target.value)}
           >
-            <FormControlLabel value={'true'} control={<Radio />} label="Greater Than" />
-            <FormControlLabel value={'false'} control={<Radio />} label="Less Than" />
-          </RadioGroup>
+            <MenuItem value={true}>Subscription Purchase</MenuItem>
+            <MenuItem value={false}>One-time Purchase</MenuItem>
+          </Select>
         </FormControl>
-      </FormControl>
-      <center>
-        <div className='ag-theme-alpine' style={{
-          width: 1005,
-          height: 500,
-          marginLeft: 20,
-        }}>
-            <AgGridReact
-              rowData={rowData}
-              columnDefs={columnDefs}
-            />
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginTop: 16,
+            justifyContent: "center",
+            width: 1000,
+          }}
+        >
+          <FormLabel
+            style={{
+              marginRight: 20,
+            }}
+          >
+            Filter Columns:
+          </FormLabel>
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={order_id}
+                onChange={(e) => handleOrderId(e.target.checked)}
+              />
+            }
+            label="Order ID"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={conversion_rate}
+                onChange={(e) => handleConversionRate(e.target.checked)}
+              />
+            }
+            label="Conversion Rate"
+          />
+          <FormControlLabel
+            control={
+              <Checkbox
+                checked={price}
+                onChange={(e) => handlePrice(e.target.checked)}
+              />
+            }
+            label="Price"
+          />
+          {isSubscriptionPurchase && (
+            <>
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={billing_frequency}
+                    onChange={(e) => handleBillingFrequency(e.target.checked)}
+                  />
+                }
+                label="Billing Frequency"
+              />
+              <FormControlLabel
+                control={
+                  <Checkbox
+                    checked={billing_duration}
+                    onChange={(e) => handleBillingDuration(e.target.checked)}
+                  />
+                }
+                label="Billing Duration"
+              />
+            </>
+          )}
         </div>
-      </center>
+        <div
+          style={{
+            display: "flex",
+            marginTop: 18,
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <FormLabel style={{ marginRight: 20 }}>Filter Price:</FormLabel>
+          <Switch onChange={(e) => handleToggle(e.target.checked)}></Switch>
+          {toggleButton && (
+            <>
+              <RadioGroup>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    marginLeft: 20,
+                  }}
+                >
+                  <FormControlLabel
+                    value={true}
+                    checked={isGreaterThan}
+                    control={<Radio />}
+                    label="Greater Than"
+                    onChange={(e) => handleChangeRadio(true)}
+                  />
+                  <FormControlLabel
+                    value={false}
+                    control={<Radio />}
+                    label="Less Than"
+                    onChange={(e) => handleChangeRadio(false)}
+                  />
+                </div>
+              </RadioGroup>
+              <Input
+                autoComplete="off"
+                value={filterValue}
+                type="text"
+                onChange={(e) => setFilterValue(e.target.value)}
+                style={{ width: 60 }}
+              />
+              <ThemeProvider theme={theme}>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  size="small"
+                  onClick={handleClear}
+                  style={{ marginLeft: 10, width: 10 }}
+                >
+                  {" "}
+                  Clear
+                </Button>
+                <Button
+                  color="primary"
+                  variant="contained"
+                  size="small"
+                  onClick={handleFilterPrice}
+                  style={{ marginLeft: 40, width: 100 }}
+                >
+                  {" "}
+                  Filter
+                </Button>
+              </ThemeProvider>
+            </>
+          )}
+        </div>
+
+        <center>
+          <div
+            className="ag-theme-alpine"
+            style={{
+              width: 1010,
+              height: 450,
+              marginTop: 12,
+            }}
+          >
+            <AgGridReact rowData={rowData} columnDefs={columnDefs} />
+          </div>
+        </center>
+      </FormControl>
     </>
   );
 }
